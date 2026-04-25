@@ -21,11 +21,144 @@
   .accent-border { border-color: var(--accent); }
 
   /* NAV */
-  nav { position: sticky; top: 0; z-index: 999; background: white; box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
-  .nav-link { font-size: 0.9rem; font-weight: 500; color: #333; transition: color .2s; padding: 6px 0; position: relative; }
-  .nav-link:after { content:''; position:absolute; bottom:0; left:0; width:0; height:2px; background:var(--accent); transition:width .3s; }
-  .nav-link:hover:after, .nav-link.active:after { width:100%; }
-  .nav-link:hover { color: var(--accent); }
+ /* NAVBAR */
+.navbar {
+  position: sticky;
+  top: 0;
+  width: 100%;
+  z-index: 999;
+  background: #ffffff;
+  box-shadow: 0 3px 16px rgba(0,0,0,0.12);
+}
+
+/* Container full width */
+.nav-container {
+  width: 100%;
+  padding: 0 40px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Logo */
+.logo {
+  height: 110px;
+}
+
+/* Desktop Menu */
+.nav-menu {
+  display: flex;
+  gap: 32px;
+}
+
+/* Links */
+.nav-link {
+  font-size: 1.2rem;
+  font-weight: 600;
+  color: #111;
+  text-decoration: none;
+  position: relative;
+  padding: 8px 16px;
+  transition: all 0.3s;
+}
+
+/* Underline effect */
+.nav-link::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  bottom: 0;
+  width: 0;
+  height: 2px;
+  background: #16a34a;
+  transition: width 0.3s;
+}
+
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+.nav-link:hover {
+  color: #16a34a;
+}
+
+/* Right side */
+.nav-right {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+}
+
+/* Icons */
+.icon-link {
+  font-size: 18px;
+  color: #333;
+  transition: 0.3s;
+}
+
+.icon-link:hover {
+  color: #16a34a;
+}
+
+/* WhatsApp Button */
+.whatsapp-btn {
+  background: #16a34a;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  text-decoration: none;
+  transition: 0.3s;
+}
+
+.whatsapp-btn:hover {
+  background: #15803d;
+}
+
+/* Mobile Toggle */
+.menu-toggle {
+  display: none;
+  font-size: 22px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Mobile Menu */
+.mobile-menu {
+  display: none;
+  flex-direction: column;
+  padding: 20px;
+  border-top: 1px solid #eee;
+}
+
+.mobile-menu .nav-link {
+  padding: 10px 0;
+}
+
+.mobile-btn {
+  margin-top: 10px;
+  text-align: center;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .nav-menu,
+  .nav-right {
+    display: none;
+  }
+
+  .menu-toggle {
+    display: block;
+  }
+
+  .mobile-menu.show {
+    display: flex;
+  }
+}
 
   /* =====================
      HERO – FULL BG IMAGE
@@ -117,7 +250,13 @@
   /* SERVICE CARDS */
   .service-card { border-radius: 16px; overflow: hidden; border: 1px solid #ebebeb; background: white; transition: box-shadow .25s, transform .25s; }
   .service-card:hover { box-shadow: 0 8px 36px rgba(212,135,10,0.13); transform: translateY(-4px); }
-  .service-card img { width: 100%; height: 220px; object-fit: cover; }
+.service-card img {
+  width: 100%;
+  height: 220px;
+  object-fit: contain;   /* ✅ shows full image */
+  background: #fff;      /* optional: fills empty space */
+  padding: 10px;         /* optional: breathing space */
+}
 
   /* ARTICLE CARDS */
   .article-card img { width: 100%; height: 210px; object-fit: cover; border-radius: 12px; }
@@ -180,13 +319,16 @@
 <body class="bg-gray-50">
 
 <!-- ========== NAVBAR ========== -->
-<nav class="bg-white">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 flex items-center justify-between h-16">
+<nav class="navbar">
+  <div class="nav-container">
+    
+    <!-- Logo -->
     <a href="/" class="flex items-center">
-      <img src="images/ldr geo logo.png" alt="360 Survey Logo" class="h-24 w-auto">
+      <img src="images/ldr geo logo.png" alt="360 Survey Logo" class="logo">
     </a>
 
-    <div class="hidden md:flex items-center gap-7">
+    <!-- Desktop Menu -->
+    <div class="nav-menu">
       <a href="#home" class="nav-link active">Home</a>
       <a href="#about" class="nav-link">About</a>
       <a href="#services" class="nav-link">Services</a>
@@ -194,38 +336,41 @@
       <a href="#blog" class="nav-link">Blog</a>
       <a href="#team" class="nav-link">Team</a>
       <a href="#gallery" class="nav-link">Gallery</a>
+      <a href="#contact" class="nav-link">Contact</a>
     </div>
 
-    <div class="hidden md:flex items-center gap-3">
-      <a href="tel:+911234567890" class="text-gray-500 hover:text-amber-600 transition-colors">
-        <i class="fas fa-phone text-sm"></i>
+    <!-- Right Side -->
+    <div class="nav-right">
+      <a href="tel:+911234567890" class="icon-link">
+        <i class="fas fa-phone"></i>
       </a>
-      <a href="mailto:info@360survey.in" class="text-gray-500 hover:text-amber-600 transition-colors">
-        <i class="fas fa-envelope text-sm"></i>
+      <a href="mailto:info@360survey.in" class="icon-link">
+        <i class="fas fa-envelope"></i>
       </a>
-      <a href="#contact" class="btn-primary text-sm py-2 px-4">
+      <a href="#contact" class="whatsapp-btn">
         <i class="fab fa-whatsapp"></i> WHATSAPP
       </a>
     </div>
 
-    <button id="menu-toggle" class="md:hidden text-gray-700 text-xl p-2">
+    <!-- Mobile Toggle -->
+    <button id="menu-toggle" class="menu-toggle">
       <i class="fas fa-bars"></i>
     </button>
+
   </div>
 
-  <div id="mobile-menu" class="md:hidden bg-white border-t border-gray-100 px-4 pb-4">
-    <div class="flex flex-col gap-3 pt-3">
-      <a href="#home" class="nav-link">Home</a>
-      <a href="#about" class="nav-link">About</a>
-      <a href="#services" class="nav-link">Services</a>
-      <a href="#articles" class="nav-link">Articles</a>
-      <a href="#blog" class="nav-link">Blog</a>
-      <a href="#team" class="nav-link">Team</a>
-      <a href="#gallery" class="nav-link">Gallery</a>
-      <a href="#contact" class="btn-primary mt-2 justify-center">
-        <i class="fab fa-whatsapp"></i> WHATSAPP
-      </a>
-    </div>
+  <!-- Mobile Menu -->
+  <div id="mobile-menu" class="mobile-menu">
+    <a href="#home" class="nav-link">Home</a>
+    <a href="#about" class="nav-link">About</a>
+    <a href="#services" class="nav-link">Services</a>
+    <a href="#articles" class="nav-link">Articles</a>
+    <a href="#blog" class="nav-link">Blog</a>
+    <a href="#team" class="nav-link">Team</a>
+    <a href="#gallery" class="nav-link">Gallery</a>
+    <a href="#contact" class="whatsapp-btn mobile-btn">
+      <i class="fab fa-whatsapp"></i> WHATSAPP
+    </a>
   </div>
 </nav>
 
@@ -282,25 +427,72 @@
 <!-- ========== ABOUT ========== -->
 <section id="about" class="py-20 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6 grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-    <div>
-      <img src="images/about-us.png" 
-     alt="Surveyor at work" 
-     class="rounded-2xl shadow-xl w-full h-auto">
+
+    <!-- IMAGE -->
+    <div class="relative group">
+      <img src="images/about-us.png"
+        alt="Surveyor at work"
+        class="rounded-2xl shadow-2xl w-full h-auto transform transition duration-500 group-hover:scale-105">
     </div>
+
+    <!-- CONTENT -->
     <div>
-      <p class="text-xs uppercase tracking-widest accent font-semibold mb-2">Who We Are</p>
-      <h2 class="text-3xl sm:text-4xl font-bold text-gray-900 mb-5" style="font-family:'Playfair Display',serif;">
+
+      <!-- SMALL TITLE -->
+      <p class="text-xs uppercase tracking-widest font-semibold mb-2 text-amber-600
+        [text-shadow:1px_1px_0px_#fde68a,2px_2px_2px_rgba(0,0,0,0.2)]">
+        Who We Are
+      </p>
+
+      <!-- MAIN 3D HEADING -->
+      <h2 class="text-3xl sm:text-4xl font-bold mb-5 leading-tight text-gray-900
+        [text-shadow:1px_1px_0px_#e5e7eb,2px_2px_0px_#9ca3af,3px_3px_6px_rgba(0,0,0,0.3)]"
+        style="font-family:'Playfair Display',serif;">
         Bringing Precision, Trust,<br>and Clarity to Every Plot
       </h2>
-      <div class="title-bar" style="margin:0 0 20px 0;"></div>
-      <p class="text-gray-600 mb-4">Welcome to <strong>360° Survey</strong> — your trusted partner for land surveys, boundary mapping, topographic studies, and legal documentation services.</p>
-      <p class="text-gray-600 mb-4">We don't just measure land — we bring clarity with modern GPS, drone, and GIS technology.</p>
-      <p class="text-gray-600 mb-6">Our mission is simple: to make your land boundaries crystal clear, legally secure, and perfectly documented.</p>
-      <div class="bg-amber-50 border-l-4 border-amber-500 p-4 rounded-r-xl mb-6">
-        <p class="font-semibold text-gray-800">Our Vision</p>
-        <p class="text-gray-600 italic">"Every plot deserves accurate measurement, legal clarity, and a professional touch."</p>
+
+      <!-- LINE -->
+      <div class="w-16 h-1 bg-amber-500 mb-6 rounded-full shadow-lg"></div>
+
+      <!-- PARAGRAPH 1 -->
+      <p class="text-gray-700 mb-4 leading-relaxed
+        [text-shadow:1px_1px_0px_#ffffff,2px_2px_4px_rgba(0,0,0,0.15)]">
+        Welcome to <strong>360° Survey</strong> — your trusted partner for land surveys, boundary mapping, topographic studies, and legal documentation services.
+      </p>
+
+      <!-- PARAGRAPH 2 -->
+      <p class="text-gray-700 mb-4 leading-relaxed
+        [text-shadow:1px_1px_0px_#ffffff,2px_2px_4px_rgba(0,0,0,0.15)]">
+        We don't just measure land — we bring clarity with modern GPS, drone, and GIS technology.
+      </p>
+
+      <!-- PARAGRAPH 3 -->
+      <p class="text-gray-700 mb-6 leading-relaxed
+        [text-shadow:1px_1px_0px_#ffffff,2px_2px_4px_rgba(0,0,0,0.15)]">
+        Our mission is simple: to make your land boundaries crystal clear, legally secure, and perfectly documented.
+      </p>
+
+      <!-- 3D CARD -->
+      <div class="bg-amber-50 border-l-4 border-amber-500 p-5 rounded-r-xl mb-6 
+        shadow-lg hover:shadow-2xl transition transform hover:-translate-y-1">
+
+        <p class="font-semibold text-gray-800 mb-1
+          [text-shadow:1px_1px_0px_#fde68a,2px_2px_3px_rgba(0,0,0,0.2)]">
+          Our Vision
+        </p>
+
+        <p class="text-gray-600 italic
+          [text-shadow:1px_1px_0px_#ffffff,2px_2px_4px_rgba(0,0,0,0.15)]">
+          "Every plot deserves accurate measurement, legal clarity, and a professional touch."
+        </p>
       </div>
-      <p class="text-gray-600">At <strong>360° Survey</strong>, we believe a precisely mapped and legally documented property can save years of disputes and lakhs in costs. We aim to deliver surveys that are not only accurate but also comprehensive and dispute-free.</p>
+
+      <!-- FINAL TEXT -->
+      <p class="text-gray-700 leading-relaxed
+        [text-shadow:1px_1px_0px_#ffffff,2px_2px_4px_rgba(0,0,0,0.15)]">
+        At <strong>360° Survey</strong>, we believe a precisely mapped and legally documented property can save years of disputes and lakhs in costs. We aim to deliver surveys that are not only accurate but also comprehensive and dispute-free.
+      </p>
+
     </div>
   </div>
 </section>
@@ -318,14 +510,14 @@
           <h3 class="text-lg font-bold text-gray-900 mb-3">Boundary Survey</h3>
           <p class="text-gray-600 text-sm leading-relaxed">We provide complete boundary demarcation for residential plots, agricultural land, and commercial sites. Our services include corner marking, legal map preparation, and court-admissible documentation. Work is executed with precision GPS equipment ensuring sub-centimeter accuracy.</p>
         </div>
-        <img src="https://images.unsplash.com/photo-1465447142348-e9952c393450?w=600&q=80" alt="Boundary Survey"/>
+        <img src="images/boundary-image.png" alt="Boundary Survey"/>
       </div>
       <div class="service-card">
         <div class="p-6">
           <h3 class="text-lg font-bold text-gray-900 mb-3">Topographic Survey</h3>
           <p class="text-gray-600 text-sm leading-relaxed">We provide complete topographic mapping for construction, agriculture, and infrastructure planning. Our services include contour mapping, elevation profiling, drainage analysis, and detailed CAD drawings. All surveys are conducted with total station and drone photogrammetry.</p>
         </div>
-        <img src="https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=600&q=80" alt="Topographic Survey"/>
+        <img src="images/topographic-image.jpg" alt="Topographic Survey"/>
       </div>
       <div class="service-card">
         <div class="p-6">
@@ -339,7 +531,7 @@
           <h3 class="text-lg font-bold text-gray-900 mb-3">Legal Documentation</h3>
           <p class="text-gray-600 text-sm leading-relaxed">We provide premium land record and legal documentation services for plots, farms, and commercial properties. Our expert team delivers flawless title reports, mutation support, and court-ready survey maps for tehsil offices and revenue departments.</p>
         </div>
-        <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?w=600&q=80" alt="Legal Documentation"/>
+        <img src="images/legal-image.jfif" alt="Legal Documentation"/>
       </div>
     </div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -348,28 +540,28 @@
           <h3 class="text-lg font-bold text-gray-900 mb-3">GPS Layout</h3>
           <p class="text-gray-600 text-sm">Precise GPS-based layout marking for construction projects, roads, and infrastructure with sub-meter accuracy.</p>
         </div>
-        <img src="https://images.unsplash.com/photo-1580901368919-7738efb0f87e?w=600&q=80" alt="GPS Layout"/>
+        <img src="images/gps-image.jpg" alt="GPS Layout"/>
       </div>
       <div class="service-card">
         <div class="p-6">
           <h3 class="text-lg font-bold text-gray-900 mb-3">GIS Mapping</h3>
           <p class="text-gray-600 text-sm">Advanced GIS and spatial data services for municipalities, developers, and government agencies with full digital deliverables.</p>
         </div>
-        <img src="https://images.unsplash.com/photo-1614332287897-cdc485fa562d?w=600&q=80" alt="GIS Mapping"/>
+        <img src="images/gis-image.jpg" alt="GIS Mapping"/>
       </div>
       <div class="service-card">
         <div class="p-6">
           <h3 class="text-lg font-bold text-gray-900 mb-3">Agricultural Survey</h3>
           <p class="text-gray-600 text-sm">Complete farm land measurement, Khasra verification, and crop area estimation services for farmers and agri-companies.</p>
         </div>
-        <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=600&q=80" alt="Agricultural Survey"/>
+        <img src="images/agricuture-image.jfif" alt="Agricultural Survey"/>
       </div>
       <div class="service-card">
         <div class="p-6">
           <h3 class="text-lg font-bold text-gray-900 mb-3">Construction Layout</h3>
           <p class="text-gray-600 text-sm">Foundation marking, building alignment, and as-built surveys for architects, engineers, and construction companies.</p>
         </div>
-        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80" alt="Construction Layout"/>
+        <img src="images/construction image.jfif" alt="Construction Layout"/>
       </div>
     </div>
   </div>
@@ -535,7 +727,7 @@
 </section>
 
 <!-- ========== CLOUD WORDS ========== -->
-<section class="py-16" style="background:#f9f9f9;">
+<!-- <section class="py-16" style="background:#f9f9f9;">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
     <div class="text-center mb-10">
       <h2 class="section-title">CLOUD WORDS</h2>
@@ -580,7 +772,7 @@
       </div>
     </div>
   </div>
-</section>
+</section> -->
 
 <!-- ========== BLOG ========== -->
 <section id="blog" class="py-20 bg-white">
@@ -769,6 +961,10 @@
 <script>
 document.getElementById('menu-toggle').addEventListener('click', () => {
   document.getElementById('mobile-menu').classList.toggle('open');
+});
+
+document.getElementById("menu-toggle").addEventListener("click", function() {
+  document.getElementById("mobile-menu").classList.toggle("show");
 });
 
 const track = document.getElementById('testi-track');
