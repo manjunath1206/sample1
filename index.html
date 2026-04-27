@@ -125,23 +125,64 @@
   background: none;
   border: none;
   cursor: pointer;
+  color: #111;
+  padding: 4px 8px;
 }
 
-/* Mobile Menu */
+/* =====================
+   MOBILE MENU – FIXED
+===================== */
 .mobile-menu {
   display: none;
   flex-direction: column;
-  padding: 20px;
+  background: #fff;
   border-top: 1px solid #eee;
+  padding: 0;
+}
+
+.mobile-menu.show {
+  display: flex;
 }
 
 .mobile-menu .nav-link {
-  padding: 10px 0;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #111;
+  text-decoration: none;
+  padding: 14px 24px;
+  border-bottom: 1px solid #f0f0f0;
+  display: block;
+  transition: color 0.2s, background 0.2s;
 }
 
-.mobile-btn {
-  margin-top: 10px;
-  text-align: center;
+.mobile-menu .nav-link:hover {
+  color: #16a34a;
+  background: #f9fafb;
+}
+
+.mobile-wa-wrap {
+  padding: 16px 24px 20px;
+}
+
+.mobile-wa-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  width: 100%;
+  background: #16a34a;
+  color: #fff;
+  padding: 13px 20px;
+  border-radius: 8px;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  box-sizing: border-box;
+  transition: background 0.3s;
+}
+
+.mobile-wa-btn:hover {
+  background: #15803d;
 }
 
 /* Responsive */
@@ -155,8 +196,13 @@
     display: block;
   }
 
-  .mobile-menu.show {
-    display: flex;
+  .logo {
+    height: 70px;
+  }
+
+  .nav-container {
+    padding: 0 20px;
+    height: 64px;
   }
 }
 
@@ -291,8 +337,8 @@
   footer a { color: #ccc; transition: color .2s; }
   footer a:hover { color: var(--accent); }
 
-  /* WHATSAPP BTN */
-  .whatsapp-btn {
+  /* WHATSAPP FLOAT BTN */
+  .whatsapp-float {
     position: fixed; bottom: 24px; right: 24px; z-index: 999;
     background: #25D366; color: white;
     padding: 12px 20px; border-radius: 50px;
@@ -301,11 +347,7 @@
     text-decoration: none; font-size: 0.9rem;
     transition: transform .2s;
   }
-  .whatsapp-btn:hover { transform: scale(1.05); }
-
-  /* MOBILE MENU */
-  #mobile-menu { display: none; }
-  #mobile-menu.open { display: block; }
+  .whatsapp-float:hover { transform: scale(1.05); }
 
   @media (max-width: 768px) {
     .btn-primary,
@@ -319,7 +361,7 @@
 <body class="bg-gray-50">
 
 <!-- ========== NAVBAR ========== -->
-<nav class="navbar">
+<nav class="navbar" style="position: relative;">
   <div class="nav-container">
     
     <!-- Logo -->
@@ -353,8 +395,8 @@
     </div>
 
     <!-- Mobile Toggle -->
-    <button id="menu-toggle" class="menu-toggle">
-      <i class="fas fa-bars"></i>
+    <button id="menu-toggle" class="menu-toggle" aria-label="Toggle Menu">
+      <i class="fas fa-bars" id="hamburger-icon"></i>
     </button>
 
   </div>
@@ -368,9 +410,12 @@
     <a href="#blog" class="nav-link">Blog</a>
     <a href="#team" class="nav-link">Team</a>
     <a href="#gallery" class="nav-link">Gallery</a>
-    <a href="#contact" class="whatsapp-btn mobile-btn">
-      <i class="fab fa-whatsapp"></i> WHATSAPP
-    </a>
+    <a href="#contact" class="nav-link">Contact</a>
+    <div class="mobile-wa-wrap">
+      <a href="#contact" class="mobile-wa-btn">
+        <i class="fab fa-whatsapp"></i> WHATSAPP
+      </a>
+    </div>
   </div>
 </nav>
 
@@ -726,54 +771,6 @@
   </div>
 </section>
 
-<!-- ========== CLOUD WORDS ========== -->
-<!-- <section class="py-16" style="background:#f9f9f9;">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6">
-    <div class="text-center mb-10">
-      <h2 class="section-title">CLOUD WORDS</h2>
-      <div class="title-bar"></div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-      <div class="flex flex-wrap gap-2">
-        <span class="cloud-tag">survey services in Grant Road</span>
-        <span class="cloud-tag">survey services in Dadar West</span>
-        <span class="cloud-tag">survey services in Sion</span>
-        <span class="cloud-tag">survey services in Kurla</span>
-        <span class="cloud-tag">survey services in Ghatkopar</span>
-        <span class="cloud-tag">survey services in Vikhroli</span>
-        <span class="cloud-tag">survey services in Mulund</span>
-        <span class="cloud-tag">survey services in Bhandup</span>
-        <span class="cloud-tag">survey services in Kanjurmarg</span>
-        <span class="cloud-tag">survey services in Thane West</span>
-      </div>
-      <div class="flex flex-wrap gap-2">
-        <span class="cloud-tag">survey services in Andheri East</span>
-        <span class="cloud-tag">survey services in Jogeshwari</span>
-        <span class="cloud-tag">survey services in Goregaon</span>
-        <span class="cloud-tag">survey services in Malad</span>
-        <span class="cloud-tag">survey services in Kandivali</span>
-        <span class="cloud-tag">survey services in Borivali</span>
-        <span class="cloud-tag">survey services in Dahisar</span>
-        <span class="cloud-tag">survey services in Vasai Road</span>
-        <span class="cloud-tag">survey services in Nalasopara</span>
-        <span class="cloud-tag">survey services in Virar</span>
-      </div>
-      <div class="flex flex-wrap gap-2">
-        <span class="cloud-tag">survey services in Pune</span>
-        <span class="cloud-tag">survey services in Nashik</span>
-        <span class="cloud-tag">survey services in Nagpur</span>
-        <span class="cloud-tag">survey services in Aurangabad</span>
-        <span class="cloud-tag">survey services in Kolhapur</span>
-        <span class="cloud-tag">survey services in Satara</span>
-        <span class="cloud-tag">survey services in Sangli</span>
-        <span class="cloud-tag">survey services in Solapur</span>
-        <span class="cloud-tag">survey services in Ahmednagar</span>
-        <span class="cloud-tag">survey services in Jalgaon</span>
-      </div>
-    </div>
-  </div>
-</section> -->
-
 <!-- ========== BLOG ========== -->
 <section id="blog" class="py-20 bg-white">
   <div class="max-w-7xl mx-auto px-4 sm:px-6">
@@ -953,18 +950,27 @@
 </footer>
 
 <!-- Floating WhatsApp -->
-<a href="https://wa.me/918881312501" class="whatsapp-btn" target="_blank">
+<a href="https://wa.me/918881312501" class="whatsapp-float" target="_blank">
   <i class="fab fa-whatsapp text-xl"></i>
   <span class="hidden sm:inline">WhatsApp</span>
 </a>
 
 <script>
-document.getElementById('menu-toggle').addEventListener('click', () => {
-  document.getElementById('mobile-menu').classList.toggle('open');
+const toggle = document.getElementById('menu-toggle');
+const mobileMenu = document.getElementById('mobile-menu');
+const icon = document.getElementById('hamburger-icon');
+
+toggle.addEventListener('click', () => {
+  const isOpen = mobileMenu.classList.toggle('show');
+  icon.className = isOpen ? 'fas fa-times' : 'fas fa-bars';
 });
 
-document.getElementById("menu-toggle").addEventListener("click", function() {
-  document.getElementById("mobile-menu").classList.toggle("show");
+// Close drawer when any mobile link is clicked
+mobileMenu.querySelectorAll('a').forEach(link => {
+  link.addEventListener('click', () => {
+    mobileMenu.classList.remove('show');
+    icon.className = 'fas fa-bars';
+  });
 });
 
 const track = document.getElementById('testi-track');
