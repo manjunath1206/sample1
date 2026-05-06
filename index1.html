@@ -1,0 +1,1512 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>360° Survey – Professional Land Survey Services</title>
+<link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@300;400;600;700&display=swap" rel="stylesheet"/>
+<style>
+/* ── RESET & BASE ─────────────────────────────────── */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ms-black:#000;
+  --ms-white:#fff;
+  --ms-gray-50:#f5f5f5;
+  --ms-gray-100:#e8e8e8;
+  --ms-gray-200:#d2d2d2;
+  --ms-gray-400:#949494;
+  --ms-gray-600:#616161;
+  --ms-gray-800:#242424;
+
+  --accent:#1a7a3c;
+  --accent-light:#22a050;
+  --accent-dark:#145e2d;
+  --accent-muted:#e8f5ee;
+  --accent-border:#a8d5bb;
+
+  --green:#128c3a;
+  --green-light:#0fa832;
+
+  --blue:#0067b8;
+  --radius-sm:4px;
+  --radius-md:8px;
+  --nav-h:60px;
+}
+html{scroll-behavior:smooth;font-size:16px}
+body{font-family:'Segoe UI',system-ui,sans-serif;color:var(--ms-gray-800);background:#fff;line-height:1.5}
+a{text-decoration:none;color:inherit}
+img{display:block;max-width:100%}
+button{cursor:pointer;font-family:inherit}
+
+/* ── NAVBAR ──────────────────────────────────────── */
+.navbar{
+  position:fixed;top:0;left:0;right:0;z-index:9999;
+  background:#fff;
+  border-bottom:1px solid var(--ms-gray-100);
+  height:var(--nav-h);
+}
+.nav-inner{
+  max-width:1600px;margin:0 auto;padding:0 20px;
+  height:100%;display:flex;align-items:center;gap:0;
+}
+.nav-logo{
+  display:flex;align-items:center;
+  padding:0 16px 0 0;
+  height:100%;
+  border-right:1px solid var(--ms-gray-100);
+  flex-shrink:0;
+  text-decoration:none;
+}
+.nav-logo img{
+  height:90px;
+  width:auto;
+  max-width:260px;
+  object-fit:contain;
+  display:block;
+}
+.nav-logo-fallback{
+  display:none;
+  align-items:center;gap:8px;
+}
+.nav-logo img[src=""]:not([alt=""]) ~ .nav-logo-fallback,
+.nav-logo img:not([src]) ~ .nav-logo-fallback{display:flex}
+.nav-logo-icon-fb{
+  width:30px;height:30px;background:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  color:#fff;font-weight:900;font-size:9px;border-radius:3px;
+  letter-spacing:-.02em;flex-shrink:0;
+}
+.nav-logo-text-fb{font-size:.95rem;font-weight:700;color:var(--ms-black)}
+
+.nav-links{display:flex;height:100%;margin-left:12px}
+.nav-link{
+  display:flex;align-items:center;padding:0 14px;height:100%;
+  font-size:.875rem;color:var(--ms-gray-800);white-space:nowrap;
+  border-bottom:2px solid transparent;transition:border-color .15s,color .15s;
+}
+.nav-link:hover{color:var(--accent);border-bottom-color:var(--accent)}
+.nav-link.active{color:var(--accent);border-bottom-color:var(--accent)}
+
+.nav-right{display:flex;align-items:center;gap:6px;margin-left:auto;flex-shrink:0}
+.nav-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:7px 16px;font-size:.8rem;font-weight:600;
+  border-radius:2px;border:none;transition:background .15s;
+  cursor:pointer;text-decoration:none;
+}
+.nav-btn-wa{background:var(--accent);color:#fff}
+.nav-btn-wa:hover{background:var(--accent-light)}
+.nav-btn-call{background:transparent;color:var(--ms-gray-800);border:1px solid var(--ms-gray-200)}
+.nav-btn-call:hover{background:var(--ms-gray-50)}
+
+.hamburger{display:none;background:none;border:none;padding:6px;color:var(--ms-gray-800);cursor:pointer}
+.hamburger svg{width:22px;height:22px;fill:currentColor}
+
+.mobile-menu{
+  display:none;position:absolute;top:var(--nav-h);left:0;right:0;
+  background:#fff;border-bottom:1px solid var(--ms-gray-100);
+  flex-direction:column;z-index:9998;
+  box-shadow:0 4px 16px rgba(0,0,0,.08);
+}
+.mobile-menu.open{display:flex}
+.mobile-link{
+  padding:14px 20px;font-size:.9rem;color:var(--ms-gray-800);
+  border-bottom:1px solid var(--ms-gray-100);transition:background .15s,color .15s;
+}
+.mobile-link:hover{background:var(--accent-muted);color:var(--accent)}
+.mobile-wa{
+  margin:16px 20px 20px;display:flex;align-items:center;justify-content:center;gap:8px;
+  background:var(--accent);color:#fff;padding:12px;font-weight:700;border-radius:2px;
+}
+
+/* ── HERO ────────────────────────────────────────── */
+/* ── HERO ────────────────────────────────────────── */
+.hero{
+  margin-top:var(--nav-h);
+  position:relative;
+  min-height:70vh;
+  display:flex;
+  align-items:center;
+  overflow:hidden;
+  color:#000; /* changed to dark text */
+}
+
+/* BACKGROUND IMAGE */
+.hero-bg{
+  position:absolute;
+  inset:0;
+  background:url('images/background1.png') center center / cover no-repeat;
+  z-index:0;
+}
+
+/* LIGHT OVERLAY (important for readability) */
+.hero-overlay{
+  position:absolute;
+  inset:0;
+  background: linear-gradient(
+    to right,
+    rgba(255,255,255,0.85) 0%,
+    rgba(255,255,255,0.65) 40%,
+    rgba(255,255,255,0.25) 70%,
+    rgba(255,255,255,0.05) 100%
+  );
+  z-index:1;
+}
+
+/* CONTENT */
+.hero-content{
+  position:relative;
+  z-index:2;
+  max-width:1600px;
+  margin:0 auto;
+  padding:90px 28px;
+  width:100%;
+  display:flex;
+  align-items:center;
+}
+
+/* TEXT */
+.hero-text{
+  max-width:620px;
+}
+
+/* SMALL TAG */
+.hero-eyebrow{
+  font-size:.78rem;
+  letter-spacing:.14em;
+  text-transform:uppercase;
+  color:#0a7a4b; /* green tone */
+  margin-bottom:18px;
+  font-weight:600;
+}
+
+/* HEADING */
+.hero h1{
+  font-size:clamp(2rem,4vw,3.1rem);
+  font-weight:300;
+  line-height:1.15;
+  margin-bottom:22px;
+  letter-spacing:-.01em;
+  color:#000; /* black text */
+}
+
+.hero h1 strong{
+  font-weight:700;
+  color:#000;
+}
+
+/* SUBTEXT */
+.hero-sub{
+  font-size:1rem;
+  color:#333;
+  margin-bottom:10px;
+  max-width:500px;
+  line-height:1.65;
+}
+
+/* TAGS */
+.hero-tags{
+  display:flex;
+  flex-wrap:wrap;
+  gap:8px;
+  margin:22px 0 34px;
+}
+
+.hero-tag{
+  padding:5px 13px;
+  background:rgba(0,0,0,0.05);
+  border:1px solid rgba(0,0,0,0.1);
+  border-radius:2px;
+  font-size:.78rem;
+  color:#000;
+}
+
+/* BUTTONS */
+.hero-ctas{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+}
+
+.cta-primary{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:var(--accent);
+  color:#fff;
+  padding:13px 30px;
+  font-size:.92rem;
+  font-weight:700;
+  border-radius:2px;
+  border:none;
+  cursor:pointer;
+  text-decoration:none;
+  transition:transform .1s;
+}
+
+.cta-primary:hover{
+  transform:translateY(-1px);
+}
+
+.cta-ghost{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  background:transparent;
+  color:#000;
+  padding:12px 30px;
+  font-size:.92rem;
+  font-weight:600;
+  border:1px solid rgba(0,0,0,0.4);
+  border-radius:2px;
+  text-decoration:none;
+  transition:background .15s;
+}
+
+.cta-ghost:hover{
+  background:rgba(0,0,0,0.05);
+}
+
+
+
+/* ── QUICK LINKS BAR ──────────────────────────────── */
+.quick-bar{
+  background:#fff;border-bottom:1px solid var(--ms-gray-100);
+}
+.quick-inner{
+  max-width:1600px;margin:0 auto;padding:0 24px;
+  display:flex;overflow-x:auto;scrollbar-width:none;
+}
+.quick-inner::-webkit-scrollbar{display:none}
+.quick-item{
+  display:flex;align-items:center;gap:10px;
+  padding:16px 24px;border-right:1px solid var(--ms-gray-100);
+  flex-shrink:0;transition:background .15s;cursor:pointer;text-decoration:none;
+}
+.quick-item:hover{background:var(--accent-muted)}
+.quick-item:hover .quick-label{color:var(--accent)}
+.quick-icon{
+  width:36px;height:36px;background:var(--accent-muted);
+  display:flex;align-items:center;justify-content:center;
+  border-radius:50%;font-size:16px;flex-shrink:0;
+}
+.quick-label{font-size:.82rem;font-weight:600;color:var(--ms-gray-800);white-space:nowrap;transition:color .15s}
+
+/* ── SECTION BASE ────────────────────────────────── */
+section{padding:64px 24px}
+.section-inner{max-width:1600px;margin:0 auto}
+.section-tag{
+  font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--accent);font-weight:700;margin-bottom:10px;
+}
+.section-title{
+  font-size:clamp(1.4rem,2.5vw,2rem);font-weight:300;color:var(--ms-black);
+  letter-spacing:-.01em;margin-bottom:8px;line-height:1.2;
+}
+.section-title strong{font-weight:700}
+.section-sub{
+  font-size:.9rem;color:var(--ms-gray-600);max-width:560px;line-height:1.6;margin-bottom:36px;
+}
+.title-rule{
+  width:48px;height:2px;background:var(--accent);margin:12px 0 36px;
+}
+
+/* ── ABOUT ───────────────────────────────────────── */
+.about-grid{
+  display:grid;grid-template-columns:1fr 1fr;gap:0;
+  border:1px solid var(--ms-gray-100);border-radius:var(--radius-md);
+  overflow:hidden;
+}
+/* FIX: about media image fully covers its container */
+.about-media{
+  background:#0a1f10;
+  position:relative;
+  min-height:420px;
+  overflow:hidden;
+}
+.about-media img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  opacity:.85;
+}
+.about-text{
+  padding:52px 52px;display:flex;flex-direction:column;justify-content:center;
+  background:#fff;
+}
+.about-text p{font-size:.925rem;color:var(--ms-gray-600);line-height:1.7;margin-bottom:14px}
+.stat-row{display:flex;gap:32px;margin-top:24px;flex-wrap:wrap}
+.stat{text-align:left}
+.stat-num{font-size:2rem;font-weight:700;color:var(--accent);line-height:1}
+.stat-lbl{font-size:.78rem;color:var(--ms-gray-600);margin-top:4px}
+.vision-box{
+  background:var(--accent-muted);border-left:3px solid var(--accent);
+  padding:16px 20px;margin-top:20px;border-radius:0 var(--radius-sm) var(--radius-sm) 0;
+}
+.vision-box p{font-size:.875rem;color:#145e2d;font-style:italic;margin:0}
+
+/* ── SERVICES ────────────────────────────────────── */
+.services-bg{background:var(--ms-gray-50)}
+.services-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:1px;
+  background:var(--ms-gray-200);border:1px solid var(--ms-gray-200);
+  border-radius:var(--radius-md);overflow:hidden;
+}
+.svc-card{
+  background:#fff;padding:28px 24px;
+  transition:background .15s;cursor:default;
+  display:flex;flex-direction:column;
+}
+.svc-card:hover{background:var(--accent-muted)}
+.svc-icon{
+  width:40px;height:40px;background:var(--accent);
+  display:flex;align-items:center;justify-content:center;
+  border-radius:var(--radius-sm);margin-bottom:16px;font-size:20px;
+  flex-shrink:0;
+}
+.svc-card h3{font-size:.95rem;font-weight:700;color:var(--ms-black);margin-bottom:10px}
+.svc-card p{font-size:.8rem;color:var(--ms-gray-600);line-height:1.6;flex:1}
+.svc-link{
+  display:inline-flex;align-items:center;gap:4px;margin-top:16px;
+  font-size:.8rem;color:var(--accent);font-weight:600;
+  transition:gap .15s;
+}
+.svc-link:hover{gap:8px}
+.svc-link::after{content:'→'}
+
+/* ── ARTICLES ────────────────────────────────────── */
+.articles-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+}
+.art-card{
+  border:1px solid var(--ms-gray-100);border-radius:var(--radius-md);
+  overflow:hidden;background:#fff;transition:box-shadow .2s,transform .2s;
+}
+.art-card:hover{box-shadow:0 4px 20px rgba(26,122,60,.12);transform:translateY(-2px)}
+/* FIX: article card images fill their slot */
+.art-card-img{
+  height:160px;
+  overflow:hidden;
+  background:var(--ms-gray-100);
+  position:relative;
+}
+.art-card-img img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  transition:transform .3s;
+  display:block;
+}
+.art-card:hover .art-card-img img{transform:scale(1.04)}
+.art-card-body{padding:20px}
+.art-tag{
+  font-size:.7rem;text-transform:uppercase;letter-spacing:.08em;
+  color:var(--accent);font-weight:700;margin-bottom:8px;
+}
+.art-card h3{font-size:.9rem;font-weight:700;color:var(--ms-black);margin-bottom:8px;line-height:1.4}
+.art-card p{font-size:.8rem;color:var(--ms-gray-600);line-height:1.6;margin-bottom:12px}
+.art-read{font-size:.78rem;color:var(--accent);font-weight:600}
+.art-read::after{content:' →'}
+
+/* ── TEAM ────────────────────────────────────────── */
+.team-bg{background:var(--ms-gray-50)}
+.team-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:20px}
+.team-card{
+  background:#fff;border:1px solid var(--ms-gray-100);
+  border-radius:var(--radius-md);overflow:hidden;
+  transition:box-shadow .2s;
+}
+.team-card:hover{box-shadow:0 4px 20px rgba(26,122,60,.12)}
+/* FIX: team images fill their slot */
+.team-img{
+  height:220px;
+  overflow:hidden;
+  background:var(--ms-gray-100);
+  position:relative;
+}
+.team-img img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center top;
+  filter:grayscale(20%);
+  display:block;
+}
+.team-body{padding:20px}
+.team-name{font-size:.95rem;font-weight:700;color:var(--ms-black);margin-bottom:4px}
+.team-role{
+  font-size:.78rem;color:var(--accent);font-weight:600;
+  text-transform:uppercase;letter-spacing:.06em;margin-bottom:10px;
+}
+.team-divider{width:32px;height:2px;background:var(--accent);margin-bottom:10px}
+.team-bio{font-size:.78rem;color:var(--ms-gray-600);line-height:1.6}
+
+/* ── TESTIMONIALS ────────────────────────────────── */
+.testi-grid{
+  display:grid;grid-template-columns:repeat(4,1fr);gap:20px;
+}
+.testi-card{
+  background:#fff;border:1px solid var(--ms-gray-100);
+  border-radius:var(--radius-md);padding:28px;
+  transition:box-shadow .2s;
+}
+.testi-card:hover{box-shadow:0 4px 16px rgba(26,122,60,.1)}
+.testi-stars{color:var(--accent);font-size:.9rem;margin-bottom:14px}
+.testi-q{color:var(--accent);font-size:1.8rem;line-height:1;margin-bottom:10px}
+.testi-text{font-size:.83rem;color:var(--ms-gray-600);line-height:1.7;margin-bottom:16px;font-style:italic}
+.testi-name{font-weight:700;font-size:.88rem;color:var(--ms-black)}
+.testi-loc{font-size:.75rem;color:var(--ms-gray-400);margin-top:2px}
+/* FIX: testimonial avatar is a small circle, must not stretch */
+.testi-avatar{
+  width:40px;
+  height:40px;
+  border-radius:50%;
+  object-fit:cover;
+  object-position:center;
+  border:2px solid var(--accent-border);
+  margin-top:12px;
+  flex-shrink:0;
+  display:block;
+}
+
+/* ── BLOG ────────────────────────────────────────── */
+.blog-bg{background:var(--ms-gray-50)}
+.blog-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.blog-card{
+  background:#fff;border:1px solid var(--ms-gray-100);
+  border-radius:var(--radius-md);overflow:hidden;
+  transition:box-shadow .2s,transform .2s;
+}
+.blog-card:hover{box-shadow:0 4px 20px rgba(26,122,60,.12);transform:translateY(-2px)}
+/* FIX: blog images fill their slot */
+.blog-img{
+  height:200px;
+  overflow:hidden;
+  background:var(--ms-gray-100);
+  position:relative;
+}
+.blog-img img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  transition:transform .3s;
+  display:block;
+}
+.blog-card:hover .blog-img img{transform:scale(1.04)}
+.blog-body{padding:24px}
+.blog-date{font-size:.72rem;color:var(--ms-gray-400);margin-bottom:8px}
+.blog-card h3{font-size:.92rem;font-weight:700;color:var(--ms-black);margin-bottom:8px;line-height:1.4}
+.blog-card p{font-size:.8rem;color:var(--ms-gray-600);line-height:1.6;margin-bottom:12px}
+.blog-meta{display:flex;justify-content:space-between;align-items:center}
+.blog-read{font-size:.78rem;color:var(--accent);font-weight:600}
+.blog-read::after{content:' →'}
+.blog-time{font-size:.72rem;color:var(--ms-gray-400)}
+
+/* ── GALLERY ─────────────────────────────────────── */
+.gallery-grid{
+  display:grid;
+  grid-template-columns:repeat(4,1fr);
+  grid-template-rows:repeat(2,200px);
+  gap:4px;border-radius:var(--radius-md);overflow:hidden;
+}
+/* FIX: gallery items use position:relative so absolute img fills them */
+.gallery-item{
+  overflow:hidden;
+  background:var(--ms-gray-100);
+  position:relative;
+}
+.gallery-item.large{grid-column:span 2;grid-row:span 2}
+.gallery-item img{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  object-position:center;
+  transition:transform .3s,opacity .3s;
+  display:block;
+}
+.gallery-item:hover img{transform:scale(1.05);opacity:.88}
+
+/* ── CONTACT (LIGHT THEME) ───────────────────────── */
+.contact-bg{
+  background:#fff;
+  color:#000;
+}
+
+.contact-inner{
+  max-width:1600px;
+  margin:0 auto;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:80px;
+  align-items:center;
+}
+
+.contact-left .section-title{color:#000}
+.contact-left .section-tag{color:#000}
+.contact-left .section-sub{color:#444}
+
+.contact-cards{
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+}
+
+.contact-card{
+  display:flex;
+  align-items:flex-start;
+  gap:16px;
+  padding:20px;
+  background:#fff;
+  border:1px solid #e5e5e5;
+  border-radius:var(--radius-md);
+  transition:background .15s, box-shadow .15s;
+}
+
+.contact-card:hover{
+  background:#f9f9f9;
+}
+
+.contact-icon{
+  width:40px;
+  height:40px;
+  background:#f2f2f2;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  border-radius:var(--radius-sm);
+  font-size:18px;
+  flex-shrink:0;
+}
+
+.contact-card-title{
+  font-size:.82rem;
+  font-weight:700;
+  color:#000;
+  margin-bottom:4px;
+}
+
+.contact-card a{
+  font-size:.88rem;
+  color:#333;
+  transition:color .15s;
+}
+
+.contact-card a:hover{
+  color:#000;
+}
+
+.contact-form-wrap{
+  background:#fff;
+  border:1px solid #e5e5e5;
+  border-radius:var(--radius-md);
+  padding:36px;
+}
+
+.form-title{
+  font-size:1.1rem;
+  font-weight:700;
+  color:#000;
+  margin-bottom:24px;
+}
+
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:14px;
+}
+
+.form-full{grid-column:1/-1}
+
+.form-group{
+  display:flex;
+  flex-direction:column;
+  gap:6px;
+}
+
+label{
+  font-size:.78rem;
+  color:#333;
+  font-weight:600;
+}
+
+input,select,textarea{
+  background:#fff;
+  border:1px solid #ddd;
+  color:#000;
+  padding:10px 14px;
+  border-radius:var(--radius-sm);
+  font-size:.88rem;
+  font-family:inherit;
+  outline:none;
+  transition:border-color .15s;
+}
+
+input:focus,select:focus,textarea:focus{
+  border-color:#000;
+}
+
+input::placeholder,textarea::placeholder{
+  color:#999;
+}
+
+textarea{
+  resize:vertical;
+  min-height:90px;
+}
+
+.form-ctas{
+  display:flex;
+  flex-wrap:wrap;
+  gap:12px;
+  margin-top:16px;
+}
+
+.form-cta-primary{
+  flex:1;
+  min-width:140px;
+  background:#000;
+  color:#fff;
+  padding:12px 20px;
+  font-size:.88rem;
+  font-weight:700;
+  border:none;
+  border-radius:2px;
+  cursor:pointer;
+  transition:opacity .15s;
+}
+
+.form-cta-primary:hover{
+  opacity:.85;
+}
+
+.form-cta-ghost{
+  flex:1;
+  min-width:140px;
+  background:#fff;
+  color:#000;
+  padding:11px 20px;
+  font-size:.88rem;
+  font-weight:600;
+  border:1px solid #ddd;
+  border-radius:2px;
+  cursor:pointer;
+  transition:background .15s;
+}
+
+.form-cta-ghost:hover{
+  background:#f5f5f5;
+}
+
+/* ── FOOTER (LIGHT THEME) ───────────────────────── */
+footer{
+  background:#fff;
+  color:#000;
+  padding:48px 24px 24px;
+}
+
+.footer-inner{
+  max-width:1600px;
+  margin:0 auto;
+}
+
+.footer-grid{
+  display:grid;
+  grid-template-columns:1.4fr 1fr 1fr 1fr;
+  gap:40px;
+  margin-bottom:40px;
+}
+
+.footer-brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  margin-bottom:16px;
+}
+
+.footer-logo-icon{
+  width:32px;
+  height:32px;
+  background:#000;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  color:#fff;
+  font-weight:900;
+  font-size:11px;
+  border-radius:3px;
+}
+
+.footer-brand-name{
+  font-weight:700;
+  font-size:.95rem;
+  color:#000;
+}
+
+.footer-desc{
+  font-size:.8rem;
+  line-height:1.6;
+  margin-bottom:20px;
+  color:#444;
+}
+
+.footer-socials{
+  display:flex;
+  gap:10px;
+}
+
+.social-btn{
+  width:32px;
+  height:32px;
+  background:#f2f2f2;
+  border-radius:var(--radius-sm);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:.85rem;
+  color:#000;
+  text-decoration:none;
+  transition:background .15s;
+}
+
+.social-btn:hover{
+  background:#e5e5e5;
+}
+
+.footer-col h4{
+  font-size:.75rem;
+  text-transform:uppercase;
+  letter-spacing:.1em;
+  color:#000;
+  font-weight:700;
+  margin-bottom:16px;
+}
+
+.footer-col ul{
+  list-style:none;
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+
+.footer-col li a{
+  font-size:.82rem;
+  color:#444;
+  transition:color .15s;
+  text-decoration:none;
+}
+
+.footer-col li a:hover{
+  color:#000;
+}
+
+.footer-bottom{
+  border-top:1px solid #e5e5e5;
+  padding-top:20px;
+  display:flex;
+  flex-wrap:wrap;
+  justify-content:space-between;
+  align-items:center;
+  gap:10px;
+  font-size:.75rem;
+  color:#555;
+}
+
+.footer-links{
+  display:flex;
+  gap:20px;
+}
+
+.footer-links a{
+  color:#555;
+  text-decoration:none;
+  transition:color .15s;
+}
+
+.footer-links a:hover{
+  color:#000;
+}
+
+/* ── WHATSAPP FLOAT ──────────────────────────────── */
+.wa-float{
+  position:fixed;bottom:24px;right:24px;z-index:9999;
+  background:#25d366;color:#fff;padding:12px 22px;
+  border-radius:24px;display:flex;align-items:center;gap:8px;
+  font-size:.88rem;font-weight:700;box-shadow:0 4px 16px rgba(37,211,102,.4);
+  transition:transform .15s,box-shadow .15s;text-decoration:none;
+}
+.wa-float:hover{transform:translateY(-2px);box-shadow:0 6px 24px rgba(37,211,102,.5)}
+
+/* ── RESPONSIVE ──────────────────────────────────── */
+@media (max-width:1200px){
+  .services-grid{grid-template-columns:repeat(2,1fr)}
+  .articles-grid,.testi-grid,.team-grid{grid-template-columns:repeat(2,1fr)}
+  .blog-grid{grid-template-columns:repeat(2,1fr)}
+  .footer-grid{grid-template-columns:1fr 1fr}
+  .about-grid,.contact-inner{grid-template-columns:1fr}
+  .about-media{min-height:300px}
+  .gallery-grid{grid-template-columns:repeat(2,1fr);grid-template-rows:repeat(3,180px)}
+  .gallery-item.large{grid-column:span 2;grid-row:span 1}
+}
+@media (max-width:768px){
+  .nav-links,.nav-right{display:none}
+  .hamburger{display:flex;align-items:center;justify-content:center;margin-left:auto}
+  .nav-logo img{height:40px;max-width:140px}
+  section{padding:48px 16px}
+  .services-grid,.articles-grid,.testi-grid,.team-grid,.blog-grid{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr 1fr;grid-template-rows:repeat(3,160px)}
+  .gallery-item.large{grid-column:span 2;grid-row:span 1}
+  .footer-grid{grid-template-columns:1fr}
+  .contact-inner{gap:40px}
+  .hero-content{padding:64px 16px 64px}
+  .form-grid{grid-template-columns:1fr}
+  .quick-item{padding:12px 16px}
+  .wa-float .wa-label{display:none}
+  .wa-float{border-radius:50%;width:50px;height:50px;padding:0;justify-content:center;font-size:1.2rem}
+  .stat-row{gap:20px}
+  .contact-form-wrap{padding:24px}
+  .about-text{padding:30px 24px}
+}
+@media (max-width:520px){
+  .hero h1{font-size:1.8rem}
+  .section-title{font-size:1.3rem}
+  .testi-grid{grid-template-columns:1fr}
+  .gallery-grid{grid-template-columns:1fr;grid-template-rows:auto}
+  .gallery-item.large{grid-column:span 1}
+  .gallery-item{height:200px}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="navbar">
+  <div class="nav-inner">
+
+    <a href="#home" class="nav-logo">
+      <img src="images/ldr geo logo.png"
+           alt="360° Survey"
+           onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
+      <span class="nav-logo-fallback" style="display:none;align-items:center;gap:8px;">
+        <span class="nav-logo-icon-fb">360°</span>
+        <span class="nav-logo-text-fb">Survey</span>
+      </span>
+    </a>
+
+    <div class="nav-links">
+      <a href="#home"        class="nav-link active">Home</a>
+      <a href="#about"       class="nav-link">About</a>
+      <a href="#services"    class="nav-link">Services</a>
+      <a href="#articles"    class="nav-link">Articles</a>
+      <a href="#team"        class="nav-link">Team</a>
+      <a href="#blog"        class="nav-link">Blog</a>
+      <a href="#gallery"     class="nav-link">Gallery</a>
+      <a href="#contact"     class="nav-link">Contact</a>
+    </div>
+
+    <div class="nav-right">
+      <a href="tel:+917738483202"          class="nav-btn nav-btn-call">📞 Call</a>
+      <a href="https://wa.me/918881312501" class="nav-btn nav-btn-wa">💬 WhatsApp</a>
+    </div>
+
+    <button class="hamburger" id="hamburger" aria-label="Toggle menu">
+      <svg viewBox="0 0 22 22">
+        <rect y="3"  width="22" height="2" rx="1"/>
+        <rect y="10" width="22" height="2" rx="1"/>
+        <rect y="17" width="22" height="2" rx="1"/>
+      </svg>
+    </button>
+  </div>
+
+  <div class="mobile-menu" id="mobile-menu">
+    <a href="#home"        class="mobile-link">Home</a>
+    <a href="#about"       class="mobile-link">About</a>
+    <a href="#services"    class="mobile-link">Services</a>
+    <a href="#articles"    class="mobile-link">Articles</a>
+    <a href="#team"        class="mobile-link">Team</a>
+    <a href="#blog"        class="mobile-link">Blog</a>
+    <a href="#gallery"     class="mobile-link">Gallery</a>
+    <a href="#contact"     class="mobile-link">Contact</a>
+    <a href="https://wa.me/918881312501" class="mobile-wa">💬 WhatsApp Us</a>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section id="home" class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-text">
+      <p class="hero-eyebrow">360° Drone · GPS · GIS Survey Solutions</p>
+      <h1><strong>Professional Land Survey</strong><br>Services Across India</h1>
+      <p class="hero-sub">Boundary mapping, legal documentation, and drone survey for residential, commercial &amp; agricultural properties — delivered with certified accuracy.</p>
+      <div class="hero-tags">
+        <span class="hero-tag">Residential</span>
+        <span class="hero-tag">Commercial</span>
+        <span class="hero-tag">Agricultural</span>
+        <span class="hero-tag">Legal Docs</span>
+        <span class="hero-tag">Drone Mapping</span>
+      </div>
+      <div class="hero-ctas">
+        <a href="https://wa.me/918881312501" class="cta-primary">💬 Book Free Inspection</a>
+        <a href="#services" class="cta-ghost">View Services →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== QUICK LINKS ========== -->
+<div class="quick-bar">
+  <div class="quick-inner">
+    <a href="#services" class="quick-item">
+      <div class="quick-icon">📍</div>
+      <span class="quick-label">Boundary Survey</span>
+    </a>
+    <a href="#services" class="quick-item">
+      <div class="quick-icon">🛸</div>
+      <span class="quick-label">Drone Survey</span>
+    </a>
+    <a href="#services" class="quick-item">
+      <div class="quick-icon">🗺️</div>
+      <span class="quick-label">Topographic Survey</span>
+    </a>
+    <a href="#services" class="quick-item">
+      <div class="quick-icon">📋</div>
+      <span class="quick-label">Legal Documentation</span>
+    </a>
+    <a href="#services" class="quick-item">
+      <div class="quick-icon">📡</div>
+      <span class="quick-label">GPS Layout</span>
+    </a>
+    <a href="#services" class="quick-item">
+      <div class="quick-icon">🌾</div>
+      <span class="quick-label">Agricultural Survey</span>
+    </a>
+  </div>
+</div>
+
+<!-- ========== ABOUT ========== -->
+<section id="about" style="background:#fff;padding:64px 24px;">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-media">
+        <img src="images/about-us.png" alt="Survey team at work"/>
+      </div>
+      <div class="about-text">
+        <p class="section-tag">Who We Are</p>
+        <h2 class="section-title">Bringing <strong>Precision, Trust</strong><br>and Clarity to Every Plot</h2>
+        <div class="title-rule"></div>
+        <p>Welcome to <strong>360° Survey</strong> — your trusted partner for land surveys, boundary mapping, topographic studies, and legal documentation across India.</p>
+        <p>We don't just measure land — we bring clarity with modern GPS, drone, and GIS technology, backed by certified surveyors with decades of field experience.</p>
+        <p>Our mission: make your land boundaries crystal clear, legally secure, and perfectly documented — saving years of disputes and lakhs in costs.</p>
+        <div class="vision-box">
+          <p><em>"Every plot deserves accurate measurement, legal clarity, and a professional touch."</em></p>
+        </div>
+        <div class="stat-row">
+          <div class="stat"><div class="stat-num">18+</div><div class="stat-lbl">Years Experience</div></div>
+          <div class="stat"><div class="stat-num">5000+</div><div class="stat-lbl">Surveys Completed</div></div>
+          <div class="stat"><div class="stat-num">28</div><div class="stat-lbl">States Covered</div></div>
+          <div class="stat"><div class="stat-num">99%</div><div class="stat-lbl">Client Satisfaction</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== SERVICES ========== -->
+<section id="services" class="services-bg">
+  <div class="section-inner">
+    <p class="section-tag">What We Offer</p>
+    <h2 class="section-title"><strong>Survey Services</strong> for Every Need</h2>
+    <div class="title-rule"></div>
+    <div class="services-grid">
+      <div class="svc-card">
+        <div class="svc-icon">📍</div>
+        <h3>Boundary Survey</h3>
+        <p>Complete boundary demarcation for residential plots, agricultural land, and commercial sites. Includes corner marking, legal map preparation, and court-admissible documentation with sub-centimeter GPS accuracy.</p>
+        <a href="#contact" class="svc-link">Get quote</a>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🏔️</div>
+        <h3>Topographic Survey</h3>
+        <p>Complete topographic mapping for construction, agriculture, and infrastructure planning — contour mapping, elevation profiling, drainage analysis, and detailed CAD drawings using total station and drone photogrammetry.</p>
+        <a href="#contact" class="svc-link">Get quote</a>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🛸</div>
+        <h3>Drone Survey</h3>
+        <p>Aerial drone survey services for land measurement, orthomosaic mapping, and volumetric analysis. High-resolution imagery and point cloud data for construction, mining, and real estate with brand-approved accuracy.</p>
+        <a href="#contact" class="svc-link">Get quote</a>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">📋</div>
+        <h3>Legal Documentation</h3>
+        <p>Premium land record and legal documentation services — title reports, mutation support, and court-ready survey maps for tehsil offices and revenue departments for plots, farms, and commercial properties.</p>
+        <a href="#contact" class="svc-link">Get quote</a>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">📡</div>
+        <h3>GPS Layout</h3>
+        <p>Precise GPS-based layout marking for construction projects, roads, and infrastructure with sub-meter accuracy. Full site report, digital maps, and on-site team support included.</p>
+        <a href="#contact" class="svc-link">Get quote</a>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🗺️</div>
+        <h3>GIS Mapping</h3>
+        <p>Advanced GIS and spatial data services for municipalities, developers, and government agencies. Full digital deliverables including shapefiles, geodatabases, and interactive web maps.</p>
+        <a href="#contact" class="svc-link">Get quote</a>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🌾</div>
+        <h3>Agricultural Survey</h3>
+        <p>Complete farm land measurement, Khasra verification, and crop area estimation for farmers and agri-companies. Includes revenue records verification and digitized farm maps.</p>
+        <a href="#contact" class="svc-link">Get quote</a>
+      </div>
+      <div class="svc-card">
+        <div class="svc-icon">🏗️</div>
+        <h3>Construction Layout</h3>
+        <p>Foundation marking, building alignment, and as-built surveys for architects, engineers, and construction companies. Precision layout ensures zero rework and compliance with approved drawings.</p>
+        <a href="#contact" class="svc-link">Get quote</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ARTICLES ========== -->
+<section id="articles" style="background:#fff">
+  <div class="section-inner">
+    <p class="section-tag">Expert Guides</p>
+    <h2 class="section-title"><strong>Articles</strong> &amp; Resources</h2>
+    <p class="section-sub">Expert land survey guides for residential, commercial &amp; agricultural properties across India.</p>
+    <div class="articles-grid">
+      <div class="art-card">
+        <div class="art-card-img">
+          <img src="images/boundary-image.png" alt="Boundary Survey"/>
+        </div>
+        <div class="art-card-body">
+          <div class="art-tag">Boundary</div>
+          <h3>Complete Guide to Boundary Survey in India</h3>
+          <p>GPS-precision marking, corner pillar installation, transparent pricing, and on-time delivery for residential and commercial properties.</p>
+          <a href="#" class="art-read">Read More</a>
+        </div>
+      </div>
+      <div class="art-card">
+        <div class="art-card-img">
+          <img src="images/drone image.jpg" alt="Drone Mapping"/>
+        </div>
+        <div class="art-card-body">
+          <div class="art-tag">Drone</div>
+          <h3>Drone Mapping for Land Surveys — What You Need to Know</h3>
+          <p>High-resolution orthomosaics, 3D models, and volumetric data with rapid delivery for land measurement projects.</p>
+          <a href="#" class="art-read">Read More</a>
+        </div>
+      </div>
+      <div class="art-card">
+        <div class="art-card-img">
+          <img src="images/residential.png" alt="Residential Survey"/>
+        </div>
+        <div class="art-card-body">
+          <div class="art-tag">Residential · 3 min</div>
+          <h3>Residential Land Survey — Step by Step Process</h3>
+          <p>Boundary demarcation, topography, and full legal documentation with expert team and premium accuracy for home buyers.</p>
+          <a href="#" class="art-read">Read More</a>
+        </div>
+      </div>
+      <div class="art-card">
+        <div class="art-card-img">
+          <img src="images/legal-survey.png" alt="Legal Documentation"/>
+        </div>
+        <div class="art-card-body">
+          <div class="art-tag">Legal · 5 min</div>
+          <h3>Land Legal Documentation — Everything Explained</h3>
+          <p>Certified surveyors, court-ready maps, transparent pricing &amp; free site inspection for plots, farms, offices &amp; commercial sites.</p>
+          <a href="#" class="art-read">Read More</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TEAM ========== -->
+<section id="team" class="team-bg">
+  <div class="section-inner">
+    <p class="section-tag">Leadership</p>
+    <h2 class="section-title">Meet Our <strong>Expert Team</strong></h2>
+    <div class="title-rule"></div>
+    <div class="team-grid">
+      <div class="team-card">
+        <div class="team-img">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Rajesh Verma"/>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Rajesh Verma</div>
+          <div class="team-role">President &amp; Founder</div>
+          <div class="team-divider"></div>
+          <p class="team-bio">Over 18 years in geo-spatial industries. Rajesh turns complex land disputes into clear documented boundaries, guiding the team with precision and legal compliance.</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-img">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="Sunil Gupta"/>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Sunil Gupta</div>
+          <div class="team-role">Chief Executive Officer</div>
+          <div class="team-divider"></div>
+          <p class="team-bio">20+ years in the survey industry since 2004. Sunil drives seamless operations from residential boundary surveys to large-scale infrastructure mapping.</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-img">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" alt="Anil Sharma"/>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Anil Sharma</div>
+          <div class="team-role">Technology Head</div>
+          <div class="team-divider"></div>
+          <p class="team-bio">Strategic growth leader with deep expertise in drone tech and GIS. Transforms land data into actionable insights and drives accuracy across all survey zones.</p>
+        </div>
+      </div>
+      <div class="team-card">
+        <div class="team-img">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Deepak Singh"/>
+        </div>
+        <div class="team-body">
+          <div class="team-name">Deepak Singh</div>
+          <div class="team-role">Field Operations Head</div>
+          <div class="team-divider"></div>
+          <p class="team-bio">Ensures every survey is executed with discipline and accuracy. Oversees daily field work, quality checks, and crew coordination for safety and data quality.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== TESTIMONIALS ========== -->
+<section id="testimonials" style="background:#fff">
+  <div class="section-inner">
+    <p class="section-tag">Client Reviews</p>
+    <h2 class="section-title">What Our <strong>Clients Say</strong></h2>
+    <div class="title-rule"></div>
+    <div class="testi-grid">
+      <div class="testi-card">
+        <div class="testi-stars">★★★★½</div>
+        <div class="testi-q">❝</div>
+        <p class="testi-text">Commercial land ke liye mujhe ek trustworthy survey partner chahiya tha. 360° Survey ne commitment ke saath kaam deliver kiya. GPS accuracy, legal maps — sab top class tha. Definitely my go-to surveyor in Maharashtra.</p>
+        <div class="testi-name">Ramesh Patil</div>
+        <div class="testi-loc">📍 Pune, Maharashtra</div>
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ramesh" class="testi-avatar"/>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-q">❝</div>
+        <p class="testi-text">Because the land was near a river, flooding and boundary shifts were a major issue. 360° Survey provided the right GPS demarcation along with expert legal guidance. Now the boundaries are clear — no signs of any dispute at all.</p>
+        <div class="testi-name">Meena Iyer</div>
+        <div class="testi-loc">📍 Nashik, Maharashtra</div>
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Meena" class="testi-avatar"/>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★½</div>
+        <div class="testi-q">❝</div>
+        <p class="testi-text">I had a very tight construction deadline, but 360° Survey managed everything smoothly. From land layout to final documentation, the entire process was handled professionally. Finding such a reliable service in Thane is truly rare.</p>
+        <div class="testi-name">Kavita Naik</div>
+        <div class="testi-loc">📍 Thane, Maharashtra</div>
+        <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Kavita" class="testi-avatar"/>
+      </div>
+      <div class="testi-card">
+        <div class="testi-stars">★★★★★</div>
+        <div class="testi-q">❝</div>
+        <p class="testi-text">Mujhe apne ancestral farm ke liye ek aise surveyor ki zarurat thi jo tehsil documentation samjh sake. 360° Survey ki team ne land records bilkul clear kar diye. Clean work, polite staff aur koi hidden charges nahi.</p>
+        <div class="testi-name">Farhan Qureshi</div>
+        <div class="testi-loc">📍 Aurangabad, Maharashtra</div>
+        <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Farhan" class="testi-avatar"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BLOG ========== -->
+<section id="blog" class="blog-bg">
+  <div class="section-inner">
+    <p class="section-tag">Insights</p>
+    <h2 class="section-title"><strong>Blog</strong> — Survey Tips &amp; Land Law</h2>
+    <p class="section-sub">Your source for survey tips, land law updates, and property insights from certified experts.</p>
+    <div class="blog-grid">
+      <div class="blog-card">
+        <div class="blog-img">
+          <img src="images/gps-cost.png" alt="GPS Survey Cost"/>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">Jan 24, 2026</div>
+          <h3>GPS Survey Cost in Maharashtra – 2026 Expert Guide</h3>
+          <p>Complete 2026 guide on GPS land survey costs in Maharashtra for agricultural plots, residential sites, and commercial properties.</p>
+          <div class="blog-meta">
+            <a href="#" class="blog-read">Read More</a>
+            <span class="blog-time">8 min read</span>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-img">
+          <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=700&q=80" alt="Drone Survey Farms"/>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">Jan 24, 2026</div>
+          <h3>Drone Survey for Farms – Complete Expert Guide (Maharashtra)</h3>
+          <p>Expert guide on drone-based agricultural surveys covering area measurement, crop health mapping, and legal documentation.</p>
+          <div class="blog-meta">
+            <a href="#" class="blog-read">Read More</a>
+            <span class="blog-time">6 min read</span>
+          </div>
+        </div>
+      </div>
+      <div class="blog-card">
+        <div class="blog-img">
+          <img src="images/legal-survey.png" alt="Land Boundary Dispute"/>
+        </div>
+        <div class="blog-body">
+          <div class="blog-date">Jan 24, 2026</div>
+          <h3>Land Boundary Dispute Resolution – Legal Survey Guide 2026</h3>
+          <p>Expert guide on resolving land boundary disputes using certified GPS survey reports in India — court procedure and documentation.</p>
+          <div class="blog-meta">
+            <a href="#" class="blog-read">Read More</a>
+            <span class="blog-time">5 min read · 2 comments</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== GALLERY ========== -->
+<section id="gallery" style="background:#fff">
+  <div class="section-inner">
+    <p class="section-tag">Portfolio</p>
+    <h2 class="section-title">Our Work in the <strong>Field</strong></h2>
+    <div class="title-rule"></div>
+    <div class="gallery-grid">
+      <div class="gallery-item large">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Survey field work"/>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500&q=80" alt="Drone survey"/>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1580901368919-7738efb0f87e?w=500&q=80" alt="GPS equipment"/>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1606765962248-7ff407b51667?w=500&q=80" alt="Survey mapping"/>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1614332287897-cdc485fa562d?w=500&q=80" alt="Land aerial view"/>
+      </div>
+      <div class="gallery-item">
+        <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=500&q=80" alt="Agricultural survey"/>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CONTACT ========== -->
+<section id="contact" class="contact-bg" style="padding:64px 24px;">
+  <div class="contact-inner section-inner">
+    <div class="contact-left">
+      <p class="section-tag">Get in Touch</p>
+      <h2 class="section-title">Book a <strong>Free Inspection</strong></h2>
+      <p class="section-sub">Get a survey cost estimate today. Our certified team will reach your site within 48 hours.</p>
+      <div class="contact-cards">
+        <div class="contact-card">
+          <div class="contact-icon">📞</div>
+          <div>
+            <div class="contact-card-title">Call Us</div>
+            <a href="tel:+917738483202">+91 77384 83202</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">💬</div>
+          <div>
+            <div class="contact-card-title">WhatsApp</div>
+            <a href="https://wa.me/918881312501">+91 88813 12501</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">✉️</div>
+          <div>
+            <div class="contact-card-title">Email</div>
+            <a href="mailto:info@360survey.in">info@360survey.in</a>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-icon">📍</div>
+          <div>
+            <div class="contact-card-title">Office</div>
+            <span style="font-size:.85rem;color:#555;">123, Survey House, Andheri East, Mumbai – 400069</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <div class="contact-form-wrap">
+        <div class="form-title">Request a Free Survey Quote</div>
+        <div class="form-grid">
+          <div class="form-group">
+            <label>First Name</label>
+            <input type="text" placeholder="Rajesh"/>
+          </div>
+          <div class="form-group">
+            <label>Last Name</label>
+            <input type="text" placeholder="Patil"/>
+          </div>
+          <div class="form-group">
+            <label>Phone / WhatsApp</label>
+            <input type="tel" placeholder="+91 98765 43210"/>
+          </div>
+          <div class="form-group">
+            <label>Email</label>
+            <input type="email" placeholder="you@email.com"/>
+          </div>
+          <div class="form-group form-full">
+            <label>Service Required</label>
+            <select>
+              <option value="" disabled selected>Select a service</option>
+              <option>Boundary Survey</option>
+              <option>Topographic Survey</option>
+              <option>Drone Survey</option>
+              <option>Legal Documentation</option>
+              <option>GPS Layout</option>
+              <option>GIS Mapping</option>
+              <option>Agricultural Survey</option>
+              <option>Construction Layout</option>
+            </select>
+          </div>
+          <div class="form-group form-full">
+            <label>Location / Details</label>
+            <textarea placeholder="Enter property location, size, or any additional details..."></textarea>
+          </div>
+        </div>
+        <div class="form-ctas">
+          <button class="form-cta-primary">💬 Book Free Inspection</button>
+          <button class="form-cta-ghost">📞 Request Callback</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer>
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">
+          <div class="footer-logo-icon">360°</div>
+          <div>
+            <div class="footer-brand-name">360° Survey</div>
+            <div style="font-size:.7rem;color:#888;letter-spacing:.08em">GEOMAP INDIA</div>
+          </div>
+        </div>
+        <p class="footer-desc">Professional land survey, boundary marking, drone mapping, and legal documentation services across India. Certified, accurate, dispute-free.</p>
+        <div class="footer-socials">
+          <a href="#" class="social-btn" aria-label="Facebook">f</a>
+          <a href="#" class="social-btn" aria-label="Instagram">in</a>
+          <a href="#" class="social-btn" aria-label="YouTube">▶</a>
+          <a href="#" class="social-btn" aria-label="LinkedIn">li</a>
+        </div>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">Boundary Survey</a></li>
+          <li><a href="#">Topographic Survey</a></li>
+          <li><a href="#">Drone Survey</a></li>
+          <li><a href="#">GPS Layout</a></li>
+          <li><a href="#">GIS Mapping</a></li>
+          <li><a href="#">Legal Documentation</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="#home">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#team">Team</a></li>
+          <li><a href="#blog">Blog</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Contact</h4>
+        <ul>
+          <li><a href="tel:+917738483202">📞 +91 77384 83202</a></li>
+          <li><a href="https://wa.me/918881312501">💬 +91 88813 12501</a></li>
+          <li><a href="mailto:info@360survey.in">✉️ info@360survey.in</a></li>
+          <li>
+            <span style="font-size:.8rem;color:#555;">
+              📍 Andheri East, Mumbai – 400069
+            </span>
+          </li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>© 2026 360° Survey. All Rights Reserved. Powered by GeoMap India.</p>
+      <div class="footer-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+        <a href="#">Sitemap</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<!-- WhatsApp Float -->
+<a href="https://wa.me/918881312501" class="wa-float" target="_blank" rel="noopener">
+  <span>💬</span>
+  <span class="wa-label">WhatsApp</span>
+</a>
+
+<script>
+const hamburger = document.getElementById('hamburger');
+const mobileMenu = document.getElementById('mobile-menu');
+
+hamburger.addEventListener('click', () => {
+  mobileMenu.classList.toggle('open');
+});
+
+mobileMenu.querySelectorAll('a').forEach(a => {
+  a.addEventListener('click', () => mobileMenu.classList.remove('open'));
+});
+
+const sections = document.querySelectorAll('section[id]');
+const navLinks = document.querySelectorAll('.nav-link');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      navLinks.forEach(link => {
+        link.classList.remove('active');
+        if (link.getAttribute('href') === '#' + entry.target.id) {
+          link.classList.add('active');
+        }
+      });
+    }
+  });
+}, { threshold: 0.3, rootMargin: '-60px 0px 0px 0px' });
+
+sections.forEach(s => observer.observe(s));
+</script>
+</body>
+</html>
