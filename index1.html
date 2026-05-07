@@ -40,6 +40,29 @@
   .section-title { text-shadow: 0 1px 0 #fff, 0 2px 0 #e6e6e6, 0 3px 0 #dcdcdc, 0 4px 0 #cfcfcf, 0 6px 12px rgba(0,0,0,0.15); }
   .mobile-menu { display: none; }
   .mobile-menu.open { display: flex; }
+
+  /* ── ARTICLE & BLOG IMAGE FIX ── */
+  .card-img-wrap {
+    position: relative;
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    background: #e5e7eb;
+    flex-shrink: 0;
+  }
+  .card-img-wrap img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    object-fit: cover;
+    object-position: center;
+    transition: transform .3s ease;
+  }
+  .card-img-wrap:hover img {
+    transform: scale(1.05);
+  }
 </style>
 </head>
 <body class="font-sans text-gray-800 bg-white leading-relaxed">
@@ -98,13 +121,10 @@
 
 <!-- ========== HERO ========== -->
 <section id="home" class="mt-[60px] relative min-h-[70vh] flex items-center overflow-hidden text-black">
-  <!-- BG IMAGE -->
   <div class="absolute inset-0 z-0">
     <img src="images/background1.png" alt="" class="w-full h-full object-cover object-center"/>
   </div>
-  <!-- OVERLAY -->
   <div class="absolute inset-0 z-[1]" style="background:linear-gradient(to right, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.68) 40%, rgba(255,255,255,0.28) 70%, rgba(255,255,255,0.05) 100%)"></div>
-  <!-- CONTENT -->
   <div class="relative z-[2] max-w-[1600px] mx-auto px-7 py-[90px] w-full flex items-center">
     <div class="max-w-[620px]">
       <p class="text-[.78rem] tracking-[.14em] uppercase text-[#0a7a4b] mb-4 font-semibold">360° Drone · GPS · GIS Survey Solutions</p>
@@ -135,7 +155,7 @@
       <span class="text-[.82rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Boundary Survey</span>
     </a>
     <a href="#services" class="flex items-center gap-2.5 px-6 py-4 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
-      <div class="w-9 h-9 bg-accent-muted flex items-center justify-content-center flex items-center justify-center rounded-full text-base flex-shrink-0">🛸</div>
+      <div class="w-9 h-9 bg-accent-muted flex items-center justify-center rounded-full text-base flex-shrink-0">🛸</div>
       <span class="text-[.82rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Drone Survey</span>
     </a>
     <a href="#services" class="flex items-center gap-2.5 px-6 py-4 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
@@ -161,12 +181,11 @@
 <section id="about" class="bg-white py-16 px-6">
   <div class="max-w-[1600px] mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 border border-gray-100 rounded-lg overflow-hidden">
-      <!-- IMAGE - guaranteed height on all screens -->
       <div class="bg-[#0a1f10]" style="min-height:300px; height:100%;">
-        <img src="images/about-us.png" alt="Survey team at work"
-             style="width:100%; height:100%; min-height:300px; display:block; object-fit:cover; object-position:center; opacity:.85;"/>
+        <img src="images/about-us.png"
+             alt="Survey team at work"
+             style="width:100%;height:100%;min-height:300px;display:block;object-fit:cover;object-position:35% center;opacity:.85;"/>
       </div>
-      <!-- TEXT -->
       <div class="flex flex-col justify-center p-8 md:p-12 bg-white">
         <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">Who We Are</p>
         <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2 leading-[1.2]">Bringing <strong class="font-bold">Precision, Trust</strong><br>and Clarity to Every Plot</h2>
@@ -195,7 +214,6 @@
     <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2"><strong class="font-bold">Survey Services</strong> for Every Need</h2>
     <div class="w-12 h-0.5 bg-accent my-3 mb-9"></div>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200 border border-gray-200 rounded-lg overflow-hidden">
-      <!-- each service card -->
       <div class="bg-white p-7 flex flex-col hover:bg-accent-muted transition-colors">
         <div class="w-10 h-10 bg-accent flex items-center justify-center rounded text-xl mb-4 flex-shrink-0">📍</div>
         <h3 class="text-[.95rem] font-bold text-black mb-2.5">Boundary Survey</h3>
@@ -255,55 +273,56 @@
     <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2"><strong class="font-bold">Articles</strong> &amp; Resources</h2>
     <p class="text-[.9rem] text-gray-600 max-w-[560px] leading-[1.6] mb-9">Expert land survey guides for residential, commercial &amp; agricultural properties across India.</p>
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all">
-        <!-- IMAGE: guaranteed 200px on all screens -->
-        <div style="height:200px; overflow:hidden; background:#e5e7eb;">
-          <img src="images/boundary-image.png" alt="Boundary Survey"
-               style="width:100%; height:200px; display:block; object-fit:cover; object-position:center;"/>
+
+      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
+        <!-- FIXED IMAGE -->
+        <div class="card-img-wrap">
+          <img src="images/boundary-image.png" alt="Boundary Survey"/>
         </div>
-        <div class="p-5">
+        <div class="p-5 flex flex-col flex-1">
           <div class="text-[.7rem] uppercase tracking-[.08em] text-accent font-bold mb-2">Boundary</div>
           <h3 class="text-[.9rem] font-bold text-black mb-2 leading-[1.4]">Complete Guide to Boundary Survey in India</h3>
           <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">GPS-precision marking, corner pillar installation, transparent pricing, and on-time delivery for residential and commercial properties.</p>
-          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline">Read More</a>
+          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline mt-auto">Read More</a>
         </div>
       </div>
-      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all">
-        <div style="height:200px; overflow:hidden; background:#e5e7eb;">
-          <img src="images/drone image.jpg" alt="Drone Mapping"
-               style="width:100%; height:200px; display:block; object-fit:cover; object-position:center;"/>
+
+      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
+        <div class="card-img-wrap">
+          <img src="images/drone image.jpg" alt="Drone Mapping"/>
         </div>
-        <div class="p-5">
+        <div class="p-5 flex flex-col flex-1">
           <div class="text-[.7rem] uppercase tracking-[.08em] text-accent font-bold mb-2">Drone</div>
           <h3 class="text-[.9rem] font-bold text-black mb-2 leading-[1.4]">Drone Mapping for Land Surveys — What You Need to Know</h3>
           <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">High-resolution orthomosaics, 3D models, and volumetric data with rapid delivery for land measurement projects.</p>
-          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline">Read More</a>
+          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline mt-auto">Read More</a>
         </div>
       </div>
-      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all">
-        <div style="height:200px; overflow:hidden; background:#e5e7eb;">
-          <img src="images/residential.png" alt="Residential Survey"
-               style="width:100%; height:200px; display:block; object-fit:cover; object-position:center;"/>
+
+      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
+        <div class="card-img-wrap">
+          <img src="images/residential.png" alt="Residential Survey"/>
         </div>
-        <div class="p-5">
+        <div class="p-5 flex flex-col flex-1">
           <div class="text-[.7rem] uppercase tracking-[.08em] text-accent font-bold mb-2">Residential · 3 min</div>
           <h3 class="text-[.9rem] font-bold text-black mb-2 leading-[1.4]">Residential Land Survey — Step by Step Process</h3>
           <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">Boundary demarcation, topography, and full legal documentation with expert team and premium accuracy for home buyers.</p>
-          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline">Read More</a>
+          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline mt-auto">Read More</a>
         </div>
       </div>
-      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all">
-        <div style="height:200px; overflow:hidden; background:#e5e7eb;">
-          <img src="images/legal-survey.png" alt="Legal Documentation"
-               style="width:100%; height:200px; display:block; object-fit:cover; object-position:center;"/>
+
+      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
+        <div class="card-img-wrap">
+          <img src="images/legal-survey.png" alt="Legal Documentation"/>
         </div>
-        <div class="p-5">
+        <div class="p-5 flex flex-col flex-1">
           <div class="text-[.7rem] uppercase tracking-[.08em] text-accent font-bold mb-2">Legal · 5 min</div>
           <h3 class="text-[.9rem] font-bold text-black mb-2 leading-[1.4]">Land Legal Documentation — Everything Explained</h3>
           <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">Certified surveyors, court-ready maps, transparent pricing &amp; free site inspection for plots, farms, offices &amp; commercial sites.</p>
-          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline">Read More</a>
+          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline mt-auto">Read More</a>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -414,57 +433,75 @@
 <section id="blog" class="bg-gray-50 py-16 px-6">
   <div class="max-w-[1600px] mx-auto">
     <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">Insights</p>
-    <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2"><strong class="font-bold">Blog</strong> — Survey Tips &amp; Land Law</h2>
-    <p class="text-[.9rem] text-gray-600 max-w-[560px] leading-[1.6] mb-9">Your source for survey tips, land law updates, and property insights from certified experts.</p>
+    <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2">
+      <strong class="font-bold">Blog</strong> — Survey Tips &amp; Land Law
+    </h2>
+    <p class="text-[.9rem] text-gray-600 max-w-[560px] leading-[1.6] mb-9">
+      Your source for survey tips, land law updates, and property insights from certified experts.
+    </p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all">
-        <div style="height:220px; overflow:hidden; background:#e5e7eb;">
-          <img src="images/gps-cost.png" alt="GPS Survey Cost"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center; transition:transform .3s;"
-               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"/>
+
+      <!-- CARD 1 -->
+      <div class="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+        <!-- FIXED IMAGE -->
+        <div class="card-img-wrap">
+          <img src="images/gps-cost.png" alt="GPS Survey Cost"/>
         </div>
-        <div class="p-6">
+        <div class="p-6 flex flex-col flex-1">
           <div class="text-[.72rem] text-gray-400 mb-2">Jan 24, 2026</div>
-          <h3 class="text-[.92rem] font-bold text-black mb-2 leading-[1.4]">GPS Survey Cost in Maharashtra – 2026 Expert Guide</h3>
-          <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">Complete 2026 guide on GPS land survey costs in Maharashtra for agricultural plots, residential sites, and commercial properties.</p>
-          <div class="flex justify-between items-center">
-            <a href="#" class="blog-read text-[.78rem] text-accent font-semibold no-underline">Read More</a>
+          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">
+            GPS Survey Cost in Maharashtra – 2026 Expert Guide
+          </h3>
+          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">
+            Complete 2026 guide on GPS land survey costs in Maharashtra for agricultural plots, residential sites, and commercial properties.
+          </p>
+          <div class="flex justify-between items-center mt-auto">
+            <a href="#" class="text-accent text-[.8rem] font-semibold no-underline hover:underline">Read More →</a>
             <span class="text-[.72rem] text-gray-400">8 min read</span>
           </div>
         </div>
       </div>
-      <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all">
-        <div style="height:220px; overflow:hidden; background:#e5e7eb;">
-          <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=700&q=80" alt="Drone Survey Farms"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center; transition:transform .3s;"
-               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"/>
+
+      <!-- CARD 2 -->
+      <div class="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+        <div class="card-img-wrap">
+          <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=700&q=80" alt="Drone Survey Farms"/>
         </div>
-        <div class="p-6">
+        <div class="p-6 flex flex-col flex-1">
           <div class="text-[.72rem] text-gray-400 mb-2">Jan 24, 2026</div>
-          <h3 class="text-[.92rem] font-bold text-black mb-2 leading-[1.4]">Drone Survey for Farms – Complete Expert Guide (Maharashtra)</h3>
-          <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">Expert guide on drone-based agricultural surveys covering area measurement, crop health mapping, and legal documentation.</p>
-          <div class="flex justify-between items-center">
-            <a href="#" class="blog-read text-[.78rem] text-accent font-semibold no-underline">Read More</a>
+          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">
+            Drone Survey for Farms – Complete Expert Guide (Maharashtra)
+          </h3>
+          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">
+            Expert guide on drone-based agricultural surveys covering area measurement, crop health mapping, and legal documentation.
+          </p>
+          <div class="flex justify-between items-center mt-auto">
+            <a href="#" class="text-accent text-[.8rem] font-semibold no-underline hover:underline">Read More →</a>
             <span class="text-[.72rem] text-gray-400">6 min read</span>
           </div>
         </div>
       </div>
-      <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg hover:-translate-y-0.5 transition-all">
-        <div style="height:220px; overflow:hidden; background:#e5e7eb;">
-          <img src="images/legal-survey.png" alt="Land Boundary Dispute"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center; transition:transform .3s;"
-               onmouseover="this.style.transform='scale(1.05)'" onmouseout="this.style.transform='scale(1)'"/>
+
+      <!-- CARD 3 -->
+      <div class="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
+        <div class="card-img-wrap">
+          <img src="images/legal-survey.png" alt="Land Boundary Dispute"/>
         </div>
-        <div class="p-6">
+        <div class="p-6 flex flex-col flex-1">
           <div class="text-[.72rem] text-gray-400 mb-2">Jan 24, 2026</div>
-          <h3 class="text-[.92rem] font-bold text-black mb-2 leading-[1.4]">Land Boundary Dispute Resolution – Legal Survey Guide 2026</h3>
-          <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">Expert guide on resolving land boundary disputes using certified GPS survey reports in India — court procedure and documentation.</p>
-          <div class="flex justify-between items-center">
-            <a href="#" class="blog-read text-[.78rem] text-accent font-semibold no-underline">Read More</a>
+          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">
+            Land Boundary Dispute Resolution – Legal Survey Guide 2026
+          </h3>
+          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">
+            Expert guide on resolving land boundary disputes using certified GPS survey reports in India — court procedure and documentation.
+          </p>
+          <div class="flex justify-between items-center mt-auto">
+            <a href="#" class="text-accent text-[.8rem] font-semibold no-underline hover:underline">Read More →</a>
             <span class="text-[.72rem] text-gray-400">5 min read · 2 comments</span>
           </div>
         </div>
       </div>
+
     </div>
   </div>
 </section>
@@ -475,7 +512,6 @@
     <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">Portfolio</p>
     <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2">Our Work in the <strong class="font-bold">Field</strong></h2>
     <div class="w-12 h-0.5 bg-accent my-3 mb-9"></div>
-    <!-- Gallery grid: large item spans 2 cols & 2 rows on desktop -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-1 rounded-lg overflow-hidden" style="grid-template-rows: repeat(2, 200px)">
       <div class="relative overflow-hidden bg-gray-100 col-span-2 row-span-2 md:col-span-2 md:row-span-2 h-[200px] md:h-auto">
         <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Survey field work"
@@ -504,7 +540,6 @@
 <!-- ========== CONTACT ========== -->
 <section id="contact" class="bg-white py-16 px-6">
   <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20 items-center">
-    <!-- LEFT -->
     <div>
       <p class="text-[.75rem] tracking-[.1em] uppercase text-black font-bold mb-2.5">Get in Touch</p>
       <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2">Book a <strong class="font-bold">Free Inspection</strong></h2>
@@ -540,7 +575,6 @@
         </div>
       </div>
     </div>
-    <!-- RIGHT FORM -->
     <div class="bg-white border border-gray-200 rounded-lg p-9">
       <div class="text-[1.1rem] font-bold text-black mb-6">Request a Free Survey Quote</div>
       <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
