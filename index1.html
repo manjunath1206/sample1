@@ -121,30 +121,108 @@
 
 <!-- ========== HERO ========== -->
 <section id="home" class="mt-[60px] relative min-h-[70vh] flex items-center overflow-hidden text-black">
+
+  <!-- BACKGROUND IMAGES -->
   <div class="absolute inset-0 z-0">
-    <img src="images/background1.png" alt="" class="w-full h-full object-cover object-center"/>
+
+    <!-- Desktop / Tablet Image -->
+    <img 
+      src="images/background1.png" 
+      alt="Land Survey Background"
+      class="hidden md:block w-full h-full object-cover object-center"
+    />
+
+    <!-- Mobile Image -->
+    <img 
+      src="images/mobile-hero.png" 
+      alt="Mobile Land Survey Background"
+      class="block md:hidden w-full h-full object-cover object-[70%_center]"
+    />
+
   </div>
-  <div class="absolute inset-0 z-[1]" style="background:linear-gradient(to right, rgba(255,255,255,0.88) 0%, rgba(255,255,255,0.68) 40%, rgba(255,255,255,0.28) 70%, rgba(255,255,255,0.05) 100%)"></div>
+
+  <!-- OVERLAY -->
+  <div 
+    class="absolute inset-0 z-[1]"
+    style="background:linear-gradient(
+      to right,
+      rgba(255,255,255,0.88) 0%,
+      rgba(255,255,255,0.68) 40%,
+      rgba(255,255,255,0.28) 70%,
+      rgba(255,255,255,0.05) 100%
+    )">
+  </div>
+
+  <!-- CONTENT -->
   <div class="relative z-[2] max-w-[1600px] mx-auto px-7 py-[90px] w-full flex items-center">
+
     <div class="max-w-[620px]">
-      <p class="text-[.78rem] tracking-[.14em] uppercase text-[#0a7a4b] mb-4 font-semibold">360° Drone · GPS · GIS Survey Solutions</p>
+
+      <!-- TOP TAG -->
+      <p class="text-[.78rem] tracking-[.14em] uppercase text-[#0a7a4b] mb-4 font-semibold">
+        360° Drone · GPS · GIS Survey Solutions
+      </p>
+
+      <!-- HEADING -->
       <h1 class="text-[clamp(2rem,4vw,3.1rem)] font-light leading-[1.15] mb-5 tracking-[-0.01em] text-black">
-        <strong class="font-bold">Professional Land Survey</strong><br>Services Across India
+        <strong class="font-bold">Professional Land Survey</strong><br>
+        Services Across India
       </h1>
-      <p class="text-[1rem] text-[#333] mb-2.5 max-w-[500px] leading-[1.65]">Boundary mapping, legal documentation, and drone survey for residential, commercial &amp; agricultural properties — delivered with certified accuracy.</p>
+
+      <!-- DESCRIPTION -->
+      <p class="text-[1rem] text-[#333] mb-2.5 max-w-[500px] leading-[1.65]">
+        Boundary mapping, legal documentation, and drone survey for residential,
+        commercial & agricultural properties — delivered with certified accuracy.
+      </p>
+
+      <!-- TAGS -->
       <div class="flex flex-wrap gap-2 my-5">
-        <span class="px-3 py-1.5 bg-black/5 border border-black/10 rounded-[2px] text-[.78rem] text-black">Residential</span>
-        <span class="px-3 py-1.5 bg-black/5 border border-black/10 rounded-[2px] text-[.78rem] text-black">Commercial</span>
-        <span class="px-3 py-1.5 bg-black/5 border border-black/10 rounded-[2px] text-[.78rem] text-black">Agricultural</span>
-        <span class="px-3 py-1.5 bg-black/5 border border-black/10 rounded-[2px] text-[.78rem] text-black">Legal Docs</span>
-        <span class="px-3 py-1.5 bg-black/5 border border-black/10 rounded-[2px] text-[.78rem] text-black">Drone Mapping</span>
+
+        <span class="px-3 py-1.5 bg-black/5 border border-black/10 rounded-[2px] text-[.78rem] text-black">
+          Residential
+        </span>
+
+        <span class="px-3 py-1.5 bg-black/5 border border-black/10 rounded-[2px] text-[.78rem] text-black">
+          Commercial
+        </span>
+
+        <span class="px-3 py-1.5 bg-black/5 border border-black/10 rounded-[2px] text-[.78rem] text-black">
+          Agricultural
+        </span>
+
+        <span class="px-3 py-1.5 bg-black/5 border border-black/10 rounded-[2px] text-[.78rem] text-black">
+          Legal Docs
+        </span>
+
+        <span class="px-3 py-1.5 bg-black/5 border border-black/10 rounded-[2px] text-[.78rem] text-black">
+          Drone Mapping
+        </span>
+
       </div>
+
+      <!-- BUTTONS -->
       <div class="flex flex-wrap gap-3">
-        <a href="https://wa.me/918881312501" class="inline-flex items-center gap-2 bg-accent text-white px-7 py-3 text-[.92rem] font-bold rounded-[2px] border-none cursor-pointer hover:-translate-y-px transition-transform no-underline">💬 Book Free Inspection</a>
-        <a href="#services" class="inline-flex items-center gap-2 bg-transparent text-black px-7 py-3 text-[.92rem] font-semibold border border-black/40 rounded-[2px] hover:bg-black/5 transition-colors no-underline">View Services →</a>
+
+        <a 
+          href="https://wa.me/918881312501"
+          class="inline-flex items-center gap-2 bg-accent text-white px-7 py-3 text-[.92rem] font-bold rounded-[2px] border-none cursor-pointer hover:-translate-y-px transition-transform no-underline"
+        >
+          💬 Book Free Inspection
+        </a>
+
+        <a 
+          href="#services"
+          class="inline-flex items-center gap-2 bg-transparent text-black px-7 py-3 text-[.92rem] font-semibold border border-black/40 rounded-[2px] hover:bg-black/5 transition-colors no-underline"
+        >
+          View Services →
+        </a>
+
       </div>
+
     </div>
+
   </div>
+
 </section>
 
 <!-- ========== QUICK LINKS ========== -->
