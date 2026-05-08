@@ -63,6 +63,57 @@
   .card-img-wrap:hover img {
     transform: scale(1.05);
   }
+
+  /* ── MOBILE-ONLY FIXES ── */
+  @media (max-width: 767px) {
+
+    /* 1. HERO — reduce empty space, tighter padding */
+    #home {
+      min-height: 100svh !important;
+      min-height: 100vh !important;
+    }
+    #home > div.relative.z-\[2\] {
+      padding-top: 48px !important;
+      padding-bottom: 48px !important;
+    }
+    #home .max-w-\[620px\] {
+      max-width: 100% !important;
+    }
+
+    /* 2. TESTIMONIALS — tighten section spacing */
+    #testimonials {
+      padding-top: 36px !important;
+      padding-bottom: 36px !important;
+    }
+
+    /* 3. GALLERY — better mobile layout: 1 big + 2x2 grid */
+    #gallery .grid {
+      display: grid !important;
+      grid-template-columns: 1fr 1fr !important;
+      grid-template-rows: auto !important;
+      gap: 4px !important;
+    }
+    /* First cell (big featured) spans full width */
+    #gallery .grid > div:first-child {
+      grid-column: 1 / -1 !important;
+      height: 220px !important;
+    }
+    /* Remaining cells equal height */
+    #gallery .grid > div:not(:first-child) {
+      height: 150px !important;
+      col-span: unset !important;
+      row-span: unset !important;
+    }
+
+    /* 4. TEAM — fix portrait image height & face positioning on mobile */
+    #team .grid > div > div:first-child {
+      height: 240px !important;
+    }
+    #team .grid > div > div:first-child img {
+      height: 240px !important;
+      object-position: center 15% !important;
+    }
+  }
 </style>
 </head>
 <body class="font-sans text-gray-800 bg-white leading-relaxed">
@@ -124,21 +175,18 @@
 
   <!-- BACKGROUND -->
   <div class="absolute inset-0 z-0">
-
     <!-- Desktop / Tablet -->
     <img 
       src="images/background1.png" 
       alt="Land Survey Background"
       class="hidden md:block w-full h-full object-cover object-center"
     />
-
     <!-- Mobile -->
     <img 
       src="images/mobile-hero.png" 
       alt="Mobile Land Survey Background"
       class="block md:hidden w-full h-full object-cover object-[85%_center]"
     />
-
   </div>
 
   <!-- OVERLAY -->
@@ -155,128 +203,37 @@
 
   <!-- CONTENT -->
   <div class="relative z-[2] max-w-[1600px] mx-auto w-full px-5 sm:px-7 py-[90px] flex items-center">
-
     <div class="max-w-[620px]">
 
       <!-- TOP TAG -->
-      <p class="text-[0.9rem] sm:text-[1rem]
-          font-bold
-          tracking-normal
-          text-[#0a7a4b]
-          mb-5
-          leading-none">
-
-  Premium Land Survey & Mapping Solutions
-
-</p>
+      <p class="text-[0.9rem] sm:text-[1rem] font-bold tracking-normal text-[#0a7a4b] mb-5 leading-none">
+        Premium Land Survey & Mapping Solutions
+      </p>
 
       <!-- HEADING -->
       <h1 class="text-[2.2rem] sm:text-[2.8rem] md:text-[3.1rem] font-light leading-[1.1] tracking-[-0.02em] mb-5 text-black">
-        <strong class="font-bold">
-          Professional Land Survey
-        </strong>
-        <br>
-        Services Across India
+        <strong class="font-bold">Professional Land Survey</strong>
+        <br>Services Across India
       </h1>
 
       <!-- DESCRIPTION -->
-<p class="text-[1.08rem] sm:text-[1.18rem]
-          text-black
-          leading-[1.7]
-          font-semibold
-          max-w-[560px]
-          mb-7">
+      <p class="text-[1.08rem] sm:text-[1.18rem] text-black leading-[1.7] font-semibold max-w-[560px] mb-7">
+        Boundary mapping, legal documentation, and drone survey
+        for residential, commercial & agricultural properties
+        with certified professional accuracy.
+      </p>
 
-  Boundary mapping, legal documentation, and drone survey
-  for residential, commercial & agricultural properties
-  with certified professional accuracy.
-
-</p>
-
-<!-- TAGS -->
-<div class="flex flex-wrap gap-3 mb-8">
-
-  <span class="px-4 py-2
-               bg-white/75
-               backdrop-blur-sm
-               border border-black/8
-               rounded-full
-               text-[0.82rem]
-               font-semibold
-               tracking-[0.01em]
-               text-black
-               shadow-[0_3px_10px_rgba(0,0,0,0.08)]">
-
-    Residential
-
-  </span>
-
-  <span class="px-4 py-2
-               bg-white/75
-               backdrop-blur-sm
-               border border-black/8
-               rounded-full
-               text-[0.82rem]
-               font-semibold
-               tracking-[0.01em]
-               text-black
-               shadow-[0_3px_10px_rgba(0,0,0,0.08)]">
-
-    Commercial
-
-  </span>
-
-  <span class="px-4 py-2
-               bg-white/75
-               backdrop-blur-sm
-               border border-black/8
-               rounded-full
-               text-[0.82rem]
-               font-semibold
-               tracking-[0.01em]
-               text-black
-               shadow-[0_3px_10px_rgba(0,0,0,0.08)]">
-
-    Agricultural
-
-  </span>
-
-  <span class="px-4 py-2
-               bg-white/75
-               backdrop-blur-sm
-               border border-black/8
-               rounded-full
-               text-[0.82rem]
-               font-semibold
-               tracking-[0.01em]
-               text-black
-               shadow-[0_3px_10px_rgba(0,0,0,0.08)]">
-
-    Legal Docs
-
-  </span>
-
-  <span class="px-4 py-2
-               bg-white/75
-               backdrop-blur-sm
-               border border-black/8
-               rounded-full
-               text-[0.82rem]
-               font-semibold
-               tracking-[0.01em]
-               text-black
-               shadow-[0_3px_10px_rgba(0,0,0,0.08)]">
-
-    Drone Mapping
-
-  </span>
-
-</div>
+      <!-- TAGS -->
+      <div class="flex flex-wrap gap-3 mb-8">
+        <span class="px-4 py-2 bg-white/75 backdrop-blur-sm border border-black/8 rounded-full text-[0.82rem] font-semibold tracking-[0.01em] text-black shadow-[0_3px_10px_rgba(0,0,0,0.08)]">Residential</span>
+        <span class="px-4 py-2 bg-white/75 backdrop-blur-sm border border-black/8 rounded-full text-[0.82rem] font-semibold tracking-[0.01em] text-black shadow-[0_3px_10px_rgba(0,0,0,0.08)]">Commercial</span>
+        <span class="px-4 py-2 bg-white/75 backdrop-blur-sm border border-black/8 rounded-full text-[0.82rem] font-semibold tracking-[0.01em] text-black shadow-[0_3px_10px_rgba(0,0,0,0.08)]">Agricultural</span>
+        <span class="px-4 py-2 bg-white/75 backdrop-blur-sm border border-black/8 rounded-full text-[0.82rem] font-semibold tracking-[0.01em] text-black shadow-[0_3px_10px_rgba(0,0,0,0.08)]">Legal Docs</span>
+        <span class="px-4 py-2 bg-white/75 backdrop-blur-sm border border-black/8 rounded-full text-[0.82rem] font-semibold tracking-[0.01em] text-black shadow-[0_3px_10px_rgba(0,0,0,0.08)]">Drone Mapping</span>
+      </div>
 
       <!-- BUTTONS -->
       <div class="flex flex-wrap gap-3">
-
-        <!-- WhatsApp Button -->
         <a 
           href="https://wa.me/918881312501"
           target="_blank"
@@ -284,21 +241,16 @@
         >
           💬 Book Free Inspection
         </a>
-
-        <!-- Services Button -->
         <a 
           href="#services"
           class="inline-flex items-center justify-center gap-2 bg-white/35 backdrop-blur-md text-black px-6 sm:px-7 py-3 text-[0.92rem] font-semibold border border-black/20 rounded-md hover:bg-white/55 transition-all duration-300 no-underline"
         >
           View Services →
         </a>
-
       </div>
 
     </div>
-
   </div>
-
 </section>
 
 <!-- ========== QUICK LINKS ========== -->
@@ -333,131 +285,68 @@
 
 <!-- ========== ABOUT ========== -->
 <section id="about" class="bg-white py-12 md:py-16 px-4 sm:px-6">
-
   <div class="max-w-[1600px] mx-auto">
-
     <div class="grid grid-cols-1 md:grid-cols-2 rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
 
       <!-- IMAGE SECTION -->
       <div class="relative bg-[#0a1f10]">
-
         <!-- Desktop Image -->
         <img
-          src="images/about-us.png"
+          src="images/mobile2-about.png"
           alt="360 Survey"
           class="hidden md:block w-full h-full object-cover object-[35%_center] opacity-90"
         />
-
         <!-- Mobile Image -->
         <img
-          src="images/mobile-about.png"
+          src="images/mobile3-about.jpeg"
           alt="360 Survey Mobile"
           class="block md:hidden w-full h-[420px] object-cover object-center"
         />
-
       </div>
 
       <!-- CONTENT -->
       <div class="flex flex-col justify-center bg-white p-6 sm:p-8 md:p-12">
-
-        <!-- SMALL TITLE -->
-        <p class="text-[11px] sm:text-xs tracking-[0.18em] uppercase text-green-700 font-semibold mb-3">
-          Who We Are
-        </p>
-
-        <!-- HEADING -->
+        <p class="text-[11px] sm:text-xs tracking-[0.18em] uppercase text-green-700 font-semibold mb-3">Who We Are</p>
         <h2 class="text-[1.8rem] sm:text-[2.2rem] md:text-[2.5rem] leading-[1.15] font-light text-gray-900 tracking-[-0.02em]">
-          Bringing
-          <span class="font-bold text-black">
-            Precision, Trust
-          </span>
-          <br />
-          and Clarity to Every Plot
+          Bringing <span class="font-bold text-black">Precision, Trust</span><br />and Clarity to Every Plot
         </h2>
-
-        <!-- LINE -->
         <div class="w-14 h-[2px] bg-green-700 mt-5 mb-8 rounded-full"></div>
-
-        <!-- PARAGRAPHS -->
         <p class="text-[15px] leading-[1.9] text-gray-600 mb-4">
-          Welcome to
-          <strong>360° Survey</strong>
-          — your trusted partner for land surveys, boundary mapping,
-          topographic studies, and legal documentation across India.
+          Welcome to <strong>360° Survey</strong> — your trusted partner for land surveys, boundary mapping, topographic studies, and legal documentation across India.
         </p>
-
         <p class="text-[15px] leading-[1.9] text-gray-600 mb-4">
-          We don't just measure land — we bring clarity with modern GPS,
-          drone, and GIS technology, backed by certified surveyors with
-          decades of field experience.
+          We don't just measure land — we bring clarity with modern GPS, drone, and GIS technology, backed by certified surveyors with decades of field experience.
         </p>
-
         <p class="text-[15px] leading-[1.9] text-gray-600">
-          Our mission: make your land boundaries crystal clear,
-          legally secure, and perfectly documented.
+          Our mission: make your land boundaries crystal clear, legally secure, and perfectly documented.
         </p>
-
-        <!-- QUOTE -->
         <div class="mt-7 border-l-4 border-green-700 bg-green-50 px-5 py-4 rounded-r-xl">
-
           <p class="text-sm italic text-green-900 leading-relaxed">
-            "Every plot deserves accurate measurement,
-            legal clarity, and a professional touch."
+            "Every plot deserves accurate measurement, legal clarity, and a professional touch."
           </p>
-
         </div>
-
-        <!-- STATS -->
         <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-10">
-
-          <!-- ITEM -->
           <div>
-            <h3 class="text-3xl font-bold text-green-700 leading-none">
-              18+
-            </h3>
-            <p class="text-xs text-gray-500 mt-2">
-              Years Experience
-            </p>
+            <h3 class="text-3xl font-bold text-green-700 leading-none">18+</h3>
+            <p class="text-xs text-gray-500 mt-2">Years Experience</p>
           </div>
-
-          <!-- ITEM -->
           <div>
-            <h3 class="text-3xl font-bold text-green-700 leading-none">
-              5000+
-            </h3>
-            <p class="text-xs text-gray-500 mt-2">
-              Surveys Completed
-            </p>
+            <h3 class="text-3xl font-bold text-green-700 leading-none">5000+</h3>
+            <p class="text-xs text-gray-500 mt-2">Surveys Completed</p>
           </div>
-
-          <!-- ITEM -->
           <div>
-            <h3 class="text-3xl font-bold text-green-700 leading-none">
-              28
-            </h3>
-            <p class="text-xs text-gray-500 mt-2">
-              States Covered
-            </p>
+            <h3 class="text-3xl font-bold text-green-700 leading-none">28</h3>
+            <p class="text-xs text-gray-500 mt-2">States Covered</p>
           </div>
-
-          <!-- ITEM -->
           <div>
-            <h3 class="text-3xl font-bold text-green-700 leading-none">
-              99%
-            </h3>
-            <p class="text-xs text-gray-500 mt-2">
-              Client Satisfaction
-            </p>
+            <h3 class="text-3xl font-bold text-green-700 leading-none">99%</h3>
+            <p class="text-xs text-gray-500 mt-2">Client Satisfaction</p>
           </div>
-
         </div>
-
       </div>
 
     </div>
-
   </div>
-
 </section>
 
 <!-- ========== SERVICES ========== -->
@@ -528,7 +417,6 @@
     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
 
       <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
-        <!-- FIXED IMAGE -->
         <div class="card-img-wrap">
           <img src="images/boundary-image.png" alt="Boundary Survey"/>
         </div>
@@ -590,7 +478,7 @@
       <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
         <div style="height:220px; overflow:hidden; background:#e5e7eb;">
           <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Rajesh Verma"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center top; filter:grayscale(20%);"/>
+               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center 15%; filter:grayscale(20%);"/>
         </div>
         <div class="p-5">
           <div class="text-[.95rem] font-bold text-black mb-1">Rajesh Verma</div>
@@ -602,7 +490,7 @@
       <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
         <div style="height:220px; overflow:hidden; background:#e5e7eb;">
           <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="Sunil Gupta"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center top; filter:grayscale(20%);"/>
+               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center 15%; filter:grayscale(20%);"/>
         </div>
         <div class="p-5">
           <div class="text-[.95rem] font-bold text-black mb-1">Sunil Gupta</div>
@@ -614,7 +502,7 @@
       <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
         <div style="height:220px; overflow:hidden; background:#e5e7eb;">
           <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" alt="Anil Sharma"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center top; filter:grayscale(20%);"/>
+               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center 15%; filter:grayscale(20%);"/>
         </div>
         <div class="p-5">
           <div class="text-[.95rem] font-bold text-black mb-1">Anil Sharma</div>
@@ -626,7 +514,7 @@
       <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
         <div style="height:220px; overflow:hidden; background:#e5e7eb;">
           <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Deepak Singh"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center top; filter:grayscale(20%);"/>
+               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center 15%; filter:grayscale(20%);"/>
         </div>
         <div class="p-5">
           <div class="text-[.95rem] font-bold text-black mb-1">Deepak Singh</div>
@@ -693,68 +581,48 @@
       Your source for survey tips, land law updates, and property insights from certified experts.
     </p>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-
-      <!-- CARD 1 -->
       <div class="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
-        <!-- FIXED IMAGE -->
         <div class="card-img-wrap">
           <img src="images/gps-cost.png" alt="GPS Survey Cost"/>
         </div>
         <div class="p-6 flex flex-col flex-1">
           <div class="text-[.72rem] text-gray-400 mb-2">Jan 24, 2026</div>
-          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">
-            GPS Survey Cost in Maharashtra – 2026 Expert Guide
-          </h3>
-          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">
-            Complete 2026 guide on GPS land survey costs in Maharashtra for agricultural plots, residential sites, and commercial properties.
-          </p>
+          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">GPS Survey Cost in Maharashtra – 2026 Expert Guide</h3>
+          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">Complete 2026 guide on GPS land survey costs in Maharashtra for agricultural plots, residential sites, and commercial properties.</p>
           <div class="flex justify-between items-center mt-auto">
             <a href="#" class="text-accent text-[.8rem] font-semibold no-underline hover:underline">Read More →</a>
             <span class="text-[.72rem] text-gray-400">8 min read</span>
           </div>
         </div>
       </div>
-
-      <!-- CARD 2 -->
       <div class="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
         <div class="card-img-wrap">
           <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=700&q=80" alt="Drone Survey Farms"/>
         </div>
         <div class="p-6 flex flex-col flex-1">
           <div class="text-[.72rem] text-gray-400 mb-2">Jan 24, 2026</div>
-          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">
-            Drone Survey for Farms – Complete Expert Guide (Maharashtra)
-          </h3>
-          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">
-            Expert guide on drone-based agricultural surveys covering area measurement, crop health mapping, and legal documentation.
-          </p>
+          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">Drone Survey for Farms – Complete Expert Guide (Maharashtra)</h3>
+          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">Expert guide on drone-based agricultural surveys covering area measurement, crop health mapping, and legal documentation.</p>
           <div class="flex justify-between items-center mt-auto">
             <a href="#" class="text-accent text-[.8rem] font-semibold no-underline hover:underline">Read More →</a>
             <span class="text-[.72rem] text-gray-400">6 min read</span>
           </div>
         </div>
       </div>
-
-      <!-- CARD 3 -->
       <div class="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
         <div class="card-img-wrap">
           <img src="images/legal-survey.jpeg" alt="Land Boundary Dispute"/>
         </div>
         <div class="p-6 flex flex-col flex-1">
           <div class="text-[.72rem] text-gray-400 mb-2">Jan 24, 2026</div>
-          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">
-            Land Boundary Dispute Resolution – Legal Survey Guide 2026
-          </h3>
-          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">
-            Expert guide on resolving land boundary disputes using certified GPS survey reports in India — court procedure and documentation.
-          </p>
+          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">Land Boundary Dispute Resolution – Legal Survey Guide 2026</h3>
+          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">Expert guide on resolving land boundary disputes using certified GPS survey reports in India — court procedure and documentation.</p>
           <div class="flex justify-between items-center mt-auto">
             <a href="#" class="text-accent text-[.8rem] font-semibold no-underline hover:underline">Read More →</a>
             <span class="text-[.72rem] text-gray-400">5 min read · 2 comments</span>
           </div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
@@ -765,6 +633,7 @@
     <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">Portfolio</p>
     <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2">Our Work in the <strong class="font-bold">Field</strong></h2>
     <div class="w-12 h-0.5 bg-accent my-3 mb-9"></div>
+    <!-- Desktop: original mosaic grid | Mobile: overridden by CSS above -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-1 rounded-lg overflow-hidden" style="grid-template-rows: repeat(2, 200px)">
       <div class="relative overflow-hidden bg-gray-100 col-span-2 row-span-2 md:col-span-2 md:row-span-2 h-[200px] md:h-auto">
         <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Survey field work"
