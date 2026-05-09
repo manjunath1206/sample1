@@ -144,8 +144,8 @@
     </div>
 
     <div class="hidden md:flex items-center gap-1.5 ml-auto flex-shrink-0">
-      <a href="tel:+917738483202" class="inline-flex items-center gap-1.5 px-4 py-[7px] text-[.8rem] font-semibold rounded-[2px] border border-gray-200 text-gray-800 hover:bg-gray-50 transition-colors">📞 Call</a>
-      <a href="https://wa.me/918881312501" class="inline-flex items-center gap-1.5 px-4 py-[7px] text-[.8rem] font-semibold rounded-[2px] bg-accent text-white hover:bg-accent-light transition-colors">💬 WhatsApp</a>
+      <a href="tel:+917738483202" class="inline-flex items-center gap-1.5 px-4 py-[7px] text-[.8rem] font-semibold rounded-[20px] border border-gray-200 text-gray-800 hover:bg-gray-50 transition-colors">📞 Call</a>
+      <a href="https://wa.me/918881312501" class="inline-flex items-center gap-1.5 px-4 py-[7px] text-[.8rem] font-semibold rounded-[20px] bg-accent text-white hover:bg-accent-light transition-colors">💬 WhatsApp</a>
     </div>
 
     <button id="hamburger" class="md:hidden flex items-center justify-center ml-auto p-1.5 text-gray-800 bg-transparent border-none cursor-pointer">
@@ -166,7 +166,7 @@
     <a href="#blog"     class="px-5 py-3.5 text-[.9rem] text-gray-800 border-b border-gray-100 hover:bg-accent-muted hover:text-accent transition-colors">Blog</a>
     <a href="#gallery"  class="px-5 py-3.5 text-[.9rem] text-gray-800 border-b border-gray-100 hover:bg-accent-muted hover:text-accent transition-colors">Gallery</a>
     <a href="#contact"  class="px-5 py-3.5 text-[.9rem] text-gray-800 border-b border-gray-100 hover:bg-accent-muted hover:text-accent transition-colors">Contact</a>
-    <a href="https://wa.me/918881312501" class="mx-5 my-4 flex items-center justify-center gap-2 bg-accent text-white py-3 font-bold rounded-[2px]">💬 WhatsApp Us</a>
+    <a href="https://wa.me/918881312501" class="mx-5 my-4 flex items-center justify-center gap-2 bg-accent text-white py-3 font-bold rounded-[20px]">💬 WhatsApp Us</a>
   </div>
 </nav>
 
@@ -175,18 +175,21 @@
 
   <!-- BACKGROUND -->
   <div class="absolute inset-0 z-0">
-    <!-- Desktop / Tablet -->
+
+    <!-- Desktop -->
     <img 
       src="images/background1.png" 
       alt="Land Survey Background"
       class="hidden md:block w-full h-full object-cover object-center"
     />
+
     <!-- Mobile -->
     <img 
       src="images/mobile-hero.png" 
       alt="Mobile Land Survey Background"
       class="block md:hidden w-full h-full object-cover object-[85%_center]"
     />
+
   </div>
 
   <!-- OVERLAY -->
@@ -194,63 +197,149 @@
     class="absolute inset-0 z-[1]"
     style="background: linear-gradient(
       to right,
-      rgba(255,255,255,0.94) 0%,
-      rgba(255,255,255,0.82) 35%,
-      rgba(255,255,255,0.40) 65%,
+      rgba(255,255,255,0.96) 0%,
+      rgba(255,255,255,0.88) 35%,
+      rgba(255,255,255,0.45) 68%,
       rgba(255,255,255,0.08) 100%
     );">
   </div>
 
   <!-- CONTENT -->
-  <div class="relative z-[2] max-w-[1600px] mx-auto w-full px-5 sm:px-7 py-[90px] flex items-center">
-    <div class="max-w-[620px]">
+  <div class="relative z-[2] max-w-[1600px] mx-auto w-full px-5 sm:px-7 lg:px-12 py-[90px] flex items-center">
+
+    <div class="max-w-[700px]">
 
       <!-- TOP TAG -->
-      <p class="text-[0.9rem] sm:text-[1rem] font-bold tracking-normal text-[#0a7a4b] mb-5 leading-none">
-        Premium Land Survey & Mapping Solutions
-      </p>
+      <div class="inline-flex items-center gap-2 bg-[#0a7a4b]/10 border border-[#0a7a4b]/15 px-4 py-2 rounded-full mb-6">
+
+        <div class="w-2 h-2 rounded-full bg-[#0a7a4b]"></div>
+
+        <p class="text-[0.72rem] sm:text-[0.82rem] font-extrabold tracking-[0.18em] uppercase text-[#0a7a4b] leading-none">
+          Premium Land Survey & Mapping Solutions
+        </p>
+
+      </div>
 
       <!-- HEADING -->
-      <h1 class="text-[2.2rem] sm:text-[2.8rem] md:text-[3.1rem] font-light leading-[1.1] tracking-[-0.02em] mb-5 text-black">
-        <strong class="font-bold">Professional Land Survey</strong>
-        <br>Services Across India
+      <h1 class="leading-[0.95] tracking-[-0.05em] mb-5 text-black">
+
+        <!-- FIRST LINE -->
+        <span class="block text-[2.7rem] sm:text-[4rem] md:text-[5rem] font-black">
+
+          Professional
+
+          <span class="text-[#0a7a4b]">
+            Land Survey
+          </span>
+
+        </span>
+
+        <!-- SECOND LINE -->
+        <span class="block text-[2rem] sm:text-[2.9rem] md:text-[3.4rem] font-extrabold text-black/90">
+          Services Across India
+        </span>
+
       </h1>
 
       <!-- DESCRIPTION -->
-      <p class="text-[1.08rem] sm:text-[1.18rem] text-black leading-[1.7] font-semibold max-w-[560px] mb-7">
-        Boundary mapping, legal documentation, and drone survey
-        for residential, commercial & agricultural properties
-        with certified professional accuracy.
-      </p>
+      <!-- <p class="text-[1rem] sm:text-[1.08rem] md:text-[1.12rem] 
+      text-black/75 leading-[1.9] font-medium max-w-[620px] mb-8">
+
+        Accurate boundary mapping, legal documentation, and 
+        <span class="font-bold text-[#0a7a4b]">
+          advanced drone survey
+        </span>
+        solutions for residential, commercial, and agricultural
+        properties.
+
+      </p> -->
+
+      <!-- 24/7 CARD -->
+      <div class="relative inline-block bg-white/92 backdrop-blur-md rounded-[20px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden border border-black/5 mb-9">
+
+        <div class="flex items-center">
+
+          <!-- LEFT -->
+          <div class="bg-[#0a7a4b] px-5 py-5 text-white">
+
+            <p class="text-[0.72rem] uppercase tracking-[0.12em] font-bold mb-1">
+              Trusted Survey
+            </p>
+
+            <h3 class="text-[3rem] leading-none font-black">
+              24/7
+            </h3>
+
+          </div>
+
+          <!-- RIGHT -->
+          <div class="px-5 py-4">
+
+            <h4 class="text-[2rem] sm:text-[2.3rem] leading-none font-black text-black mb-1">
+              Support
+            </h4>
+
+            <p class="text-[0.8rem] text-black/60 font-semibold">
+              Fast Response & Expert Assistance
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
 
       <!-- TAGS -->
-      <div class="flex flex-wrap gap-3 mb-8">
-        <span class="px-4 py-2 bg-white/75 backdrop-blur-sm border border-black/8 rounded-full text-[0.82rem] font-semibold tracking-[0.01em] text-black shadow-[0_3px_10px_rgba(0,0,0,0.08)]">Residential</span>
-        <span class="px-4 py-2 bg-white/75 backdrop-blur-sm border border-black/8 rounded-full text-[0.82rem] font-semibold tracking-[0.01em] text-black shadow-[0_3px_10px_rgba(0,0,0,0.08)]">Commercial</span>
-        <span class="px-4 py-2 bg-white/75 backdrop-blur-sm border border-black/8 rounded-full text-[0.82rem] font-semibold tracking-[0.01em] text-black shadow-[0_3px_10px_rgba(0,0,0,0.08)]">Agricultural</span>
-        <span class="px-4 py-2 bg-white/75 backdrop-blur-sm border border-black/8 rounded-full text-[0.82rem] font-semibold tracking-[0.01em] text-black shadow-[0_3px_10px_rgba(0,0,0,0.08)]">Legal Docs</span>
-        <span class="px-4 py-2 bg-white/75 backdrop-blur-sm border border-black/8 rounded-full text-[0.82rem] font-semibold tracking-[0.01em] text-black shadow-[0_3px_10px_rgba(0,0,0,0.08)]">Drone Mapping</span>
+      <div class="flex flex-wrap gap-3 mb-9">
+
+        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">
+          Residential
+        </span>
+
+        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">
+          Commercial
+        </span>
+
+        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">
+          Agricultural
+        </span>
+
+        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">
+          Legal Docs
+        </span>
+
+        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">
+          Drone Mapping
+        </span>
+
       </div>
 
       <!-- BUTTONS -->
-      <div class="flex flex-wrap gap-3">
+      <div class="flex flex-wrap gap-4">
+
+        <!-- PRIMARY BUTTON -->
         <a 
           href="https://wa.me/918881312501"
           target="_blank"
-          class="inline-flex items-center justify-center gap-2 bg-[#0a7a4b] hover:bg-[#08663f] text-white px-6 sm:px-7 py-3 text-[0.92rem] font-bold rounded-md shadow-lg hover:shadow-xl transition-all duration-300 hover:-translate-y-[2px] no-underline"
+          class="inline-flex items-center justify-center gap-2 bg-[#0a7a4b] hover:bg-[#08663f] text-white px-7 sm:px-8 py-3.5 text-[0.95rem] font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-[2px] no-underline"
         >
           💬 Book Free Inspection
         </a>
+
+        <!-- SECONDARY BUTTON -->
         <a 
           href="#services"
-          class="inline-flex items-center justify-center gap-2 bg-white/35 backdrop-blur-md text-black px-6 sm:px-7 py-3 text-[0.92rem] font-semibold border border-black/20 rounded-md hover:bg-white/55 transition-all duration-300 no-underline"
+          class="inline-flex items-center justify-center gap-2 bg-white/75 backdrop-blur-md text-black px-7 sm:px-8 py-3.5 text-[0.95rem] font-semibold border border-black/10 rounded-xl hover:bg-white transition-all duration-300 no-underline"
         >
           View Services →
         </a>
+
       </div>
 
     </div>
+
   </div>
+
 </section>
 
 <!-- ========== QUICK LINKS ========== -->
@@ -339,7 +428,7 @@
             <p class="text-xs text-gray-500 mt-2">States Covered</p>
           </div>
           <div>
-            <h3 class="text-3xl font-bold text-green-700 leading-none">99%</h3>
+            <h3 class="text-3xl font-bold text-green-700 leading-none">99%</h3> 
             <p class="text-xs text-gray-500 mt-2">Client Satisfaction</p>
           </div>
         </div> -->
@@ -628,30 +717,30 @@
 </section>
 
 <!-- ========== GALLERY ========== -->
-<section id="gallery" class="bg-white py-16 px-6">
+<section id="gallery" class="bg-white py-16 px-6">`    
   <div class="max-w-[1600px] mx-auto">
     <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">Portfolio</p>
     <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2">Our Work in the <strong class="font-bold">Field</strong></h2>
     <div class="w-12 h-0.5 bg-accent my-3 mb-9"></div>
     <!-- Desktop: original mosaic grid | Mobile: overridden by CSS above -->
     <div class="grid grid-cols-2 md:grid-cols-4 gap-1 rounded-lg overflow-hidden" style="grid-template-rows: repeat(2, 200px)">
-      <div class="relative overflow-hidden bg-gray-100 col-span-2 row-span-2 md:col-span-2 md:row-span-2 h-[200px] md:h-auto">
+      <div class="relative overflow-hidden bg-gray-100 col-span-2 row-span-2 md:col-span-2 md:row-span-2 h-[200px] md:h-auto rounded-[20px]">
         <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Survey field work"
              class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-300 hover:scale-105 hover:opacity-[.88]"/>
       </div>
-      <div class="relative overflow-hidden bg-gray-100 h-[200px]">
+      <div class="relative  overflow-hidden bg-gray-100 h-[200px] rounded-[20px]">
         <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500&q=80" alt="Drone survey"
              class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-300 hover:scale-105 hover:opacity-[.88]"/>
       </div>
-      <div class="relative overflow-hidden bg-gray-100 h-[200px]">
+      <div class="relative overflow-hidden bg-gray-100 h-[200px] rounded-[20px]">
         <img src="https://images.unsplash.com/photo-1580901368919-7738efb0f87e?w=500&q=80" alt="GPS equipment"
              class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-300 hover:scale-105 hover:opacity-[.88]"/>
       </div>
-      <div class="relative overflow-hidden bg-gray-100 h-[200px]">
+      <div class="relative overflow-hidden bg-gray-100 h-[200px] rounded-[20px]">
         <img src="https://images.unsplash.com/photo-1606765962248-7ff407b51667?w=500&q=80" alt="Survey mapping"
              class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-300 hover:scale-105 hover:opacity-[.88]"/>
       </div>
-      <div class="relative overflow-hidden bg-gray-100 h-[200px]">
+      <div class="relative overflow-hidden bg-gray-100 h-[200px] rounded-[20px]">
         <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=500&q=80" alt="Agricultural survey"
              class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-300 hover:scale-105 hover:opacity-[.88]"/>
       </div>
@@ -736,8 +825,8 @@
         </div>
       </div>
       <div class="flex flex-wrap gap-3 mt-4">
-        <button class="flex-1 min-w-[140px] bg-black text-white py-3 px-5 text-[.88rem] font-bold border-none rounded-[2px] cursor-pointer hover:opacity-85 transition-opacity">💬 Book Free Inspection</button>
-        <button class="flex-1 min-w-[140px] bg-white text-black py-3 px-5 text-[.88rem] font-semibold border border-gray-300 rounded-[2px] cursor-pointer hover:bg-gray-50 transition-colors">📞 Request Callback</button>
+        <button class="flex-1 min-w-[140px] bg-black text-white py-3 px-5 text-[.88rem] font-bold border-none rounded-[20px] cursor-pointer hover:opacity-85 transition-opacity">💬 Book Free Inspection</button>
+        <button class="flex-1 min-w-[140px] bg-white text-black py-3 px-5 text-[.88rem] font-semibold border border-gray-300 rounded-[20px] cursor-pointer hover:bg-gray-50 transition-colors">📞 Request Callback</button>
       </div>
     </div>
   </div>
@@ -843,4 +932,4 @@
   sections.forEach(s => observer.observe(s));
 </script>
 </body>
-</html>
+</html> 
