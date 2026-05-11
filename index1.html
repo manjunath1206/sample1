@@ -16,8 +16,6 @@
           'accent-dark': '#145e2d',
           'accent-muted': '#e8f5ee',
           'accent-border': '#a8d5bb',
-          green: '#128c3a',
-          'green-light': '#0fa832',
         },
         fontFamily: {
           sans: ["'Segoe UI'", 'system-ui', 'sans-serif'],
@@ -28,135 +26,184 @@
 </script>
 <style>
   html { scroll-behavior: smooth; }
+
   .nav-link.active { color: #1a7a3c; border-bottom-color: #1a7a3c; }
   .nav-link { border-bottom: 2px solid transparent; transition: border-color .15s, color .15s; }
   .nav-link:hover { color: #1a7a3c; border-bottom-color: #1a7a3c; }
   .svc-link::after { content: '→'; }
-  .svc-link { transition: gap .15s; }
   .art-read::after { content: ' →'; }
-  .blog-read::after { content: ' →'; }
-  .wa-float:hover { transform: translateY(-2px); box-shadow: 0 6px 24px rgba(37,211,102,.5); }
-  .stat-num { text-shadow: 0 2px 0 rgba(0,0,0,0.1), 0 4px 10px rgba(0,0,0,0.2); }
-  .section-title { text-shadow: 0 1px 0 #fff, 0 2px 0 #e6e6e6, 0 3px 0 #dcdcdc, 0 4px 0 #cfcfcf, 0 6px 12px rgba(0,0,0,0.15); }
   .mobile-menu { display: none; }
   .mobile-menu.open { display: flex; }
 
-  /* ── ARTICLE & BLOG IMAGE FIX ── */
   .card-img-wrap {
-    position: relative;
-    width: 100%;
-    height: 200px;
-    overflow: hidden;
-    background: #e5e7eb;
-    flex-shrink: 0;
+    position: relative; width: 100%; height: 200px;
+    overflow: hidden; background: #e5e7eb; flex-shrink: 0;
   }
   .card-img-wrap img {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    object-fit: cover;
-    object-position: center;
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    display: block; object-fit: cover; object-position: center;
     transition: transform .3s ease;
   }
-  .card-img-wrap:hover img {
-    transform: scale(1.05);
+  .card-img-wrap:hover img { transform: scale(1.05); }
+
+  /* ── SCROLL PROGRESS ── */
+  #progress-bar {
+    position:fixed; top:60px; left:0; height:3px; width:0%;
+    background: linear-gradient(90deg,#1a7a3c,#22a050,#0fa832);
+    z-index:9998; transition: width 0.1s linear;
   }
 
-  /* ── MOBILE-ONLY FIXES ── */
-  @media (max-width: 767px) {
+  /* ── REVEAL ANIMATIONS ── */
+  .reveal { opacity:0; transform:translateY(28px); transition:opacity 0.6s cubic-bezier(.22,1,.36,1),transform 0.6s cubic-bezier(.22,1,.36,1); }
+  .reveal.visible { opacity:1; transform:none; }
 
-    /* 1. HERO — reduce empty space, tighter padding */
-    #home {
-      min-height: 80svh !important;
-      min-height: 70vh
-    }
-    #home > div.relative.z-\[2\] {
-      padding-top: 48px !important;
-      padding-bottom: 48px !important;
-    }
-    #home .max-w-\[620px\] {
-      max-width: 100% !important;
-    }
+  .reveal-left { opacity:0; transform:translateX(-40px); transition:opacity 0.65s cubic-bezier(.22,1,.36,1),transform 0.65s cubic-bezier(.22,1,.36,1); }
+  .reveal-left.visible { opacity:1; transform:none; }
 
-    /* 2. TESTIMONIALS — tighten section spacing */
-    #testimonials {
-      padding-top: 36px !important;
-      padding-bottom: 36px !important;
-    }
+  .reveal-right { opacity:0; transform:translateX(40px); transition:opacity 0.65s cubic-bezier(.22,1,.36,1),transform 0.65s cubic-bezier(.22,1,.36,1); }
+  .reveal-right.visible { opacity:1; transform:none; }
 
-    /* 3. GALLERY — better mobile layout: 1 big + 2x2 grid */
-    #gallery .grid {
-      display: grid !important;
-      grid-template-columns: 1fr 1fr !important;
-      grid-template-rows: auto !important;
-      gap: 4px !important;
-    }
-    /* First cell (big featured) spans full width */
-    #gallery .grid > div:first-child {
-      grid-column: 1 / -1 !important;
-      height: 220px !important;
-    }
-    /* Remaining cells equal height */
-    #gallery .grid > div:not(:first-child) {
-      height: 150px !important;
-      col-span: unset !important;
-      row-span: unset !important;
-    }
+  .reveal-stagger > * { opacity:0; transform:translateY(28px); transition:opacity 0.55s cubic-bezier(.22,1,.36,1),transform 0.55s cubic-bezier(.22,1,.36,1); }
+  .reveal-stagger.visible > *:nth-child(1) { transition-delay:0.00s; opacity:1; transform:none; }
+  .reveal-stagger.visible > *:nth-child(2) { transition-delay:0.07s; opacity:1; transform:none; }
+  .reveal-stagger.visible > *:nth-child(3) { transition-delay:0.14s; opacity:1; transform:none; }
+  .reveal-stagger.visible > *:nth-child(4) { transition-delay:0.21s; opacity:1; transform:none; }
+  .reveal-stagger.visible > *:nth-child(5) { transition-delay:0.28s; opacity:1; transform:none; }
+  .reveal-stagger.visible > *:nth-child(6) { transition-delay:0.35s; opacity:1; transform:none; }
+  .reveal-stagger.visible > *:nth-child(7) { transition-delay:0.42s; opacity:1; transform:none; }
+  .reveal-stagger.visible > *:nth-child(8) { transition-delay:0.49s; opacity:1; transform:none; }
 
-    /* 4. TEAM — fix portrait image height & face positioning on mobile */
-    #team .grid > div > div:first-child {
-      height: 240px !important;
-    }
-    #team .grid > div > div:first-child img {
-      height: 240px !important;
-      object-position: center 15% !important;
-    }
+  /* ── HERO ── */
+  @keyframes heroBg   { from{opacity:0;transform:scale(1.04)} to{opacity:1;transform:scale(1)} }
+  @keyframes heroTag  { from{opacity:0;transform:translateY(-12px)} to{opacity:1;transform:none} }
+  @keyframes heroH1   { from{opacity:0;transform:translateY(20px)} to{opacity:1;transform:none} }
+  @keyframes heroCard { from{opacity:0;transform:translateX(-20px)} to{opacity:1;transform:none} }
+  @keyframes heroBtns { from{opacity:0;transform:translateY(16px)} to{opacity:1;transform:none} }
+  @keyframes navSlide { from{opacity:0;transform:translateY(-100%)} to{opacity:1;transform:none} }
+  @keyframes pulse    { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.6);opacity:.5} }
+  @keyframes waBounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+  nav { animation: navSlide 0.55s cubic-bezier(.22,1,.36,1) both; }
+  .hero-bg   { animation: heroBg   1.1s cubic-bezier(.22,1,.36,1) both; }
+  .hero-tag  { animation: heroTag  0.6s 0.2s cubic-bezier(.22,1,.36,1) both; }
+  .hero-h1   { animation: heroH1   0.7s 0.38s cubic-bezier(.22,1,.36,1) both; }
+  .hero-card { animation: heroCard 0.65s 0.55s cubic-bezier(.22,1,.36,1) both; }
+  .hero-tags { animation: heroBtns 0.6s 0.68s cubic-bezier(.22,1,.36,1) both; }
+  .hero-btns { animation: heroBtns 0.6s 0.82s cubic-bezier(.22,1,.36,1) both; }
+  .pulse-dot { animation: pulse 2s ease-in-out infinite; }
+  .wa-float  { animation: waBounce 3s ease-in-out infinite; }
+  .wa-float:hover { animation:none; transform:translateY(-2px); box-shadow:0 6px 24px rgba(37,211,102,.5); }
+
+  /* ── CARDS ── */
+  .svc-card { transition:transform 0.25s cubic-bezier(.22,1,.36,1),box-shadow 0.25s ease,background 0.2s; }
+  .svc-card:hover { transform:translateY(-5px) scale(1.012); box-shadow:0 12px 32px rgba(26,122,60,.13); background:#e8f5ee; }
+  .svc-card:hover .svc-icon { transform:scale(1.15) rotate(-6deg); }
+  .svc-icon { transition:transform 0.3s cubic-bezier(.22,1,.36,1); display:flex; align-items:center; justify-content:center; }
+
+  .test-card { transition:transform 0.25s cubic-bezier(.22,1,.36,1),box-shadow 0.25s ease; }
+  .test-card:hover { transform:translateY(-4px); box-shadow:0 10px 28px rgba(0,0,0,.09); }
+
+  .blog-card { transition:transform 0.3s cubic-bezier(.22,1,.36,1),box-shadow 0.3s ease; }
+  .blog-card:hover { transform:translateY(-6px); box-shadow:0 16px 40px rgba(0,0,0,.11); }
+
+  .team-card { transition:transform 0.25s cubic-bezier(.22,1,.36,1),box-shadow 0.25s ease; }
+  .team-card:hover { transform:translateY(-5px); box-shadow:0 14px 36px rgba(26,122,60,.12); }
+  .team-card img { transition:transform 0.35s cubic-bezier(.22,1,.36,1); }
+  .team-card:hover img { transform:scale(1.05); }
+
+  .art-card { transition:transform 0.25s cubic-bezier(.22,1,.36,1),box-shadow 0.25s ease; }
+  .art-card:hover { transform:translateY(-5px); box-shadow:0 12px 32px rgba(0,0,0,.10); }
+
+  .gallery-item img { transition:transform 0.5s cubic-bezier(.22,1,.36,1),opacity 0.3s; }
+  .gallery-item:hover img { transform:scale(1.07); opacity:.88; }
+
+  .contact-item { transition:transform 0.2s ease,box-shadow 0.2s ease; }
+  .contact-item:hover { transform:translateX(5px); box-shadow:3px 0 0 0 #1a7a3c inset; }
+
+  .qlink { transition:background 0.2s,transform 0.2s; }
+  .qlink:hover { transform:translateY(-2px); }
+
+  .btn-ripple { position:relative; overflow:hidden; }
+  .btn-ripple::after { content:''; position:absolute; inset:0; background:rgba(255,255,255,0.18); transform:scaleX(0); transform-origin:left; transition:transform 0.35s ease; }
+  .btn-ripple:hover::after { transform:scaleX(1); }
+
+  input:focus, select:focus, textarea:focus { border-color:#1a7a3c !important; box-shadow:0 0 0 3px rgba(26,122,60,.12); outline:none; }
+
+  /* ── SVG ICON ANIMS ── */
+  .icon-boundary .pin-pulse { transform-origin:50% 100%; animation:pinPulse 2.5s ease-in-out infinite; }
+  @keyframes pinPulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.12) translateY(-2px)} }
+
+  .icon-topo .contour-line { stroke-dasharray:60; stroke-dashoffset:60; animation:drawLine 2s 0.3s ease forwards; }
+  @keyframes drawLine { to{stroke-dashoffset:0} }
+
+  .icon-drone .drone-body { animation:droneFly 3s ease-in-out infinite; transform-origin:center; }
+  @keyframes droneFly { 0%,100%{transform:translateY(0) rotate(0deg)} 25%{transform:translateY(-4px) rotate(-3deg)} 75%{transform:translateY(4px) rotate(3deg)} }
+  .icon-drone .rotor { animation:rotorSpin 0.4s linear infinite; transform-origin:center; }
+  @keyframes rotorSpin { to{transform:rotate(360deg)} }
+
+  .icon-legal .stamp-icon { animation:stampBounce 2.5s cubic-bezier(.22,1,.36,1) infinite; transform-origin:center bottom; }
+  @keyframes stampBounce { 0%,80%,100%{transform:translateY(0) scale(1)} 85%{transform:translateY(-6px) scale(0.9)} 90%{transform:translateY(1px) scale(1.08)} }
+
+  .icon-gps .signal-ring { transform-origin:center; animation:signalPing 2s ease-out infinite; }
+  .icon-gps .signal-ring:nth-child(2){ animation-delay:0.5s; }
+  .icon-gps .signal-ring:nth-child(3){ animation-delay:1s; }
+  @keyframes signalPing { 0%{transform:scale(0.3);opacity:.9} 100%{transform:scale(1.5);opacity:0} }
+
+  .icon-gis .scan-line { animation:scanMove 2s linear infinite; }
+  @keyframes scanMove { 0%{transform:translateY(-14px);opacity:0.8} 100%{transform:translateY(14px);opacity:0.2} }
+
+  .icon-agri .stalk { animation:sway 2.5s ease-in-out infinite; transform-origin:bottom center; }
+  @keyframes sway { 0%,100%{transform:rotate(-4deg)} 50%{transform:rotate(4deg)} }
+
+  .icon-const .gear { animation:gearSpin 4s linear infinite; transform-origin:center; }
+  @keyframes gearSpin { to{transform:rotate(360deg)} }
+
+  /* ── MOBILE ── */
+  @media (max-width:767px) {
+    #home { min-height:80svh !important; }
+    #gallery .grid { display:grid !important; grid-template-columns:1fr 1fr !important; grid-template-rows:auto !important; gap:4px !important; }
+    #gallery .grid > div:first-child { grid-column:1/-1 !important; height:220px !important; }
+    #gallery .grid > div:not(:first-child) { height:150px !important; }
+    #team .grid > div > div:first-child { height:240px !important; }
+    #team .grid > div > div:first-child img { height:240px !important; object-position:center 15% !important; }
   }
 </style>
 </head>
 <body class="font-sans text-gray-800 bg-white leading-relaxed">
 
+<div id="progress-bar"></div>
+
 <!-- ========== NAVBAR ========== -->
 <nav class="fixed top-0 left-0 right-0 z-[9999] bg-white border-b border-gray-100 h-[60px]">
   <div class="max-w-[1600px] mx-auto px-5 h-full flex items-center">
-
     <a href="#home" class="flex items-center pr-4 h-full border-r border-gray-100 flex-shrink-0 no-underline">
-      <img src="images/ldr geo logo.png" alt="360° Survey"
-           class="h-[85px] w-auto max-w-[180px] object-contain block"
+      <img src="images/ldr geo logo.png" alt="360° Survey" class="h-[85px] w-auto max-w-[180px] object-contain block"
            onerror="this.style.display='none';this.nextElementSibling.style.display='flex'"/>
       <span class="hidden items-center gap-2" style="display:none">
-        <span class="w-8 h-8 bg-accent flex items-center justify-center text-white font-black text-[9px] rounded-[3px] flex-shrink-0">360°</span>
+        <span class="w-8 h-8 bg-accent flex items-center justify-center text-white font-black text-[9px] rounded-[3px]">360°</span>
         <span class="text-[.95rem] font-bold text-black">Survey</span>
       </span>
     </a>
-
-    <div class="hidden md:flex h-full ml-3">
-      <a href="#home"     class="nav-link active flex items-center px-3.5 h-full text-sm text-gray-800 whitespace-nowrap">Home</a>
-      <a href="#about"    class="nav-link flex items-center px-3.5 h-full text-sm text-gray-800 whitespace-nowrap">About</a>
-      <a href="#services" class="nav-link flex items-center px-3.5 h-full text-sm text-gray-800 whitespace-nowrap">Services</a>
-      <a href="#articles" class="nav-link flex items-center px-3.5 h-full text-sm text-gray-800 whitespace-nowrap">Articles</a>
-      <a href="#team"     class="nav-link flex items-center px-3.5 h-full text-sm text-gray-800 whitespace-nowrap">Team</a>
-      <a href="#blog"     class="nav-link flex items-center px-3.5 h-full text-sm text-gray-800 whitespace-nowrap">Blog</a>
-      <a href="#gallery"  class="nav-link flex items-center px-3.5 h-full text-sm text-gray-800 whitespace-nowrap">Gallery</a>
-      <a href="#contact"  class="nav-link flex items-center px-3.5 h-full text-sm text-gray-800 whitespace-nowrap">Contact</a>
+    <div class="hidden md:flex h-full ml-auto">
+      <a href="#home"     class="nav-link active flex items-center px-3.5 h-full text-[.95rem] font-semibold text-gray-800 whitespace-nowrap">Home</a>
+      <a href="#about"    class="nav-link flex items-center px-3.5 h-full text-[.95rem] font-semibold text-gray-800 whitespace-nowrap">About</a>
+      <a href="#services" class="nav-link flex items-center px-3.5 h-full text-[.95rem] font-semibold text-gray-800 whitespace-nowrap">Services</a>
+      <a href="#articles" class="nav-link flex items-center px-3.5 h-full text-[.95rem] font-semibold text-gray-800 whitespace-nowrap">Articles</a>
+      <a href="#team"     class="nav-link flex items-center px-3.5 h-full text-[.95rem] font-semibold text-gray-800 whitespace-nowrap">Team</a>
+      <a href="#blog"     class="nav-link flex items-center px-3.5 h-full text-[.95rem] font-semibold text-gray-800 whitespace-nowrap">Blog</a>
+      <a href="#gallery"  class="nav-link flex items-center px-3.5 h-full text-[.95rem] font-semibold text-gray-800 whitespace-nowrap">Gallery</a>
+      <a href="#contact"  class="nav-link flex items-center px-3.5 h-full text-[.95rem] font-semibold text-gray-800 whitespace-nowrap">Contact</a>
     </div>
-
-    <div class="hidden md:flex items-center gap-1.5 ml-auto flex-shrink-0">
+    <div class="hidden md:flex items-center gap-1.5 pl-3 flex-shrink-0">
       <a href="tel:+917738483202" class="inline-flex items-center gap-1.5 px-4 py-[7px] text-[.8rem] font-semibold rounded-[20px] border border-gray-200 text-gray-800 hover:bg-gray-50 transition-colors">📞 Call</a>
-      <a href="https://wa.me/918881312501" class="inline-flex items-center gap-1.5 px-4 py-[7px] text-[.8rem] font-semibold rounded-[20px] bg-accent text-white hover:bg-accent-light transition-colors">💬 WhatsApp</a>
+      <a href="https://wa.me/918881312501" class="btn-ripple inline-flex items-center gap-1.5 px-4 py-[7px] text-[.8rem] font-semibold rounded-[20px] bg-accent text-white hover:bg-accent-light transition-colors">💬 WhatsApp</a>
     </div>
-
-    <button id="hamburger" class="md:hidden flex items-center justify-center ml-auto p-1.5 text-gray-800 bg-transparent border-none cursor-pointer">
-      <svg class="w-5 h-5 fill-current" viewBox="0 0 22 22">
-        <rect y="3" width="22" height="2" rx="1"/>
-        <rect y="10" width="22" height="2" rx="1"/>
-        <rect y="17" width="22" height="2" rx="1"/>
+    <button id="hamburger" class="md:hidden flex items-center justify-center ml-auto p-1.5 bg-transparent border-none cursor-pointer">
+      <svg class="w-5 h-5 fill-current text-gray-800" viewBox="0 0 22 22">
+        <rect y="3" width="22" height="2" rx="1"/><rect y="10" width="22" height="2" rx="1"/><rect y="17" width="22" height="2" rx="1"/>
       </svg>
     </button>
   </div>
-
   <div id="mobile-menu" class="mobile-menu absolute top-[60px] left-0 right-0 bg-white border-b border-gray-100 flex-col z-[9998] shadow-lg">
     <a href="#home"     class="px-5 py-3.5 text-[.9rem] text-gray-800 border-b border-gray-100 hover:bg-accent-muted hover:text-accent transition-colors">Home</a>
     <a href="#about"    class="px-5 py-3.5 text-[.9rem] text-gray-800 border-b border-gray-100 hover:bg-accent-muted hover:text-accent transition-colors">About</a>
@@ -172,444 +219,414 @@
 
 <!-- ========== HERO ========== -->
 <section id="home" class="mt-[60px] relative min-h-[100vh] md:min-h-[85vh] flex items-center overflow-hidden text-black">
-
-  <!-- BACKGROUND -->
-  <div class="absolute inset-0 z-0">
-
-    <!-- Desktop -->
-    <img 
-      src="images/background1.png" 
-      alt="Land Survey Background"
-      class="hidden md:block w-full h-full object-cover object-center"
-    />
-
-    <!-- Mobile -->
-    <img 
-      src="images/mobile-hero.png" 
-      alt="Mobile Land Survey Background"
-      class="block md:hidden w-full h-full object-cover object-[85%_center]"
-    />
-
+  <div class="absolute inset-0 z-0 hero-bg">
+    <img src="images/background1.png" alt="" class="hidden md:block w-full h-full object-cover object-center"/>
+    <img src="images/mobile-hero.png" alt="" class="block md:hidden w-full h-full object-cover object-[85%_center]"/>
   </div>
-
-  <!-- OVERLAY -->
-  <div 
-    class="absolute inset-0 z-[1]"
-    style="background: linear-gradient(
-      to right,
-      rgba(255,255,255,0.96) 0%,
-      rgba(255,255,255,0.88) 35%,
-      rgba(255,255,255,0.45) 68%,
-      rgba(255,255,255,0.08) 100%
-    );">
-  </div>
-
-  <!-- CONTENT -->
-  <div class="relative z-[2] max-w-[1600px] mx-auto w-full px-5 sm:px-7 lg:px-12 py-[90px] flex items-center">
-
+  <div class="absolute inset-0 z-[1]" style="background:linear-gradient(to right,rgba(255,255,255,0.96) 0%,rgba(255,255,255,0.88) 35%,rgba(255,255,255,0.45) 68%,rgba(255,255,255,0.08) 100%);"></div>
+  <div class="relative z-[2] max-w-[1600px] mx-auto w-full px-5 sm:px-7 lg:px-12 py-16 sm:py-20 flex items-center">
     <div class="max-w-[700px]">
-
-      <!-- TOP TAG -->
-      <div class="inline-flex items-center gap-2 bg-[#0a7a4b]/10 border border-[#0a7a4b]/15 px-4 py-2 rounded-full mb-6">
-
-        <div class="w-2 h-2 rounded-full bg-[#0a7a4b]"></div>
-
-        <p class="text-[0.72rem] sm:text-[0.82rem] font-extrabold tracking-[0.18em] uppercase text-[#0a7a4b] leading-none">
-          Premium Land Survey & Mapping Solutions
-        </p>
-
+      <div class="hero-tag inline-flex items-center gap-2 bg-[#0a7a4b]/10 border border-[#0a7a4b]/15 px-4 py-2 rounded-full mb-5">
+        <div class="w-2 h-2 rounded-full bg-[#0a7a4b] pulse-dot flex-shrink-0"></div>
+        <p class="text-[0.72rem] sm:text-[0.82rem] font-extrabold tracking-[0.18em] uppercase text-[#0a7a4b] leading-none">Premium Land Survey & Mapping Solutions</p>
       </div>
-
-      <!-- HEADING -->
-      <h1 class="leading-[0.95] tracking-[-0.05em] mb-5 text-black">
-
-        <!-- FIRST LINE -->
-        <span class="block text-[2.7rem] sm:text-[4rem] md:text-[5rem] font-black">
-
-          Professional
-
-          <span class="text-[#0a7a4b]">
-            Land Survey
-          </span>
-
-        </span>
-
-        <!-- SECOND LINE -->
-        <span class="block text-[2rem] sm:text-[2.9rem] md:text-[3.4rem] font-extrabold text-black/90">
-          Services Across India
-        </span>
-
+      <h1 class="hero-h1 leading-[0.95] tracking-[-0.05em] mb-5 text-black">
+        <span class="block text-[2.7rem] sm:text-[4rem] md:text-[5rem] font-black">Professional <span class="text-[#0a7a4b]">Land Survey</span></span>
+        <span class="block mt-2 sm:mt-3 text-[2rem] sm:text-[2.9rem] md:text-[3.4rem] font-extrabold text-black/90">Services Across India</span>
       </h1>
-
-      <!-- DESCRIPTION -->
-      <!-- <p class="text-[1rem] sm:text-[1.08rem] md:text-[1.12rem] 
-      text-black/75 leading-[1.9] font-medium max-w-[620px] mb-8">
-
-        Accurate boundary mapping, legal documentation, and 
-        <span class="font-bold text-[#0a7a4b]">
-          advanced drone survey
-        </span>
-        solutions for residential, commercial, and agricultural
-        properties.
-
-      </p> -->
-
-      <!-- 24/7 CARD -->
-      <div class="relative inline-block bg-white/92 backdrop-blur-md rounded-[20px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden border border-black/5 mb-9">
-
+      <div class="hero-card relative inline-block bg-white/92 backdrop-blur-md rounded-[20px] shadow-[0_10px_30px_rgba(0,0,0,0.08)] overflow-hidden border border-black/5 mb-7">
         <div class="flex items-center">
-
-          <!-- LEFT -->
           <div class="bg-[#0a7a4b] px-5 py-5 text-white">
-
-            <p class="text-[0.72rem] uppercase tracking-[0.12em] font-bold mb-1">
-              Trusted Survey
-            </p>
-
-            <h3 class="text-[3rem] leading-none font-black">
-              24/7
-            </h3>
-
+            <p class="text-[0.72rem] uppercase tracking-[0.12em] font-bold mb-1">Trusted Survey</p>
+            <h3 class="text-[3rem] leading-none font-black">24/7</h3>
           </div>
-
-          <!-- RIGHT -->
           <div class="px-5 py-4">
-
-            <h4 class="text-[2rem] sm:text-[2.3rem] leading-none font-black text-black mb-1">
-              Support
-            </h4>
-
-            <p class="text-[0.8rem] text-black/60 font-semibold">
-              Fast Response & Expert Assistance
-            </p>
-
+            <h4 class="text-[2rem] sm:text-[2.3rem] leading-none font-black text-black mb-1">Support</h4>
+            <p class="text-[0.8rem] text-black/60 font-semibold">Fast Response & Expert Assistance</p>
           </div>
-
         </div>
-
       </div>
-
-      <!-- TAGS -->
-      <div class="flex flex-wrap gap-3 mb-9">
-
-        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">
-          Residential
-        </span>
-
-        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">
-          Commercial
-        </span>
-
-        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">
-          Agricultural
-        </span>
-
-        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">
-          Legal Docs
-        </span>
-
-        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">
-          Drone Mapping
-        </span>
-
+      <div class="hero-tags flex flex-wrap gap-2.5 mb-7">
+        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">Residential</span>
+        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">Commercial</span>
+        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">Agricultural</span>
+        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">Legal Docs</span>
+        <span class="px-4 py-2 bg-white/85 backdrop-blur-md border border-black/10 rounded-full text-[0.82rem] font-semibold text-black shadow-sm">Drone Mapping</span>
       </div>
-
-      <!-- BUTTONS -->
-      <div class="flex flex-wrap gap-4">
-
-        <!-- PRIMARY BUTTON -->
-        <a 
-          href="https://wa.me/918881312501"
-          target="_blank"
-          class="inline-flex items-center justify-center gap-2 bg-[#0a7a4b] hover:bg-[#08663f] text-white px-7 sm:px-8 py-3.5 text-[0.95rem] font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-[2px] no-underline"
-        >
-          💬 Book Free Inspection
-        </a>
-
-        <!-- SECONDARY BUTTON -->
-        <a 
-          href="#services"
-          class="inline-flex items-center justify-center gap-2 bg-white/75 backdrop-blur-md text-black px-7 sm:px-8 py-3.5 text-[0.95rem] font-semibold border border-black/10 rounded-xl hover:bg-white transition-all duration-300 no-underline"
-        >
-          View Services →
-        </a>
-
+      <div class="hero-btns flex flex-wrap gap-4">
+        <a href="https://wa.me/918881312501" target="_blank" class="btn-ripple inline-flex items-center justify-center gap-2 bg-[#0a7a4b] hover:bg-[#08663f] text-white px-7 sm:px-8 py-3.5 text-[0.95rem] font-bold rounded-xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-[2px] no-underline">💬 Book Free Inspection</a>
+        <a href="#services" class="inline-flex items-center justify-center gap-2 bg-white/75 backdrop-blur-md text-black px-7 sm:px-8 py-3.5 text-[0.95rem] font-semibold border border-black/10 rounded-xl hover:bg-white transition-all duration-300 no-underline">View Services →</a>
       </div>
-
     </div>
-
   </div>
-
 </section>
 
 <!-- ========== QUICK LINKS ========== -->
-<div class="bg-white border-b border-gray-100">
+<div class="bg-white border-b border-gray-100 reveal">
   <div class="max-w-[1600px] mx-auto px-6 flex overflow-x-auto" style="scrollbar-width:none">
-    <a href="#services" class="flex items-center gap-2.5 px-6 py-4 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
-      <div class="w-9 h-9 bg-accent-muted flex items-center justify-center rounded-full text-base flex-shrink-0">📍</div>
-      <span class="text-[.82rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Boundary Survey</span>
+    <a href="#services" class="qlink flex items-center gap-2.5 px-5 py-3.5 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
+      <div class="w-8 h-8 bg-accent-muted flex items-center justify-center rounded-full flex-shrink-0">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="8" r="4" fill="#1a7a3c" opacity=".15"/><path d="M10 3.5C7.515 3.5 5.5 5.515 5.5 8c0 3.5 4.5 8.5 4.5 8.5s4.5-5 4.5-8.5c0-2.485-2.015-4.5-4.5-4.5z" fill="#1a7a3c"/><circle cx="10" cy="8" r="1.5" fill="white"/></svg>
+      </div>
+      <span class="text-[.8rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Boundary Survey</span>
     </a>
-    <a href="#services" class="flex items-center gap-2.5 px-6 py-4 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
-      <div class="w-9 h-9 bg-accent-muted flex items-center justify-center rounded-full text-base flex-shrink-0">🛸</div>
-      <span class="text-[.82rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Drone Survey</span>
+    <a href="#services" class="qlink flex items-center gap-2.5 px-5 py-3.5 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
+      <div class="w-8 h-8 bg-accent-muted flex items-center justify-center rounded-full flex-shrink-0">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="6" y="9" width="8" height="4" rx="1" fill="#1a7a3c"/><circle cx="7" cy="9" r="1.2" fill="#1a7a3c"/><circle cx="13" cy="9" r="1.2" fill="#1a7a3c"/><line x1="7" y1="7" x2="7" y2="5.5" stroke="#1a7a3c" stroke-width="1.5" stroke-linecap="round"/><line x1="13" y1="7" x2="13" y2="5.5" stroke="#1a7a3c" stroke-width="1.5" stroke-linecap="round"/><circle cx="7" cy="5" r="1" fill="#1a7a3c"/><circle cx="13" cy="5" r="1" fill="#1a7a3c"/></svg>
+      </div>
+      <span class="text-[.8rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Drone Survey</span>
     </a>
-    <a href="#services" class="flex items-center gap-2.5 px-6 py-4 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
-      <div class="w-9 h-9 bg-accent-muted flex items-center justify-center rounded-full text-base flex-shrink-0">🗺️</div>
-      <span class="text-[.82rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Topographic Survey</span>
+    <a href="#services" class="qlink flex items-center gap-2.5 px-5 py-3.5 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
+      <div class="w-8 h-8 bg-accent-muted flex items-center justify-center rounded-full flex-shrink-0">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M2 14 L6 9 L10 11 L14 6 L18 8" stroke="#1a7a3c" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" fill="none"/><path d="M2 16 L6 12 L10 14 L14 10 L18 12" stroke="#1a7a3c" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".5"/></svg>
+      </div>
+      <span class="text-[.8rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Topographic Survey</span>
     </a>
-    <a href="#services" class="flex items-center gap-2.5 px-6 py-4 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
-      <div class="w-9 h-9 bg-accent-muted flex items-center justify-center rounded-full text-base flex-shrink-0">📋</div>
-      <span class="text-[.82rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Legal Documentation</span>
+    <a href="#services" class="qlink flex items-center gap-2.5 px-5 py-3.5 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
+      <div class="w-8 h-8 bg-accent-muted flex items-center justify-center rounded-full flex-shrink-0">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="4" y="3" width="12" height="14" rx="1.5" fill="#1a7a3c" opacity=".15" stroke="#1a7a3c" stroke-width="1.3"/><line x1="7" y1="7" x2="13" y2="7" stroke="#1a7a3c" stroke-width="1.3" stroke-linecap="round"/><line x1="7" y1="10" x2="13" y2="10" stroke="#1a7a3c" stroke-width="1.3" stroke-linecap="round"/><line x1="7" y1="13" x2="10" y2="13" stroke="#1a7a3c" stroke-width="1.3" stroke-linecap="round"/></svg>
+      </div>
+      <span class="text-[.8rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Legal Documentation</span>
     </a>
-    <a href="#services" class="flex items-center gap-2.5 px-6 py-4 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
-      <div class="w-9 h-9 bg-accent-muted flex items-center justify-center rounded-full text-base flex-shrink-0">📡</div>
-      <span class="text-[.82rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">GPS Layout</span>
+    <a href="#services" class="qlink flex items-center gap-2.5 px-5 py-3.5 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
+      <div class="w-8 h-8 bg-accent-muted flex items-center justify-center rounded-full flex-shrink-0">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="2" fill="#1a7a3c"/><circle cx="10" cy="10" r="4.5" stroke="#1a7a3c" stroke-width="1.2" fill="none" opacity=".5"/><circle cx="10" cy="10" r="7" stroke="#1a7a3c" stroke-width="1" fill="none" opacity=".25"/></svg>
+      </div>
+      <span class="text-[.8rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">GPS Layout</span>
     </a>
-    <a href="#services" class="flex items-center gap-2.5 px-6 py-4 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
-      <div class="w-9 h-9 bg-accent-muted flex items-center justify-center rounded-full text-base flex-shrink-0">🌾</div>
-      <span class="text-[.82rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Agricultural Survey</span>
+    <a href="#services" class="qlink flex items-center gap-2.5 px-5 py-3.5 border-r border-gray-100 flex-shrink-0 hover:bg-accent-muted group transition-colors no-underline">
+      <div class="w-8 h-8 bg-accent-muted flex items-center justify-center rounded-full flex-shrink-0">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><rect x="2" y="14" width="16" height="3" rx="1" fill="#1a7a3c" opacity=".2"/><path d="M6 14 Q7 8 10 6 Q13 8 14 14" stroke="#1a7a3c" stroke-width="1.4" fill="none"/><path d="M8 14 Q9 10 10 9 Q11 10 12 14" stroke="#1a7a3c" stroke-width="1.4" fill="none" opacity=".5"/></svg>
+      </div>
+      <span class="text-[.8rem] font-semibold text-gray-800 whitespace-nowrap group-hover:text-accent transition-colors">Agricultural Survey</span>
     </a>
   </div>
 </div>
 
 <!-- ========== ABOUT ========== -->
-<section id="about" class="bg-white py-12 md:py-16 px-4 sm:px-6">
+<section id="about" class="bg-white py-10 md:py-14 px-4 sm:px-6">
   <div class="max-w-[1600px] mx-auto">
     <div class="grid grid-cols-1 md:grid-cols-2 rounded-2xl overflow-hidden border border-gray-100 shadow-sm">
-
-      <!-- IMAGE SECTION -->
-      <div class="relative bg-[#0a1f10]">
-        <!-- Desktop Image -->
-        <img
-          src="images/mobile2-about.png"
-          alt="360 Survey"
-          class="hidden md:block w-full h-full object-cover object-[35%_center] opacity-90"
-        />
-        <!-- Mobile Image -->
-        <img
-          src="images/mobile3-about.jpeg"
-          alt="360 Survey Mobile"
-          class="block md:hidden w-full h-[420px] object-cover object-center"
-        />
+      <div class="relative bg-[#0a1f10] reveal-left">
+        <img src="images/mobile4-about.png" alt="" class="hidden md:block w-full h-full object-cover object-[35%_center] opacity-90"/>
+        <img src="images/mobile3-about.jpeg" alt="" class="block md:hidden w-full h-[380px] object-cover object-center"/>
       </div>
-
-      <!-- CONTENT -->
-      <div class="flex flex-col justify-center bg-white p-6 sm:p-8 md:p-12">
-        <p class="text-[11px] sm:text-xs tracking-[0.18em] uppercase text-green-700 font-semibold mb-3">Who We Are</p>
-        <h2 class="text-[1.8rem] sm:text-[2.2rem] md:text-[2.5rem] leading-[1.15] font-light text-gray-900 tracking-[-0.02em]">
-          Bringing <span class="font-bold text-black">Precision, Trust</span><br />and Clarity to Every Plot
-        </h2>
-        <div class="w-14 h-[2px] bg-green-700 mt-5 mb-8 rounded-full"></div>
-        <p class="text-[15px] leading-[1.9] text-gray-600 mb-4">
-          Welcome to <strong>360° Survey</strong> — your trusted partner for land surveys, boundary mapping, topographic studies, and legal documentation across India.
-        </p>
-        <p class="text-[15px] leading-[1.9] text-gray-600 mb-4">
-          We don't just measure land — we bring clarity with modern GPS, drone, and GIS technology, backed by certified surveyors with decades of field experience.
-        </p>
-        <p class="text-[15px] leading-[1.9] text-gray-600">
-          Our mission: make your land boundaries crystal clear, legally secure, and perfectly documented.
-        </p>
-        <div class="mt-7 border-l-4 border-green-700 bg-green-50 px-5 py-4 rounded-r-xl">
-          <p class="text-sm italic text-green-900 leading-relaxed">
-            "Every plot deserves accurate measurement, legal clarity, and a professional touch."
-          </p>
+      <div class="flex flex-col justify-center bg-white p-6 sm:p-8 md:p-12 reveal-right">
+        <p class="text-[11px] sm:text-xs tracking-[0.18em] uppercase text-green-700 font-semibold mb-2">Who We Are</p>
+        <h2 class="text-[1.7rem] sm:text-[2.1rem] md:text-[2.4rem] leading-[1.15] font-light text-gray-900 tracking-[-0.02em]">Bringing <span class="font-bold text-black">Precision, Trust</span><br/>and Clarity to Every Plot</h2>
+        <div class="w-12 h-[2px] bg-green-700 mt-4 mb-6 rounded-full"></div>
+        <p class="text-[15px] leading-[1.85] text-gray-600 mb-3">Welcome to <strong>360° Survey</strong> — your trusted partner for land surveys, boundary mapping, topographic studies, and legal documentation across India.</p>
+        <p class="text-[15px] leading-[1.85] text-gray-600 mb-3">We don't just measure land — we bring clarity with modern GPS, drone, and GIS technology, backed by certified surveyors with decades of field experience.</p>
+        <p class="text-[15px] leading-[1.85] text-gray-600">Our mission: make your land boundaries crystal clear, legally secure, and perfectly documented.</p>
+        <div class="mt-5 border-l-4 border-green-700 bg-green-50 px-5 py-4 rounded-r-xl">
+          <p class="text-sm italic text-green-900 leading-relaxed">"Every plot deserves accurate measurement, legal clarity, and a professional touch."</p>
         </div>
-        <!-- <div class="grid grid-cols-2 sm:grid-cols-4 gap-6 mt-10">
-          <div>
-            <h3 class="text-3xl font-bold text-green-700 leading-none">18+</h3>
-            <p class="text-xs text-gray-500 mt-2">Years Experience</p>
-          </div>
-          <div>
-            <h3 class="text-3xl font-bold text-green-700 leading-none">5000+</h3>
-            <p class="text-xs text-gray-500 mt-2">Surveys Completed</p>
-          </div>
-          <div>
-            <h3 class="text-3xl font-bold text-green-700 leading-none">28</h3>
-            <p class="text-xs text-gray-500 mt-2">States Covered</p>
-          </div>
-          <div>
-            <h3 class="text-3xl font-bold text-green-700 leading-none">99%</h3> 
-            <p class="text-xs text-gray-500 mt-2">Client Satisfaction</p>
-          </div>
-        </div> -->
       </div>
-
     </div>
   </div>
 </section>
 
 <!-- ========== SERVICES ========== -->
-<section id="services" class="bg-gray-50 py-16 px-6">
+<section id="services" class="bg-gray-50 py-10 md:py-12 px-4 sm:px-6">
   <div class="max-w-[1600px] mx-auto">
-    <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">What We Offer</p>
-    <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2"><strong class="font-bold">Survey Services</strong> for Every Need</h2>
-    <div class="w-12 h-0.5 bg-accent my-3 mb-9"></div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200 border border-gray-200 rounded-lg overflow-hidden">
-      <div class="bg-white p-7 flex flex-col hover:bg-accent-muted transition-colors">
-        <div class="w-10 h-10 bg-accent flex items-center justify-center rounded text-xl mb-4 flex-shrink-0">📍</div>
-        <h3 class="text-[.95rem] font-bold text-black mb-2.5">Boundary Survey</h3>
-        <p class="text-[.8rem] text-gray-600 leading-[1.6] flex-1">Complete boundary demarcation for residential plots, agricultural land, and commercial sites. Includes corner marking, legal map preparation, and court-admissible documentation with sub-centimeter GPS accuracy.</p>
-        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-4 text-[.8rem] text-accent font-semibold no-underline">Get quote </a>
+    <!-- COMPACT SECTION HEADER -->
+    <div class="mb-6 reveal">
+      <div class="flex items-center gap-3 mb-1.5">
+        <span class="text-[.7rem] tracking-[.12em] uppercase text-accent font-bold">What We Offer</span>
+        <div class="h-px flex-1 bg-gray-200 max-w-[60px]"></div>
       </div>
-      <div class="bg-white p-7 flex flex-col hover:bg-accent-muted transition-colors">
-        <div class="w-10 h-10 bg-accent flex items-center justify-center rounded text-xl mb-4 flex-shrink-0">🏔️</div>
-        <h3 class="text-[.95rem] font-bold text-black mb-2.5">Topographic Survey</h3>
-        <p class="text-[.8rem] text-gray-600 leading-[1.6] flex-1">Complete topographic mapping for construction, agriculture, and infrastructure planning — contour mapping, elevation profiling, drainage analysis, and detailed CAD drawings using total station and drone photogrammetry.</p>
-        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-4 text-[.8rem] text-accent font-semibold no-underline">Get quote </a>
+      <h2 class="text-[clamp(1.3rem,2.2vw,1.8rem)] font-light text-black tracking-[-0.01em] leading-tight">
+        <strong class="font-bold">Survey Services</strong> for Every Need
+      </h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-px bg-gray-200 border border-gray-200 rounded-lg overflow-hidden reveal-stagger">
+      <!-- 1 -->
+      <div class="svc-card bg-white p-6 flex flex-col">
+        <div class="svc-icon w-12 h-12 bg-accent-muted rounded-xl mb-3.5 flex-shrink-0">
+          <svg class="icon-boundary" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <circle cx="24" cy="20" r="10" fill="#1a7a3c" fill-opacity=".1"/>
+            <path class="pin-pulse" d="M24 8C18.477 8 14 12.477 14 18c0 8.5 10 22 10 22s10-13.5 10-22c0-5.523-4.477-10-10-10z" fill="#1a7a3c"/>
+            <circle cx="24" cy="18" r="4" fill="white"/><circle cx="24" cy="18" r="2" fill="#1a7a3c"/>
+            <rect x="6" y="6" width="5" height="2" rx="1" fill="#1a7a3c" opacity=".5"/><rect x="6" y="6" width="2" height="5" rx="1" fill="#1a7a3c" opacity=".5"/>
+            <rect x="37" y="6" width="5" height="2" rx="1" fill="#1a7a3c" opacity=".5"/><rect x="40" y="6" width="2" height="5" rx="1" fill="#1a7a3c" opacity=".5"/>
+            <rect x="6" y="40" width="5" height="2" rx="1" fill="#1a7a3c" opacity=".5"/><rect x="6" y="37" width="2" height="5" rx="1" fill="#1a7a3c" opacity=".5"/>
+            <rect x="37" y="40" width="5" height="2" rx="1" fill="#1a7a3c" opacity=".5"/><rect x="40" y="37" width="2" height="5" rx="1" fill="#1a7a3c" opacity=".5"/>
+          </svg>
+        </div>
+        <h3 class="text-[.92rem] font-bold text-black mb-2">Boundary Survey</h3>
+        <p class="text-[.79rem] text-gray-600 leading-[1.6] flex-1">Complete boundary demarcation for residential plots, agricultural land, and commercial sites. Includes corner marking, legal map preparation, and court-admissible documentation with sub-centimeter GPS accuracy.</p>
+        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-3.5 text-[.78rem] text-accent font-semibold no-underline">Get quote </a>
       </div>
-      <div class="bg-white p-7 flex flex-col hover:bg-accent-muted transition-colors">
-        <div class="w-10 h-10 bg-accent flex items-center justify-center rounded text-xl mb-4 flex-shrink-0">🛸</div>
-        <h3 class="text-[.95rem] font-bold text-black mb-2.5">Drone Survey</h3>
-        <p class="text-[.8rem] text-gray-600 leading-[1.6] flex-1">Aerial drone survey services for land measurement, orthomosaic mapping, and volumetric analysis. High-resolution imagery and point cloud data for construction, mining, and real estate with brand-approved accuracy.</p>
-        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-4 text-[.8rem] text-accent font-semibold no-underline">Get quote </a>
+      <!-- 2 -->
+      <div class="svc-card bg-white p-6 flex flex-col">
+        <div class="svc-icon w-12 h-12 bg-accent-muted rounded-xl mb-3.5 flex-shrink-0">
+          <svg class="icon-topo" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <path d="M4 38 L14 22 L22 28 L30 14 L44 20" stroke="#1a7a3c" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <path class="contour-line" d="M4 42 L14 28 L22 34 L30 20 L44 26" stroke="#1a7a3c" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".5"/>
+            <path d="M4 44 L14 34 L22 38 L30 26 L44 32" stroke="#1a7a3c" stroke-width="1" stroke-linecap="round" stroke-linejoin="round" fill="none" opacity=".25"/>
+            <line x1="14" y1="22" x2="14" y2="38" stroke="#1a7a3c" stroke-width="1" stroke-dasharray="2 2" opacity=".4"/>
+            <line x1="30" y1="14" x2="30" y2="38" stroke="#1a7a3c" stroke-width="1" stroke-dasharray="2 2" opacity=".4"/>
+          </svg>
+        </div>
+        <h3 class="text-[.92rem] font-bold text-black mb-2">Topographic Survey</h3>
+        <p class="text-[.79rem] text-gray-600 leading-[1.6] flex-1">Complete topographic mapping for construction, agriculture, and infrastructure planning — contour mapping, elevation profiling, drainage analysis, and detailed CAD drawings using total station and drone photogrammetry.</p>
+        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-3.5 text-[.78rem] text-accent font-semibold no-underline">Get quote </a>
       </div>
-      <div class="bg-white p-7 flex flex-col hover:bg-accent-muted transition-colors">
-        <div class="w-10 h-10 bg-accent flex items-center justify-center rounded text-xl mb-4 flex-shrink-0">📋</div>
-        <h3 class="text-[.95rem] font-bold text-black mb-2.5">Legal Documentation</h3>
-        <p class="text-[.8rem] text-gray-600 leading-[1.6] flex-1">Premium land record and legal documentation services — title reports, mutation support, and court-ready survey maps for tehsil offices and revenue departments for plots, farms, and commercial properties.</p>
-        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-4 text-[.8rem] text-accent font-semibold no-underline">Get quote </a>
+      <!-- 3 -->
+      <div class="svc-card bg-white p-6 flex flex-col">
+        <div class="svc-icon w-12 h-12 bg-accent-muted rounded-xl mb-3.5 flex-shrink-0">
+          <svg class="icon-drone" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <g class="drone-body">
+              <line x1="17" y1="17" x2="11" y2="11" stroke="#1a7a3c" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="31" y1="17" x2="37" y2="11" stroke="#1a7a3c" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="17" y1="31" x2="11" y2="37" stroke="#1a7a3c" stroke-width="2.2" stroke-linecap="round"/>
+              <line x1="31" y1="31" x2="37" y2="37" stroke="#1a7a3c" stroke-width="2.2" stroke-linecap="round"/>
+              <ellipse class="rotor" cx="10" cy="10" rx="5" ry="2" stroke="#1a7a3c" stroke-width="1.5" fill="none"/>
+              <ellipse class="rotor" cx="38" cy="10" rx="5" ry="2" stroke="#1a7a3c" stroke-width="1.5" fill="none"/>
+              <ellipse class="rotor" cx="10" cy="38" rx="5" ry="2" stroke="#1a7a3c" stroke-width="1.5" fill="none"/>
+              <ellipse class="rotor" cx="38" cy="38" rx="5" ry="2" stroke="#1a7a3c" stroke-width="1.5" fill="none"/>
+              <rect x="18" y="18" width="12" height="12" rx="3" fill="#1a7a3c"/>
+              <circle cx="24" cy="31" r="2.5" fill="#1a7a3c" opacity=".7"/>
+              <circle cx="24" cy="31" r="1" fill="white" opacity=".6"/>
+            </g>
+          </svg>
+        </div>
+        <h3 class="text-[.92rem] font-bold text-black mb-2">Drone Survey</h3>
+        <p class="text-[.79rem] text-gray-600 leading-[1.6] flex-1">Aerial drone survey services for land measurement, orthomosaic mapping, and volumetric analysis. High-resolution imagery and point cloud data for construction, mining, and real estate with brand-approved accuracy.</p>
+        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-3.5 text-[.78rem] text-accent font-semibold no-underline">Get quote </a>
       </div>
-      <div class="bg-white p-7 flex flex-col hover:bg-accent-muted transition-colors">
-        <div class="w-10 h-10 bg-accent flex items-center justify-center rounded text-xl mb-4 flex-shrink-0">📡</div>
-        <h3 class="text-[.95rem] font-bold text-black mb-2.5">GPS Layout</h3>
-        <p class="text-[.8rem] text-gray-600 leading-[1.6] flex-1">Precise GPS-based layout marking for construction projects, roads, and infrastructure with sub-meter accuracy. Full site report, digital maps, and on-site team support included.</p>
-        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-4 text-[.8rem] text-accent font-semibold no-underline">Get quote </a>
+      <!-- 4 -->
+      <div class="svc-card bg-white p-6 flex flex-col">
+        <div class="svc-icon w-12 h-12 bg-accent-muted rounded-xl mb-3.5 flex-shrink-0">
+          <svg class="icon-legal" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="10" y="6" width="22" height="30" rx="2" fill="#1a7a3c" fill-opacity=".1" stroke="#1a7a3c" stroke-width="1.5"/>
+            <line x1="15" y1="14" x2="27" y2="14" stroke="#1a7a3c" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="15" y1="19" x2="27" y2="19" stroke="#1a7a3c" stroke-width="1.5" stroke-linecap="round"/>
+            <line x1="15" y1="24" x2="22" y2="24" stroke="#1a7a3c" stroke-width="1.5" stroke-linecap="round"/>
+            <g class="stamp-icon">
+              <rect x="28" y="26" width="14" height="16" rx="2" fill="#1a7a3c" opacity=".85"/>
+              <rect x="30" y="28" width="10" height="10" rx="1" fill="white" opacity=".3"/>
+              <path d="M32 33 L35 36 L40 30" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+              <rect x="30" y="40" width="10" height="2.5" rx="1" fill="#1a7a3c" opacity=".5"/>
+            </g>
+          </svg>
+        </div>
+        <h3 class="text-[.92rem] font-bold text-black mb-2">Legal Documentation</h3>
+        <p class="text-[.79rem] text-gray-600 leading-[1.6] flex-1">Premium land record and legal documentation services — title reports, mutation support, and court-ready survey maps for tehsil offices and revenue departments for plots, farms, and commercial properties.</p>
+        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-3.5 text-[.78rem] text-accent font-semibold no-underline">Get quote </a>
       </div>
-      <div class="bg-white p-7 flex flex-col hover:bg-accent-muted transition-colors">
-        <div class="w-10 h-10 bg-accent flex items-center justify-center rounded text-xl mb-4 flex-shrink-0">🗺️</div>
-        <h3 class="text-[.95rem] font-bold text-black mb-2.5">GIS Mapping</h3>
-        <p class="text-[.8rem] text-gray-600 leading-[1.6] flex-1">Advanced GIS and spatial data services for municipalities, developers, and government agencies. Full digital deliverables including shapefiles, geodatabases, and interactive web maps.</p>
-        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-4 text-[.8rem] text-accent font-semibold no-underline">Get quote </a>
+      <!-- 5 -->
+      <div class="svc-card bg-white p-6 flex flex-col">
+        <div class="svc-icon w-12 h-12 bg-accent-muted rounded-xl mb-3.5 flex-shrink-0">
+          <svg class="icon-gps" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="20" y="6" width="8" height="5" rx="1" fill="#1a7a3c" opacity=".8"/>
+            <line x1="14" y1="8.5" x2="20" y2="8.5" stroke="#1a7a3c" stroke-width="1.5"/>
+            <line x1="28" y1="8.5" x2="34" y2="8.5" stroke="#1a7a3c" stroke-width="1.5"/>
+            <rect x="12" y="6" width="4" height="5" rx="1" fill="#1a7a3c" opacity=".4"/>
+            <rect x="32" y="6" width="4" height="5" rx="1" fill="#1a7a3c" opacity=".4"/>
+            <circle class="signal-ring" cx="24" cy="32" r="6" stroke="#1a7a3c" stroke-width="1.5" fill="none"/>
+            <circle class="signal-ring" cx="24" cy="32" r="9" stroke="#1a7a3c" stroke-width="1" fill="none"/>
+            <circle class="signal-ring" cx="24" cy="32" r="12" stroke="#1a7a3c" stroke-width=".8" fill="none"/>
+            <line x1="24" y1="11" x2="24" y2="26" stroke="#1a7a3c" stroke-width="1.2" stroke-dasharray="2 2" opacity=".5"/>
+            <circle cx="24" cy="32" r="3" fill="#1a7a3c"/><circle cx="24" cy="32" r="1.2" fill="white"/>
+          </svg>
+        </div>
+        <h3 class="text-[.92rem] font-bold text-black mb-2">GPS Layout</h3>
+        <p class="text-[.79rem] text-gray-600 leading-[1.6] flex-1">Precise GPS-based layout marking for construction projects, roads, and infrastructure with sub-meter accuracy. Full site report, digital maps, and on-site team support included.</p>
+        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-3.5 text-[.78rem] text-accent font-semibold no-underline">Get quote </a>
       </div>
-      <div class="bg-white p-7 flex flex-col hover:bg-accent-muted transition-colors">
-        <div class="w-10 h-10 bg-accent flex items-center justify-center rounded text-xl mb-4 flex-shrink-0">🌾</div>
-        <h3 class="text-[.95rem] font-bold text-black mb-2.5">Agricultural Survey</h3>
-        <p class="text-[.8rem] text-gray-600 leading-[1.6] flex-1">Complete farm land measurement, Khasra verification, and crop area estimation for farmers and agri-companies. Includes revenue records verification and digitized farm maps.</p>
-        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-4 text-[.8rem] text-accent font-semibold no-underline">Get quote </a>
+      <!-- 6 -->
+      <div class="svc-card bg-white p-6 flex flex-col">
+        <div class="svc-icon w-12 h-12 bg-accent-muted rounded-xl mb-3.5 flex-shrink-0">
+          <svg class="icon-gis" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="6" y="10" width="36" height="28" rx="3" fill="#1a7a3c" fill-opacity=".08" stroke="#1a7a3c" stroke-width="1.5"/>
+            <line x1="18" y1="10" x2="18" y2="38" stroke="#1a7a3c" stroke-width=".8" opacity=".3"/>
+            <line x1="30" y1="10" x2="30" y2="38" stroke="#1a7a3c" stroke-width=".8" opacity=".3"/>
+            <line x1="6" y1="20" x2="42" y2="20" stroke="#1a7a3c" stroke-width=".8" opacity=".3"/>
+            <line x1="6" y1="29" x2="42" y2="29" stroke="#1a7a3c" stroke-width=".8" opacity=".3"/>
+            <rect class="scan-line" x="6" y="10" width="36" height="2" rx="1" fill="#1a7a3c" opacity=".25"/>
+            <path d="M8 12 L16 18 L12 26 L8 22 Z" fill="#1a7a3c" opacity=".18"/>
+            <path d="M22 16 L30 14 L34 24 L26 28 Z" fill="#1a7a3c" opacity=".22"/>
+            <circle cx="14" cy="22" r="2.5" fill="#1a7a3c"/>
+            <circle cx="28" cy="18" r="2.5" fill="#1a7a3c"/>
+          </svg>
+        </div>
+        <h3 class="text-[.92rem] font-bold text-black mb-2">GIS Mapping</h3>
+        <p class="text-[.79rem] text-gray-600 leading-[1.6] flex-1">Advanced GIS and spatial data services for municipalities, developers, and government agencies. Full digital deliverables including shapefiles, geodatabases, and interactive web maps.</p>
+        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-3.5 text-[.78rem] text-accent font-semibold no-underline">Get quote </a>
       </div>
-      <div class="bg-white p-7 flex flex-col hover:bg-accent-muted transition-colors">
-        <div class="w-10 h-10 bg-accent flex items-center justify-center rounded text-xl mb-4 flex-shrink-0">🏗️</div>
-        <h3 class="text-[.95rem] font-bold text-black mb-2.5">Construction Layout</h3>
-        <p class="text-[.8rem] text-gray-600 leading-[1.6] flex-1">Foundation marking, building alignment, and as-built surveys for architects, engineers, and construction companies. Precision layout ensures zero rework and compliance with approved drawings.</p>
-        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-4 text-[.8rem] text-accent font-semibold no-underline">Get quote </a>
+      <!-- 7 -->
+      <div class="svc-card bg-white p-6 flex flex-col">
+        <div class="svc-icon w-12 h-12 bg-accent-muted rounded-xl mb-3.5 flex-shrink-0">
+          <svg class="icon-agri" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="4" y="34" width="40" height="10" rx="2" fill="#1a7a3c" opacity=".1"/>
+            <line x1="4" y1="37" x2="44" y2="37" stroke="#1a7a3c" stroke-width=".8" opacity=".3"/>
+            <line x1="4" y1="40" x2="44" y2="40" stroke="#1a7a3c" stroke-width=".8" opacity=".3"/>
+            <line x1="12" y1="34" x2="12" y2="18" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+            <line x1="24" y1="34" x2="24" y2="14" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+            <line x1="36" y1="34" x2="36" y2="20" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+            <g class="stalk">
+              <ellipse cx="12" cy="16" rx="2.5" ry="4" fill="#1a7a3c" opacity=".8"/>
+              <line x1="9" y1="18" x2="12" y2="20" stroke="#1a7a3c" stroke-width="1.2"/>
+              <line x1="15" y1="18" x2="12" y2="20" stroke="#1a7a3c" stroke-width="1.2"/>
+            </g>
+            <ellipse cx="24" cy="12" rx="2.5" ry="4" fill="#1a7a3c" opacity=".8"/>
+            <line x1="21" y1="14" x2="24" y2="16" stroke="#1a7a3c" stroke-width="1.2"/>
+            <line x1="27" y1="14" x2="24" y2="16" stroke="#1a7a3c" stroke-width="1.2"/>
+            <ellipse cx="36" cy="18" rx="2.5" ry="4" fill="#1a7a3c" opacity=".8"/>
+            <line x1="33" y1="20" x2="36" y2="22" stroke="#1a7a3c" stroke-width="1.2"/>
+            <line x1="39" y1="20" x2="36" y2="22" stroke="#1a7a3c" stroke-width="1.2"/>
+            <circle cx="38" cy="10" r="4" fill="#1a7a3c" opacity=".3"/>
+            <circle cx="38" cy="10" r="2.5" fill="#1a7a3c" opacity=".6"/>
+          </svg>
+        </div>
+        <h3 class="text-[.92rem] font-bold text-black mb-2">Agricultural Survey</h3>
+        <p class="text-[.79rem] text-gray-600 leading-[1.6] flex-1">Complete farm land measurement, Khasra verification, and crop area estimation for farmers and agri-companies. Includes revenue records verification and digitized farm maps.</p>
+        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-3.5 text-[.78rem] text-accent font-semibold no-underline">Get quote </a>
+      </div>
+      <!-- 8 -->
+      <div class="svc-card bg-white p-6 flex flex-col">
+        <div class="svc-icon w-12 h-12 bg-accent-muted rounded-xl mb-3.5 flex-shrink-0">
+          <svg class="icon-const" width="48" height="48" viewBox="0 0 48 48" fill="none">
+            <rect x="8" y="22" width="22" height="20" rx="1.5" fill="#1a7a3c" fill-opacity=".12" stroke="#1a7a3c" stroke-width="1.5"/>
+            <rect x="12" y="28" width="5" height="6" rx="1" fill="#1a7a3c" opacity=".4"/>
+            <rect x="21" y="28" width="5" height="6" rx="1" fill="#1a7a3c" opacity=".4"/>
+            <rect x="15" y="34" width="8" height="8" rx="1" fill="#1a7a3c" opacity=".3"/>
+            <path d="M6 23 L19 10 L32 23" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+            <g class="gear">
+              <circle cx="37" cy="31" r="7" stroke="#1a7a3c" stroke-width="1.5" fill="none"/>
+              <circle cx="37" cy="31" r="3" fill="#1a7a3c" opacity=".5"/>
+              <line x1="37" y1="22" x2="37" y2="25" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+              <line x1="37" y1="37" x2="37" y2="40" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+              <line x1="28" y1="31" x2="31" y2="31" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+              <line x1="43" y1="31" x2="46" y2="31" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+              <line x1="30.64" y1="24.64" x2="32.76" y2="26.76" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+              <line x1="41.24" y1="35.24" x2="43.36" y2="37.36" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+              <line x1="30.64" y1="37.36" x2="32.76" y2="35.24" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+              <line x1="41.24" y1="26.76" x2="43.36" y2="24.64" stroke="#1a7a3c" stroke-width="2" stroke-linecap="round"/>
+            </g>
+          </svg>
+        </div>
+        <h3 class="text-[.92rem] font-bold text-black mb-2">Construction Layout</h3>
+        <p class="text-[.79rem] text-gray-600 leading-[1.6] flex-1">Foundation marking, building alignment, and as-built surveys for architects, engineers, and construction companies. Precision layout ensures zero rework and compliance with approved drawings.</p>
+        <a href="#contact" class="svc-link inline-flex items-center gap-1 mt-3.5 text-[.78rem] text-accent font-semibold no-underline">Get quote </a>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ========== ARTICLES ========== -->
-<section id="articles" class="bg-white py-16 px-6">
+<section id="articles" class="bg-white py-10 md:py-12 px-4 sm:px-6">
   <div class="max-w-[1600px] mx-auto">
-    <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">Expert Guides</p>
-    <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2"><strong class="font-bold">Articles</strong> &amp; Resources</h2>
-    <p class="text-[.9rem] text-gray-600 max-w-[560px] leading-[1.6] mb-9">Expert land survey guides for residential, commercial &amp; agricultural properties across India.</p>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+    <!-- COMPACT HEADER -->
+    <div class="mb-6 reveal">
+      <div class="flex items-center gap-3 mb-1.5">
+        <span class="text-[.7rem] tracking-[.12em] uppercase text-accent font-bold">Expert Guides</span>
+        <div class="h-px flex-1 bg-gray-200 max-w-[60px]"></div>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+        <h2 class="text-[clamp(1.3rem,2.2vw,1.8rem)] font-light text-black tracking-[-0.01em] leading-tight"><strong class="font-bold">Articles</strong> &amp; Resources</h2>
+        <p class="text-[.85rem] text-gray-500 max-w-[400px] leading-[1.5]">Expert land survey guides for residential, commercial &amp; agricultural properties across India.</p>
+      </div>
+    </div>
 
-      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
-        <div class="card-img-wrap">
-          <img src="images/boundary-image.png" alt="Boundary Survey"/>
-        </div>
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal-stagger">
+      <div class="art-card border border-gray-100 rounded-lg overflow-hidden bg-white flex flex-col">
+        <div class="card-img-wrap"><img src="images/boundary1-image.png" alt="Boundary Survey"/></div>
         <div class="p-5 flex flex-col flex-1">
-          <div class="text-[.7rem] uppercase tracking-[.08em] text-accent font-bold mb-2">Boundary</div>
-          <h3 class="text-[.9rem] font-bold text-black mb-2 leading-[1.4]">Complete Guide to Boundary Survey in India</h3>
-          <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">GPS-precision marking, corner pillar installation, transparent pricing, and on-time delivery for residential and commercial properties.</p>
-          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline mt-auto">Read More</a>
+          <div class="text-[.68rem] uppercase tracking-[.08em] text-accent font-bold mb-1.5">Boundary</div>
+          <h3 class="text-[.88rem] font-bold text-black mb-2 leading-[1.4]">Complete Guide to Boundary Survey in India</h3>
+          <p class="text-[.78rem] text-gray-600 leading-[1.6] mb-3">GPS-precision marking, corner pillar installation, transparent pricing, and on-time delivery for residential and commercial properties.</p>
+          <a href="#" class="art-read text-[.76rem] text-accent font-semibold no-underline mt-auto">Read More</a>
         </div>
       </div>
-
-      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
-        <div class="card-img-wrap">
-          <img src="images/drone image.jpg" alt="Drone Mapping"/>
-        </div>
+      <div class="art-card border border-gray-100 rounded-lg overflow-hidden bg-white flex flex-col">
+        <div class="card-img-wrap"><img src="images/drone image.jpg" alt="Drone Mapping"/></div>
         <div class="p-5 flex flex-col flex-1">
-          <div class="text-[.7rem] uppercase tracking-[.08em] text-accent font-bold mb-2">Drone</div>
-          <h3 class="text-[.9rem] font-bold text-black mb-2 leading-[1.4]">Drone Mapping for Land Surveys — What You Need to Know</h3>
-          <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">High-resolution orthomosaics, 3D models, and volumetric data with rapid delivery for land measurement projects.</p>
-          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline mt-auto">Read More</a>
+          <div class="text-[.68rem] uppercase tracking-[.08em] text-accent font-bold mb-1.5">Drone</div>
+          <h3 class="text-[.88rem] font-bold text-black mb-2 leading-[1.4]">Drone Mapping for Land Surveys — What You Need to Know</h3>
+          <p class="text-[.78rem] text-gray-600 leading-[1.6] mb-3">High-resolution orthomosaics, 3D models, and volumetric data with rapid delivery for land measurement projects.</p>
+          <a href="#" class="art-read text-[.76rem] text-accent font-semibold no-underline mt-auto">Read More</a>
         </div>
       </div>
-
-      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
-        <div class="card-img-wrap">
-          <img src="images/residential.png" alt="Residential Survey"/>
-        </div>
+      <div class="art-card border border-gray-100 rounded-lg overflow-hidden bg-white flex flex-col">
+        <div class="card-img-wrap"><img src="images/residential.png" alt="Residential Survey"/></div>
         <div class="p-5 flex flex-col flex-1">
-          <div class="text-[.7rem] uppercase tracking-[.08em] text-accent font-bold mb-2">Residential · 3 min</div>
-          <h3 class="text-[.9rem] font-bold text-black mb-2 leading-[1.4]">Residential Land Survey — Step by Step Process</h3>
-          <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">Boundary demarcation, topography, and full legal documentation with expert team and premium accuracy for home buyers.</p>
-          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline mt-auto">Read More</a>
+          <div class="text-[.68rem] uppercase tracking-[.08em] text-accent font-bold mb-1.5">Residential · 3 min</div>
+          <h3 class="text-[.88rem] font-bold text-black mb-2 leading-[1.4]">Residential Land Survey — Step by Step Process</h3>
+          <p class="text-[.78rem] text-gray-600 leading-[1.6] mb-3">Boundary demarcation, topography, and full legal documentation with expert team and premium accuracy for home buyers.</p>
+          <a href="#" class="art-read text-[.76rem] text-accent font-semibold no-underline mt-auto">Read More</a>
         </div>
       </div>
-
-      <div class="border border-gray-100 rounded-lg overflow-hidden bg-white hover:shadow-lg hover:-translate-y-0.5 transition-all flex flex-col">
-        <div class="card-img-wrap">
-          <img src="images/legal-image.jfif" alt="Legal Documentation"/>
-        </div>
+      <div class="art-card border border-gray-100 rounded-lg overflow-hidden bg-white flex flex-col">
+        <div class="card-img-wrap"><img src="images/legal-image.jfif" alt="Legal Documentation"/></div>
         <div class="p-5 flex flex-col flex-1">
-          <div class="text-[.7rem] uppercase tracking-[.08em] text-accent font-bold mb-2">Legal · 5 min</div>
-          <h3 class="text-[.9rem] font-bold text-black mb-2 leading-[1.4]">Land Legal Documentation — Everything Explained</h3>
-          <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3">Certified surveyors, court-ready maps, transparent pricing &amp; free site inspection for plots, farms, offices &amp; commercial sites.</p>
-          <a href="#" class="art-read text-[.78rem] text-accent font-semibold no-underline mt-auto">Read More</a>
+          <div class="text-[.68rem] uppercase tracking-[.08em] text-accent font-bold mb-1.5">Legal · 5 min</div>
+          <h3 class="text-[.88rem] font-bold text-black mb-2 leading-[1.4]">Land Legal Documentation — Everything Explained</h3>
+          <p class="text-[.78rem] text-gray-600 leading-[1.6] mb-3">Certified surveyors, court-ready maps, transparent pricing &amp; free site inspection for plots, farms, offices &amp; commercial sites.</p>
+          <a href="#" class="art-read text-[.76rem] text-accent font-semibold no-underline mt-auto">Read More</a>
         </div>
       </div>
-
     </div>
   </div>
 </section>
 
 <!-- ========== TEAM ========== -->
-<section id="team" class="bg-gray-50 py-16 px-6">
+<section id="team" class="bg-gray-50 py-10 md:py-12 px-4 sm:px-6">
   <div class="max-w-[1600px] mx-auto">
-    <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">Leadership</p>
-    <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2">Meet Our <strong class="font-bold">Expert Team</strong></h2>
-    <div class="w-12 h-0.5 bg-accent my-3 mb-9"></div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-        <div style="height:220px; overflow:hidden; background:#e5e7eb;">
-          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Rajesh Verma"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center 15%; filter:grayscale(20%);"/>
+    <!-- COMPACT HEADER -->
+    <div class="mb-6 reveal">
+      <div class="flex items-center gap-3 mb-1.5">
+        <span class="text-[.7rem] tracking-[.12em] uppercase text-accent font-bold">Leadership</span>
+        <div class="h-px flex-1 bg-gray-200 max-w-[60px]"></div>
+      </div>
+      <h2 class="text-[clamp(1.3rem,2.2vw,1.8rem)] font-light text-black tracking-[-0.01em] leading-tight">Meet Our <strong class="font-bold">Expert Team</strong></h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal-stagger">
+      <div class="team-card bg-white border border-gray-100 rounded-lg overflow-hidden">
+        <div style="height:220px;overflow:hidden;background:#e5e7eb;">
+          <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" alt="Rajesh Verma" style="width:100%;height:220px;display:block;object-fit:cover;object-position:center 15%;filter:grayscale(20%);"/>
         </div>
         <div class="p-5">
-          <div class="text-[.95rem] font-bold text-black mb-1">Rajesh Verma</div>
-          <div class="text-[.78rem] text-accent font-semibold uppercase tracking-[.06em] mb-2.5">President &amp; Founder</div>
-          <div class="w-8 h-0.5 bg-accent mb-2.5"></div>
-          <p class="text-[.78rem] text-gray-600 leading-[1.6]">Over 18 years in geo-spatial industries. Rajesh turns complex land disputes into clear documented boundaries, guiding the team with precision and legal compliance.</p>
+          <div class="text-[.93rem] font-bold text-black mb-0.5">Rajesh Verma</div>
+          <div class="text-[.75rem] text-accent font-semibold uppercase tracking-[.06em] mb-2">President &amp; Founder</div>
+          <div class="w-7 h-0.5 bg-accent mb-2"></div>
+          <p class="text-[.76rem] text-gray-600 leading-[1.6]">Over 18 years in geo-spatial industries. Rajesh turns complex land disputes into clear documented boundaries.</p>
         </div>
       </div>
-      <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-        <div style="height:220px; overflow:hidden; background:#e5e7eb;">
-          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="Sunil Gupta"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center 15%; filter:grayscale(20%);"/>
+      <div class="team-card bg-white border border-gray-100 rounded-lg overflow-hidden">
+        <div style="height:220px;overflow:hidden;background:#e5e7eb;">
+          <img src="https://images.unsplash.com/photo-1519085360753-af0119f7cbe7?w=400&q=80" alt="Sunil Gupta" style="width:100%;height:220px;display:block;object-fit:cover;object-position:center 15%;filter:grayscale(20%);"/>
         </div>
         <div class="p-5">
-          <div class="text-[.95rem] font-bold text-black mb-1">Sunil Gupta</div>
-          <div class="text-[.78rem] text-accent font-semibold uppercase tracking-[.06em] mb-2.5">Chief Executive Officer</div>
-          <div class="w-8 h-0.5 bg-accent mb-2.5"></div>
-          <p class="text-[.78rem] text-gray-600 leading-[1.6]">20+ years in the survey industry since 2004. Sunil drives seamless operations from residential boundary surveys to large-scale infrastructure mapping.</p>
+          <div class="text-[.93rem] font-bold text-black mb-0.5">Sunil Gupta</div>
+          <div class="text-[.75rem] text-accent font-semibold uppercase tracking-[.06em] mb-2">Chief Executive Officer</div>
+          <div class="w-7 h-0.5 bg-accent mb-2"></div>
+          <p class="text-[.76rem] text-gray-600 leading-[1.6]">20+ years in the survey industry since 2004. Sunil drives seamless operations from residential boundary surveys to large-scale infrastructure mapping.</p>
         </div>
       </div>
-      <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-        <div style="height:220px; overflow:hidden; background:#e5e7eb;">
-          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" alt="Anil Sharma"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center 15%; filter:grayscale(20%);"/>
+      <div class="team-card bg-white border border-gray-100 rounded-lg overflow-hidden">
+        <div style="height:220px;overflow:hidden;background:#e5e7eb;">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?w=400&q=80" alt="Anil Sharma" style="width:100%;height:220px;display:block;object-fit:cover;object-position:center 15%;filter:grayscale(20%);"/>
         </div>
         <div class="p-5">
-          <div class="text-[.95rem] font-bold text-black mb-1">Anil Sharma</div>
-          <div class="text-[.78rem] text-accent font-semibold uppercase tracking-[.06em] mb-2.5">Technology Head</div>
-          <div class="w-8 h-0.5 bg-accent mb-2.5"></div>
-          <p class="text-[.78rem] text-gray-600 leading-[1.6]">Strategic growth leader with deep expertise in drone tech and GIS. Transforms land data into actionable insights and drives accuracy across all survey zones.</p>
+          <div class="text-[.93rem] font-bold text-black mb-0.5">Anil Sharma</div>
+          <div class="text-[.75rem] text-accent font-semibold uppercase tracking-[.06em] mb-2">Technology Head</div>
+          <div class="w-7 h-0.5 bg-accent mb-2"></div>
+          <p class="text-[.76rem] text-gray-600 leading-[1.6]">Strategic growth leader with deep expertise in drone tech and GIS. Transforms land data into actionable insights.</p>
         </div>
       </div>
-      <div class="bg-white border border-gray-100 rounded-lg overflow-hidden hover:shadow-lg transition-shadow">
-        <div style="height:220px; overflow:hidden; background:#e5e7eb;">
-          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Deepak Singh"
-               style="width:100%; height:220px; display:block; object-fit:cover; object-position:center 15%; filter:grayscale(20%);"/>
+      <div class="team-card bg-white border border-gray-100 rounded-lg overflow-hidden">
+        <div style="height:220px;overflow:hidden;background:#e5e7eb;">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" alt="Deepak Singh" style="width:100%;height:220px;display:block;object-fit:cover;object-position:center 15%;filter:grayscale(20%);"/>
         </div>
         <div class="p-5">
-          <div class="text-[.95rem] font-bold text-black mb-1">Deepak Singh</div>
-          <div class="text-[.78rem] text-accent font-semibold uppercase tracking-[.06em] mb-2.5">Field Operations Head</div>
-          <div class="w-8 h-0.5 bg-accent mb-2.5"></div>
-          <p class="text-[.78rem] text-gray-600 leading-[1.6]">Ensures every survey is executed with discipline and accuracy. Oversees daily field work, quality checks, and crew coordination for safety and data quality.</p>
+          <div class="text-[.93rem] font-bold text-black mb-0.5">Deepak Singh</div>
+          <div class="text-[.75rem] text-accent font-semibold uppercase tracking-[.06em] mb-2">Field Operations Head</div>
+          <div class="w-7 h-0.5 bg-accent mb-2"></div>
+          <p class="text-[.76rem] text-gray-600 leading-[1.6]">Ensures every survey is executed with discipline and accuracy. Oversees daily field work and crew coordination.</p>
         </div>
       </div>
     </div>
@@ -617,98 +634,109 @@
 </section>
 
 <!-- ========== TESTIMONIALS ========== -->
-<section id="testimonials" class="bg-white py-16 px-6">
+<section id="testimonials" class="bg-white py-10 md:py-12 px-4 sm:px-6">
   <div class="max-w-[1600px] mx-auto">
-    <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">Client Reviews</p>
-    <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2">What Our <strong class="font-bold">Clients Say</strong></h2>
-    <div class="w-12 h-0.5 bg-accent my-3 mb-9"></div>
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-      <div class="bg-white border border-gray-100 rounded-lg p-7 hover:shadow-md transition-shadow">
-        <div class="text-accent text-[.9rem] mb-3.5">★★★★½</div>
-        <div class="text-accent text-[1.8rem] leading-none mb-2.5">❝</div>
-        <p class="text-[.83rem] text-gray-600 leading-[1.7] mb-4 italic">Commercial land ke liye mujhe ek trustworthy survey partner chahiya tha. 360° Survey ne commitment ke saath kaam deliver kiya. GPS accuracy, legal maps — sab top class tha. Definitely my go-to surveyor in Maharashtra.</p>
-        <div class="font-bold text-[.88rem] text-black">Ramesh Patil</div>
-        <div class="text-[.75rem] text-gray-400 mt-0.5">📍 Pune, Maharashtra</div>
-        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ramesh" class="w-10 h-10 rounded-full object-cover border-2 border-accent-border mt-3 block flex-shrink-0"/>
+    <!-- COMPACT HEADER -->
+    <div class="mb-6 reveal">
+      <div class="flex items-center gap-3 mb-1.5">
+        <span class="text-[.7rem] tracking-[.12em] uppercase text-accent font-bold">Client Reviews</span>
+        <div class="h-px flex-1 bg-gray-200 max-w-[60px]"></div>
       </div>
-      <div class="bg-white border border-gray-100 rounded-lg p-7 hover:shadow-md transition-shadow">
-        <div class="text-accent text-[.9rem] mb-3.5">★★★★★</div>
-        <div class="text-accent text-[1.8rem] leading-none mb-2.5">❝</div>
-        <p class="text-[.83rem] text-gray-600 leading-[1.7] mb-4 italic">Because the land was near a river, flooding and boundary shifts were a major issue. 360° Survey provided the right GPS demarcation along with expert legal guidance. Now the boundaries are clear — no signs of any dispute at all.</p>
-        <div class="font-bold text-[.88rem] text-black">Meena Iyer</div>
-        <div class="text-[.75rem] text-gray-400 mt-0.5">📍 Nashik, Maharashtra</div>
-        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Meena" class="w-10 h-10 rounded-full object-cover border-2 border-accent-border mt-3 block flex-shrink-0"/>
+      <h2 class="text-[clamp(1.3rem,2.2vw,1.8rem)] font-light text-black tracking-[-0.01em] leading-tight">What Our <strong class="font-bold">Clients Say</strong></h2>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 reveal-stagger">
+      <div class="test-card bg-white border border-gray-100 rounded-lg p-6">
+        <div class="text-accent text-[.85rem] mb-2.5">★★★★½</div>
+        <div class="text-accent text-[1.6rem] leading-none mb-2">❝</div>
+        <p class="text-[.81rem] text-gray-600 leading-[1.7] mb-3.5 italic">Commercial land ke liye mujhe ek trustworthy survey partner chahiya tha. 360° Survey ne commitment ke saath kaam deliver kiya. GPS accuracy, legal maps — sab top class tha.</p>
+        <div class="font-bold text-[.86rem] text-black">Ramesh Patil</div>
+        <div class="text-[.73rem] text-gray-400 mt-0.5">📍 Pune, Maharashtra</div>
+        <img src="https://randomuser.me/api/portraits/men/32.jpg" alt="Ramesh" class="w-9 h-9 rounded-full object-cover border-2 border-accent-border mt-3 block"/>
       </div>
-      <div class="bg-white border border-gray-100 rounded-lg p-7 hover:shadow-md transition-shadow">
-        <div class="text-accent text-[.9rem] mb-3.5">★★★★½</div>
-        <div class="text-accent text-[1.8rem] leading-none mb-2.5">❝</div>
-        <p class="text-[.83rem] text-gray-600 leading-[1.7] mb-4 italic">I had a very tight construction deadline, but 360° Survey managed everything smoothly. From land layout to final documentation, the entire process was handled professionally. Finding such a reliable service in Thane is truly rare.</p>
-        <div class="font-bold text-[.88rem] text-black">Kavita Naik</div>
-        <div class="text-[.75rem] text-gray-400 mt-0.5">📍 Thane, Maharashtra</div>
-        <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Kavita" class="w-10 h-10 rounded-full object-cover border-2 border-accent-border mt-3 block flex-shrink-0"/>
+      <div class="test-card bg-white border border-gray-100 rounded-lg p-6">
+        <div class="text-accent text-[.85rem] mb-2.5">★★★★★</div>
+        <div class="text-accent text-[1.6rem] leading-none mb-2">❝</div>
+        <p class="text-[.81rem] text-gray-600 leading-[1.7] mb-3.5 italic">Because the land was near a river, flooding and boundary shifts were a major issue. 360° Survey provided the right GPS demarcation along with expert legal guidance. Now the boundaries are clear.</p>
+        <div class="font-bold text-[.86rem] text-black">Meena Iyer</div>
+        <div class="text-[.73rem] text-gray-400 mt-0.5">📍 Nashik, Maharashtra</div>
+        <img src="https://randomuser.me/api/portraits/women/44.jpg" alt="Meena" class="w-9 h-9 rounded-full object-cover border-2 border-accent-border mt-3 block"/>
       </div>
-      <div class="bg-white border border-gray-100 rounded-lg p-7 hover:shadow-md transition-shadow">
-        <div class="text-accent text-[.9rem] mb-3.5">★★★★★</div>
-        <div class="text-accent text-[1.8rem] leading-none mb-2.5">❝</div>
-        <p class="text-[.83rem] text-gray-600 leading-[1.7] mb-4 italic">Mujhe apne ancestral farm ke liye ek aise surveyor ki zarurat thi jo tehsil documentation samjh sake. 360° Survey ki team ne land records bilkul clear kar diye. Clean work, polite staff aur koi hidden charges nahi.</p>
-        <div class="font-bold text-[.88rem] text-black">Farhan Qureshi</div>
-        <div class="text-[.75rem] text-gray-400 mt-0.5">📍 Aurangabad, Maharashtra</div>
-        <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Farhan" class="w-10 h-10 rounded-full object-cover border-2 border-accent-border mt-3 block flex-shrink-0"/>
+      <div class="test-card bg-white border border-gray-100 rounded-lg p-6">
+        <div class="text-accent text-[.85rem] mb-2.5">★★★★½</div>
+        <div class="text-accent text-[1.6rem] leading-none mb-2">❝</div>
+        <p class="text-[.81rem] text-gray-600 leading-[1.7] mb-3.5 italic">I had a very tight construction deadline, but 360° Survey managed everything smoothly. From land layout to final documentation, the entire process was handled professionally.</p>
+        <div class="font-bold text-[.86rem] text-black">Kavita Naik</div>
+        <div class="text-[.73rem] text-gray-400 mt-0.5">📍 Thane, Maharashtra</div>
+        <img src="https://randomuser.me/api/portraits/women/63.jpg" alt="Kavita" class="w-9 h-9 rounded-full object-cover border-2 border-accent-border mt-3 block"/>
+      </div>
+      <div class="test-card bg-white border border-gray-100 rounded-lg p-6">
+        <div class="text-accent text-[.85rem] mb-2.5">★★★★★</div>
+        <div class="text-accent text-[1.6rem] leading-none mb-2">❝</div>
+        <p class="text-[.81rem] text-gray-600 leading-[1.7] mb-3.5 italic">Mujhe apne ancestral farm ke liye ek aise surveyor ki zarurat thi jo tehsil documentation samjh sake. 360° Survey ki team ne land records bilkul clear kar diye. Clean work, polite staff.</p>
+        <div class="font-bold text-[.86rem] text-black">Farhan Qureshi</div>
+        <div class="text-[.73rem] text-gray-400 mt-0.5">📍 Aurangabad, Maharashtra</div>
+        <img src="https://randomuser.me/api/portraits/men/54.jpg" alt="Farhan" class="w-9 h-9 rounded-full object-cover border-2 border-accent-border mt-3 block"/>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ========== BLOG ========== -->
-<section id="blog" class="bg-gray-50 py-16 px-6">
+<section id="blog" class="bg-gray-50 py-10 md:py-12 px-4 sm:px-6">
   <div class="max-w-[1600px] mx-auto">
-    <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">Insights</p>
-    <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2">
-      <strong class="font-bold">Blog</strong> — Survey Tips &amp; Land Law
-    </h2>
-    <p class="text-[.9rem] text-gray-600 max-w-[560px] leading-[1.6] mb-9">
-      Your source for survey tips, land law updates, and property insights from certified experts.
-    </p>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      <div class="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
-        <div class="card-img-wrap">
-          <img src="images/gps-cost.png" alt="GPS Survey Cost"/>
+    <!-- COMPACT HEADER -->
+    <div class="mb-6 reveal">
+      <div class="flex items-center gap-3 mb-1.5">
+        <span class="text-[.7rem] tracking-[.12em] uppercase text-accent font-bold">Insights</span>
+        <div class="h-px flex-1 bg-gray-200 max-w-[60px]"></div>
+      </div>
+      <div class="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-2">
+        <h2 class="text-[clamp(1.3rem,2.2vw,1.8rem)] font-light text-black tracking-[-0.01em] leading-tight"><strong class="font-bold">Blog</strong> — Survey Tips &amp; Land Law</h2>
+        <p class="text-[.85rem] text-gray-500 max-w-[380px] leading-[1.5]">Survey tips, land law updates, and property insights from certified experts.</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-5 reveal-stagger">
+      <div class="blog-card bg-white border border-gray-100 rounded-xl overflow-hidden flex flex-col">
+        <div class="h-[200px] sm:h-[220px] overflow-hidden relative">
+          <img src="images/gps2-cost.png" alt="GPS Survey Cost" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"/>
         </div>
-        <div class="p-6 flex flex-col flex-1">
-          <div class="text-[.72rem] text-gray-400 mb-2">Jan 24, 2026</div>
-          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">GPS Survey Cost in Maharashtra – 2026 Expert Guide</h3>
-          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">Complete 2026 guide on GPS land survey costs in Maharashtra for agricultural plots, residential sites, and commercial properties.</p>
+        <div class="p-5 flex flex-col flex-1">
+          <div class="text-[.7rem] text-gray-400 mb-1.5">Jan 24, 2026</div>
+          <h3 class="text-[.92rem] font-bold text-black mb-2 leading-[1.4]">GPS Survey Cost in Maharashtra – 2026 Expert Guide</h3>
+          <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3.5">Complete 2026 guide on GPS land survey costs in Maharashtra for agricultural plots, residential sites, and commercial properties.</p>
           <div class="flex justify-between items-center mt-auto">
-            <a href="#" class="text-accent text-[.8rem] font-semibold no-underline hover:underline">Read More →</a>
-            <span class="text-[.72rem] text-gray-400">8 min read</span>
+            <a href="#" class="text-accent text-[.78rem] font-semibold no-underline hover:underline">Read More →</a>
+            <span class="text-[.7rem] text-gray-400">8 min read</span>
           </div>
         </div>
       </div>
-      <div class="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
-        <div class="card-img-wrap">
-          <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=700&q=80" alt="Drone Survey Farms"/>
+      <div class="blog-card bg-white border border-gray-100 rounded-xl overflow-hidden flex flex-col">
+        <div class="h-[200px] sm:h-[220px] overflow-hidden relative">
+          <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=700&q=80" alt="Drone Survey Farms" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"/>
         </div>
-        <div class="p-6 flex flex-col flex-1">
-          <div class="text-[.72rem] text-gray-400 mb-2">Jan 24, 2026</div>
-          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">Drone Survey for Farms – Complete Expert Guide (Maharashtra)</h3>
-          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">Expert guide on drone-based agricultural surveys covering area measurement, crop health mapping, and legal documentation.</p>
+        <div class="p-5 flex flex-col flex-1">
+          <div class="text-[.7rem] text-gray-400 mb-1.5">Jan 24, 2026</div>
+          <h3 class="text-[.92rem] font-bold text-black mb-2 leading-[1.4]">Drone Survey for Farms – Complete Expert Guide</h3>
+          <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3.5">Expert guide on drone-based agricultural surveys covering area measurement, crop health mapping, and legal documentation.</p>
           <div class="flex justify-between items-center mt-auto">
-            <a href="#" class="text-accent text-[.8rem] font-semibold no-underline hover:underline">Read More →</a>
-            <span class="text-[.72rem] text-gray-400">6 min read</span>
+            <a href="#" class="text-accent text-[.78rem] font-semibold no-underline hover:underline">Read More →</a>
+            <span class="text-[.7rem] text-gray-400">6 min read</span>
           </div>
         </div>
       </div>
-      <div class="bg-white border border-gray-100 rounded-xl overflow-hidden hover:shadow-xl hover:-translate-y-1 transition-all duration-300 flex flex-col">
-        <div class="card-img-wrap">
-          <img src="images/legal-survey.jpeg" alt="Land Boundary Dispute"/>
+      <div class="blog-card bg-white border border-gray-100 rounded-xl overflow-hidden flex flex-col">
+        <div class="h-[200px] sm:h-[220px] overflow-hidden relative">
+          <img src="images/legal-survey.jpeg" alt="Land Boundary Dispute" class="w-full h-full object-cover transition-transform duration-700 hover:scale-105"/>
         </div>
-        <div class="p-6 flex flex-col flex-1">
-          <div class="text-[.72rem] text-gray-400 mb-2">Jan 24, 2026</div>
-          <h3 class="text-[.95rem] font-bold text-black mb-2 leading-[1.4]">Land Boundary Dispute Resolution – Legal Survey Guide 2026</h3>
-          <p class="text-[.82rem] text-gray-600 leading-[1.6] mb-4">Expert guide on resolving land boundary disputes using certified GPS survey reports in India — court procedure and documentation.</p>
+        <div class="p-5 flex flex-col flex-1">
+          <div class="text-[.7rem] text-gray-400 mb-1.5">Jan 24, 2026</div>
+          <h3 class="text-[.92rem] font-bold text-black mb-2 leading-[1.4]">Land Boundary Dispute Resolution – Legal Survey Guide 2026</h3>
+          <p class="text-[.8rem] text-gray-600 leading-[1.6] mb-3.5">Expert guide on resolving land boundary disputes using certified GPS survey reports in India — court procedure and documentation.</p>
           <div class="flex justify-between items-center mt-auto">
-            <a href="#" class="text-accent text-[.8rem] font-semibold no-underline hover:underline">Read More →</a>
-            <span class="text-[.72rem] text-gray-400">5 min read · 2 comments</span>
+            <a href="#" class="text-accent text-[.78rem] font-semibold no-underline hover:underline">Read More →</a>
+            <span class="text-[.7rem] text-gray-400">5 min read · 2 comments</span>
           </div>
         </div>
       </div>
@@ -717,219 +745,227 @@
 </section>
 
 <!-- ========== GALLERY ========== -->
-<section id="gallery" class="bg-white py-16 px-6">`    
+<section id="gallery" class="bg-white py-10 md:py-12 px-4 sm:px-6">
   <div class="max-w-[1600px] mx-auto">
-    <p class="text-[.75rem] tracking-[.1em] uppercase text-accent font-bold mb-2.5">Portfolio</p>
-    <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2">Our Work in the <strong class="font-bold">Field</strong></h2>
-    <div class="w-12 h-0.5 bg-accent my-3 mb-9"></div>
-    <!-- Desktop: original mosaic grid | Mobile: overridden by CSS above -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-1 rounded-lg overflow-hidden" style="grid-template-rows: repeat(2, 200px)">
-      <div class="relative overflow-hidden bg-gray-100 col-span-2 row-span-2 md:col-span-2 md:row-span-2 h-[200px] md:h-auto rounded-[20px]">
-        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Survey field work"
-             class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-300 hover:scale-105 hover:opacity-[.88]"/>
+    <!-- COMPACT HEADER -->
+    <div class="mb-6 reveal">
+      <div class="flex items-center gap-3 mb-1.5">
+        <span class="text-[.7rem] tracking-[.12em] uppercase text-accent font-bold">Portfolio</span>
+        <div class="h-px flex-1 bg-gray-200 max-w-[60px]"></div>
       </div>
-      <div class="relative  overflow-hidden bg-gray-100 h-[200px] rounded-[20px]">
-        <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500&q=80" alt="Drone survey"
-             class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-300 hover:scale-105 hover:opacity-[.88]"/>
+      <h2 class="text-[clamp(1.3rem,2.2vw,1.8rem)] font-light text-black tracking-[-0.01em] leading-tight">Our Work in the <strong class="font-bold">Field</strong></h2>
+    </div>
+
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-1.5 reveal-stagger" style="grid-template-rows:repeat(2,200px)">
+      <div class="gallery-item relative overflow-hidden bg-gray-100 col-span-2 row-span-2 md:col-span-2 md:row-span-2 h-[200px] md:h-auto rounded-[16px]">
+        <img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=800&q=80" alt="Survey field work" class="absolute inset-0 w-full h-full object-cover object-center"/>
       </div>
-      <div class="relative overflow-hidden bg-gray-100 h-[200px] rounded-[20px]">
-        <img src="https://images.unsplash.com/photo-1580901368919-7738efb0f87e?w=500&q=80" alt="GPS equipment"
-             class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-300 hover:scale-105 hover:opacity-[.88]"/>
+      <div class="gallery-item relative overflow-hidden bg-gray-100 h-[200px] rounded-[16px]">
+        <img src="https://images.unsplash.com/photo-1473968512647-3e447244af8f?w=500&q=80" alt="Drone survey" class="absolute inset-0 w-full h-full object-cover object-center"/>
       </div>
-      <div class="relative overflow-hidden bg-gray-100 h-[200px] rounded-[20px]">
-        <img src="https://images.unsplash.com/photo-1606765962248-7ff407b51667?w=500&q=80" alt="Survey mapping"
-             class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-300 hover:scale-105 hover:opacity-[.88]"/>
+      <div class="gallery-item relative overflow-hidden bg-gray-100 h-[200px] rounded-[16px]">
+        <img src="https://images.unsplash.com/photo-1580901368919-7738efb0f87e?w=500&q=80" alt="GPS equipment" class="absolute inset-0 w-full h-full object-cover object-center"/>
       </div>
-      <div class="relative overflow-hidden bg-gray-100 h-[200px] rounded-[20px]">
-        <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=500&q=80" alt="Agricultural survey"
-             class="absolute inset-0 w-full h-full object-cover object-center transition-all duration-300 hover:scale-105 hover:opacity-[.88]"/>
+      <div class="gallery-item relative overflow-hidden bg-gray-100 h-[200px] rounded-[16px]">
+        <img src="https://images.unsplash.com/photo-1606765962248-7ff407b51667?w=500&q=80" alt="Survey mapping" class="absolute inset-0 w-full h-full object-cover object-center"/>
+      </div>
+      <div class="gallery-item relative overflow-hidden bg-gray-100 h-[200px] rounded-[16px]">
+        <img src="https://images.unsplash.com/photo-1625246333195-78d9c38ad449?w=500&q=80" alt="Agricultural survey" class="absolute inset-0 w-full h-full object-cover object-center"/>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ========== CONTACT ========== -->
-<section id="contact" class="bg-white py-16 px-6">
-  <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-16 md:gap-20 items-center">
-    <div>
-      <p class="text-[.75rem] tracking-[.1em] uppercase text-black font-bold mb-2.5">Get in Touch</p>
-      <h2 class="section-title text-[clamp(1.4rem,2.5vw,2rem)] font-light text-black tracking-[-0.01em] mb-2">Book a <strong class="font-bold">Free Inspection</strong></h2>
-      <p class="text-[.9rem] text-[#444] max-w-[560px] leading-[1.6] mb-9">Get a survey cost estimate today. Our certified team will reach your site within 48 hours.</p>
-      <div class="flex flex-col gap-4">
-        <div class="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-          <div class="w-10 h-10 bg-gray-100 flex items-center justify-center rounded text-lg flex-shrink-0">📞</div>
+<section id="contact" class="bg-white py-10 md:py-14 px-4 sm:px-6">
+  <div class="max-w-[1600px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 md:gap-16 items-center">
+    <div class="reveal-left">
+      <div class="flex items-center gap-3 mb-1.5">
+        <span class="text-[.7rem] tracking-[.12em] uppercase text-black font-bold">Get in Touch</span>
+        <div class="h-px flex-1 bg-gray-200 max-w-[60px]"></div>
+      </div>
+      <h2 class="text-[clamp(1.3rem,2.2vw,1.8rem)] font-light text-black tracking-[-0.01em] mb-1.5 leading-tight">Book a <strong class="font-bold">Free Inspection</strong></h2>
+      <p class="text-[.87rem] text-gray-500 max-w-[480px] leading-[1.6] mb-7">Get a survey cost estimate today. Our certified team will reach your site within 48 hours.</p>
+      <div class="flex flex-col gap-3">
+        <div class="contact-item flex items-start gap-3.5 p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <div class="w-9 h-9 bg-gray-100 flex items-center justify-center rounded text-base flex-shrink-0">📞</div>
           <div>
-            <div class="text-[.82rem] font-bold text-black mb-1">Call Us</div>
-            <a href="tel:+917738483202" class="text-[.88rem] text-[#333] hover:text-black transition-colors no-underline">+91 77384 83202</a>
+            <div class="text-[.8rem] font-bold text-black mb-0.5">Call Us</div>
+            <a href="tel:+917738483202" class="text-[.86rem] text-gray-600 hover:text-black transition-colors no-underline">+91 77384 83202</a>
           </div>
         </div>
-        <div class="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-          <div class="w-10 h-10 bg-gray-100 flex items-center justify-center rounded text-lg flex-shrink-0">💬</div>
+        <div class="contact-item flex items-start gap-3.5 p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <div class="w-9 h-9 bg-gray-100 flex items-center justify-center rounded text-base flex-shrink-0">💬</div>
           <div>
-            <div class="text-[.82rem] font-bold text-black mb-1">WhatsApp</div>
-            <a href="https://wa.me/918881312501" class="text-[.88rem] text-[#333] hover:text-black transition-colors no-underline">+91 88813 12501</a>
+            <div class="text-[.8rem] font-bold text-black mb-0.5">WhatsApp</div>
+            <a href="https://wa.me/918881312501" class="text-[.86rem] text-gray-600 hover:text-black transition-colors no-underline">+91 88813 12501</a>
           </div>
         </div>
-        <div class="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-          <div class="w-10 h-10 bg-gray-100 flex items-center justify-center rounded text-lg flex-shrink-0">✉️</div>
+        <div class="contact-item flex items-start gap-3.5 p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <div class="w-9 h-9 bg-gray-100 flex items-center justify-center rounded text-base flex-shrink-0">✉️</div>
           <div>
-            <div class="text-[.82rem] font-bold text-black mb-1">Email</div>
-            <a href="mailto:info@360survey.in" class="text-[.88rem] text-[#333] hover:text-black transition-colors no-underline">info@360survey.in</a>
+            <div class="text-[.8rem] font-bold text-black mb-0.5">Email</div>
+            <a href="mailto:info@360survey.in" class="text-[.86rem] text-gray-600 hover:text-black transition-colors no-underline">info@360survey.in</a>
           </div>
         </div>
-        <div class="flex items-start gap-4 p-5 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
-          <div class="w-10 h-10 bg-gray-100 flex items-center justify-center rounded text-lg flex-shrink-0">📍</div>
+        <div class="contact-item flex items-start gap-3.5 p-4 bg-white border border-gray-200 rounded-lg hover:bg-gray-50 transition-colors">
+          <div class="w-9 h-9 bg-gray-100 flex items-center justify-center rounded text-base flex-shrink-0">📍</div>
           <div>
-            <div class="text-[.82rem] font-bold text-black mb-1">Office</div>
-            <span class="text-[.85rem] text-[#555]">6, 71, CASA Major Rd, near Guild Of Service, Sulaiman Zackria Avenue, Egmore, Chennai, Tamil Nadu 600008</span>
+            <div class="text-[.8rem] font-bold text-black mb-0.5">Office</div>
+            <span class="text-[.83rem] text-gray-500">6, 71, CASA Major Rd, near Guild Of Service, Egmore, Chennai, Tamil Nadu 600008</span>
           </div>
         </div>
       </div>
     </div>
-    <div class="bg-white border border-gray-200 rounded-lg p-9">
-      <div class="text-[1.1rem] font-bold text-black mb-6">Request a Free Survey Quote</div>
-      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+    <div class="bg-white border border-gray-200 rounded-xl p-7 sm:p-8 reveal-right">
+      <div class="text-[1.05rem] font-bold text-black mb-5">Request a Free Survey Quote</div>
+      <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
         <div class="flex flex-col gap-1.5">
-          <label class="text-[.78rem] text-[#333] font-semibold">First Name</label>
-          <input type="text" placeholder="Rajesh" class="bg-white border border-gray-300 text-black px-3.5 py-2.5 rounded text-[.88rem] outline-none focus:border-black transition-colors font-sans"/>
+          <label class="text-[.76rem] text-gray-700 font-semibold">First Name</label>
+          <input type="text" placeholder="Rajesh" class="bg-white border border-gray-300 text-black px-3 py-2.5 rounded text-[.86rem] transition-colors font-sans"/>
         </div>
         <div class="flex flex-col gap-1.5">
-          <label class="text-[.78rem] text-[#333] font-semibold">Last Name</label>
-          <input type="text" placeholder="Patil" class="bg-white border border-gray-300 text-black px-3.5 py-2.5 rounded text-[.88rem] outline-none focus:border-black transition-colors font-sans"/>
+          <label class="text-[.76rem] text-gray-700 font-semibold">Last Name</label>
+          <input type="text" placeholder="Patil" class="bg-white border border-gray-300 text-black px-3 py-2.5 rounded text-[.86rem] transition-colors font-sans"/>
         </div>
         <div class="flex flex-col gap-1.5">
-          <label class="text-[.78rem] text-[#333] font-semibold">Phone / WhatsApp</label>
-          <input type="tel" placeholder="+91 98765 43210" class="bg-white border border-gray-300 text-black px-3.5 py-2.5 rounded text-[.88rem] outline-none focus:border-black transition-colors font-sans"/>
+          <label class="text-[.76rem] text-gray-700 font-semibold">Phone / WhatsApp</label>
+          <input type="tel" placeholder="+91 98765 43210" class="bg-white border border-gray-300 text-black px-3 py-2.5 rounded text-[.86rem] transition-colors font-sans"/>
         </div>
         <div class="flex flex-col gap-1.5">
-          <label class="text-[.78rem] text-[#333] font-semibold">Email</label>
-          <input type="email" placeholder="you@email.com" class="bg-white border border-gray-300 text-black px-3.5 py-2.5 rounded text-[.88rem] outline-none focus:border-black transition-colors font-sans"/>
+          <label class="text-[.76rem] text-gray-700 font-semibold">Email</label>
+          <input type="email" placeholder="you@email.com" class="bg-white border border-gray-300 text-black px-3 py-2.5 rounded text-[.86rem] transition-colors font-sans"/>
         </div>
         <div class="flex flex-col gap-1.5 col-span-1 sm:col-span-2">
-          <label class="text-[.78rem] text-[#333] font-semibold">Service Required</label>
-          <select class="bg-white border border-gray-300 text-black px-3.5 py-2.5 rounded text-[.88rem] outline-none focus:border-black transition-colors font-sans">
+          <label class="text-[.76rem] text-gray-700 font-semibold">Service Required</label>
+          <select class="bg-white border border-gray-300 text-black px-3 py-2.5 rounded text-[.86rem] transition-colors font-sans">
             <option value="" disabled selected>Select a service</option>
-            <option>Boundary Survey</option>
-            <option>Topographic Survey</option>
-            <option>Drone Survey</option>
-            <option>Legal Documentation</option>
-            <option>GPS Layout</option>
-            <option>GIS Mapping</option>
-            <option>Agricultural Survey</option>
-            <option>Construction Layout</option>
+            <option>Boundary Survey</option><option>Topographic Survey</option><option>Drone Survey</option>
+            <option>Legal Documentation</option><option>GPS Layout</option><option>GIS Mapping</option>
+            <option>Agricultural Survey</option><option>Construction Layout</option>
           </select>
         </div>
         <div class="flex flex-col gap-1.5 col-span-1 sm:col-span-2">
-          <label class="text-[.78rem] text-[#333] font-semibold">Location / Details</label>
-          <textarea placeholder="Enter property location, size, or any additional details..." class="bg-white border border-gray-300 text-black px-3.5 py-2.5 rounded text-[.88rem] outline-none focus:border-black transition-colors resize-y min-h-[90px] font-sans placeholder-gray-400"></textarea>
+          <label class="text-[.76rem] text-gray-700 font-semibold">Location / Details</label>
+          <textarea placeholder="Enter property location, size, or any additional details..." class="bg-white border border-gray-300 text-black px-3 py-2.5 rounded text-[.86rem] transition-colors resize-y min-h-[80px] font-sans placeholder-gray-400"></textarea>
         </div>
       </div>
       <div class="flex flex-wrap gap-3 mt-4">
-        <button class="flex-1 min-w-[140px] bg-black text-white py-3 px-5 text-[.88rem] font-bold border-none rounded-[20px] cursor-pointer hover:opacity-85 transition-opacity">💬 Book Free Inspection</button>
-        <button class="flex-1 min-w-[140px] bg-white text-black py-3 px-5 text-[.88rem] font-semibold border border-gray-300 rounded-[20px] cursor-pointer hover:bg-gray-50 transition-colors">📞 Request Callback</button>
+        <button class="btn-ripple flex-1 min-w-[140px] bg-black text-white py-3 px-5 text-[.86rem] font-bold border-none rounded-[20px] cursor-pointer hover:opacity-85 transition-opacity">💬 Book Free Inspection</button>
+        <button class="flex-1 min-w-[140px] bg-white text-black py-3 px-5 text-[.86rem] font-semibold border border-gray-300 rounded-[20px] cursor-pointer hover:bg-gray-50 transition-colors">📞 Request Callback</button>
       </div>
     </div>
   </div>
 </section>
 
 <!-- ========== FOOTER ========== -->
-<footer class="bg-white text-black pt-12 pb-6 px-6">
+<footer class="bg-white text-black pt-10 pb-5 px-4 sm:px-6 border-t border-gray-100">
   <div class="max-w-[1600px] mx-auto">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-10">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-8 reveal-stagger">
       <div>
-        <div class="flex items-center gap-2.5 mb-4">
-          <div class="w-8 h-8 bg-black flex items-center justify-center text-white font-black text-[11px] rounded-[3px]">360°</div>
-          <div>
-            <div class="font-bold text-[.95rem] text-black">360° Survey</div>
-            <div class="text-[.7rem] text-[#888] tracking-[.08em]">GEOMAP INDIA</div>
-          </div>
-        </div>
-        <p class="text-[.8rem] leading-[1.6] mb-5 text-[#444]">Professional land survey, boundary marking, drone mapping, and legal documentation services across India. Certified, accurate, dispute-free.</p>
-        <div class="flex gap-2.5">
-          <a href="#" class="w-8 h-8 bg-gray-100 rounded flex items-center justify-center text-[.85rem] text-black hover:bg-gray-200 transition-colors no-underline">f</a>
-          <a href="#" class="w-8 h-8 bg-gray-100 rounded flex items-center justify-center text-[.85rem] text-black hover:bg-gray-200 transition-colors no-underline">in</a>
-          <a href="#" class="w-8 h-8 bg-gray-100 rounded flex items-center justify-center text-[.85rem] text-black hover:bg-gray-200 transition-colors no-underline">▶</a>
-          <a href="#" class="w-8 h-8 bg-gray-100 rounded flex items-center justify-center text-[.85rem] text-black hover:bg-gray-200 transition-colors no-underline">li</a>
+        <img src="images/ldr geo logo.png" alt="360 Survey Logo" class="h-20 w-auto object-contain mb-3" onerror="this.style.display='none'"/>
+        <p class="text-[.8rem] leading-[1.7] text-gray-500 mb-4 max-w-[300px]">Professional land survey, boundary marking, drone mapping, and legal documentation services across India.</p>
+        <div class="flex items-center gap-2.5">
+          <a href="" class="inline-block"><img src="images/icons/fb3.jpg" alt="Facebook" class="w-9 h-12 object-contain hover:scale-110 transition duration-300 rounded"/></a>
+          <a href="" class="inline-block"><img src="images/icons/insta.jfif" alt="Instagram" class="w-12 h-9 object-contain hover:scale-110 transition duration-300 rounded"/></a>
+          <a href="https://youtube.com/" class="inline-block"><img src="images/icons/youtube.jpg" alt="YouTube" class="w-10 h-10 object-contain hover:scale-110 transition duration-300 rounded"/></a>
+          <a href="" class="inline-block"><img src="images/icons/linkedin.jpg" alt="LinkedIn" class="w-9 h-9 object-contain hover:scale-110 transition duration-300 rounded"/></a>
         </div>
       </div>
       <div>
-        <h4 class="text-[.75rem] uppercase tracking-[.1em] text-black font-bold mb-4">Services</h4>
-        <ul class="flex flex-col gap-2.5">
-          <li><a href="#" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">Boundary Survey</a></li>
-          <li><a href="#" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">Topographic Survey</a></li>
-          <li><a href="#" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">Drone Survey</a></li>
-          <li><a href="#" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">GPS Layout</a></li>
-          <li><a href="#" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">GIS Mapping</a></li>
-          <li><a href="#" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">Legal Documentation</a></li>
+        <h4 class="text-[.75rem] uppercase tracking-[.1em] text-black font-bold mb-3.5">Services</h4>
+        <ul class="flex flex-col gap-2">
+          <li><a href="#" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">Boundary Survey</a></li>
+          <li><a href="#" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">Topographic Survey</a></li>
+          <li><a href="#" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">Drone Survey</a></li>
+          <li><a href="#" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">GPS Layout</a></li>
+          <li><a href="#" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">GIS Mapping</a></li>
+          <li><a href="#" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">Legal Documentation</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="text-[.75rem] uppercase tracking-[.1em] text-black font-bold mb-4">Quick Links</h4>
-        <ul class="flex flex-col gap-2.5">
-          <li><a href="#home" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">Home</a></li>
-          <li><a href="#about" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">About</a></li>
-          <li><a href="#services" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">Services</a></li>
-          <li><a href="#team" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">Team</a></li>
-          <li><a href="#blog" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">Blog</a></li>
-          <li><a href="#contact" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">Contact</a></li>
+        <h4 class="text-[.75rem] uppercase tracking-[.1em] text-black font-bold mb-3.5">Quick Links</h4>
+        <ul class="flex flex-col gap-2">
+          <li><a href="#home" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">Home</a></li>
+          <li><a href="#about" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">About</a></li>
+          <li><a href="#services" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">Services</a></li>
+          <li><a href="#team" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">Team</a></li>
+          <li><a href="#blog" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">Blog</a></li>
+          <li><a href="#contact" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">Contact</a></li>
         </ul>
       </div>
       <div>
-        <h4 class="text-[.75rem] uppercase tracking-[.1em] text-black font-bold mb-4">Contact</h4>
-        <ul class="flex flex-col gap-2.5">
-          <li><a href="tel:+917738483202" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">📞 +91 77384 83202</a></li>
-          <li><a href="https://wa.me/918881312501" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">💬 +91 88813 12501</a></li>
-          <li><a href="mailto:info@360survey.in" class="text-[.82rem] text-[#444] hover:text-black transition-colors no-underline">✉️ info@360survey.in</a></li>
-          <li><span class="text-[.8rem] text-[#555]">📍 Egmore, Chennai – 600008</span></li>
+        <h4 class="text-[.75rem] uppercase tracking-[.1em] text-black font-bold mb-3.5">Contact</h4>
+        <ul class="flex flex-col gap-2">
+          <li><a href="tel:+917738483202" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">📞 +91 77384 83202</a></li>
+          <li><a href="https://wa.me/918881312501" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">💬 +91 88813 12501</a></li>
+          <li><a href="mailto:info@360survey.in" class="text-[.81rem] text-gray-500 hover:text-accent transition no-underline">✉️ info@360survey.in</a></li>
+          <li><span class="text-[.81rem] text-gray-500">📍 Egmore, Chennai – 600008</span></li>
         </ul>
       </div>
     </div>
-    <div class="border-t border-gray-200 pt-5 flex flex-wrap justify-between items-center gap-2.5 text-[.75rem] text-[#555]">
-      <p>© 2026 360° Survey. All Rights Reserved. Powered by GeoMap India.</p>
-      <div class="flex gap-5">
-        <a href="#" class="text-[#555] hover:text-black transition-colors no-underline">Privacy Policy</a>
-        <a href="#" class="text-[#555] hover:text-black transition-colors no-underline">Terms of Service</a>
-        <a href="#" class="text-[#555] hover:text-black transition-colors no-underline">Sitemap</a>
+    <div class="border-t border-gray-200 pt-4 flex flex-wrap justify-between items-center gap-3 text-[.74rem] text-gray-500">
+      <p>© 2026 360° Survey. All Rights Reserved.</p>
+      <div class="flex gap-4">
+        <a href="#" class="hover:text-accent transition no-underline">Privacy Policy</a>
+        <a href="#" class="hover:text-accent transition no-underline">Terms</a>
+        <a href="#" class="hover:text-accent transition no-underline">Sitemap</a>
       </div>
     </div>
   </div>
 </footer>
 
 <!-- WhatsApp Float -->
-<a href="https://wa.me/918881312501" class="wa-float fixed bottom-6 right-6 z-[9999] bg-[#25d366] text-white px-5 py-3 rounded-3xl flex items-center gap-2 text-[.88rem] font-bold shadow-lg no-underline transition-all" target="_blank" rel="noopener" style="box-shadow:0 4px 16px rgba(37,211,102,.4)">
-  <span>💬</span>
-  <span class="hidden sm:inline">WhatsApp</span>
+<a href="https://wa.me/918881312501" class="wa-float fixed bottom-6 right-6 z-[9999] bg-[#25d366] text-white px-5 py-3 rounded-3xl flex items-center gap-2 text-[.88rem] font-bold shadow-lg no-underline" target="_blank" rel="noopener" style="box-shadow:0 4px 16px rgba(37,211,102,.4)">
+  <span>💬</span><span class="hidden sm:inline">WhatsApp</span>
 </a>
 
 <script>
+  /* HAMBURGER */
   const hamburger = document.getElementById('hamburger');
   const mobileMenu = document.getElementById('mobile-menu');
+  hamburger.addEventListener('click', () => mobileMenu.classList.toggle('open'));
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => mobileMenu.classList.remove('open')));
 
-  hamburger.addEventListener('click', () => {
-    mobileMenu.classList.toggle('open');
-  });
-
-  mobileMenu.querySelectorAll('a').forEach(a => {
-    a.addEventListener('click', () => mobileMenu.classList.remove('open'));
-  });
-
+  /* ACTIVE NAV */
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-link');
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        navLinks.forEach(link => {
-          link.classList.remove('active');
-          if (link.getAttribute('href') === '#' + entry.target.id) {
-            link.classList.add('active');
-          }
-        });
-      }
+  new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) navLinks.forEach(l => { l.classList.remove('active'); if (l.getAttribute('href') === '#'+e.target.id) l.classList.add('active'); });
     });
-  }, { threshold: 0.3, rootMargin: '-60px 0px 0px 0px' });
+  }, { threshold: 0.3, rootMargin: '-60px 0px 0px 0px' }).observe && sections.forEach(s => new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) navLinks.forEach(l => { l.classList.remove('active'); if (l.getAttribute('href') === '#'+e.target.id) l.classList.add('active'); }); });
+  }, { threshold: 0.3, rootMargin: '-60px 0px 0px 0px' }).observe(s));
 
-  sections.forEach(s => observer.observe(s));
+  /* SCROLL PROGRESS */
+  const bar = document.getElementById('progress-bar');
+  window.addEventListener('scroll', () => {
+    const p = window.scrollY / (document.documentElement.scrollHeight - window.innerHeight) * 100;
+    bar.style.width = p + '%';
+  }, { passive: true });
+
+  /* SCROLL REVEAL */
+  const ro = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+  }, { threshold: 0.1, rootMargin: '0px 0px -30px 0px' });
+  document.querySelectorAll('.reveal,.reveal-stagger,.reveal-left,.reveal-right').forEach(el => ro.observe(el));
+
+  /* NAV SHADOW */
+  const nav = document.querySelector('nav');
+  window.addEventListener('scroll', () => { nav.style.boxShadow = window.scrollY > 10 ? '0 2px 16px rgba(0,0,0,0.07)' : 'none'; }, { passive: true });
+
+  /* RIPPLE */
+  document.querySelectorAll('.btn-ripple').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const r = document.createElement('span'), rect = this.getBoundingClientRect(), s = Math.max(rect.width, rect.height);
+      r.style.cssText = `position:absolute;border-radius:50%;width:${s}px;height:${s}px;left:${e.clientX-rect.left-s/2}px;top:${e.clientY-rect.top-s/2}px;background:rgba(255,255,255,0.35);transform:scale(0);animation:rippleAnim 0.5s ease-out forwards;pointer-events:none;`;
+      this.appendChild(r); setTimeout(() => r.remove(), 600);
+    });
+  });
+  const st = document.createElement('style');
+  st.textContent = '@keyframes rippleAnim{to{transform:scale(3);opacity:0}}';
+  document.head.appendChild(st);
 </script>
 </body>
-</html> 
+</html>
