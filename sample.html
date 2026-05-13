@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Cinematic Infinite Gallery</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <style>
+    body{
+      margin:0;
+      background:#000;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:100vh;
+      overflow:hidden;
+      font-family:Inter, sans-serif;
+    }
+
+    .gallery-wrap{
+      width:900px;
+      height:900px;
+      position:relative;
+      overflow:hidden;
+      background:#000;
+      border-radius:32px;
+      cursor:grab;
+      user-select:none;
+
+      background-image:
+        radial-gradient(circle at center, rgba(255,255,255,0.04), transparent 60%),
+        linear-gradient(to bottom right, rgba(255,255,255,0.02), transparent);
+
+      box-shadow:
+        0 0 80px rgba(255,255,255,0.03),
+        inset 0 0 120px rgba(255,255,255,0.03);
+    }
+
+    .gallery-wrap:active{
+      cursor:grabbing;
+    }
+
+    .card{
+      position:absolute;
+      overflow:hidden;
+      border-radius:22px;
+      will-change:transform;
+      transform-style:preserve-3d;
+      backface-visibility:hidden;
+
+      box-shadow:
+        0 10px 30px rgba(0,0,0,0.45),
+        0 0 25px rgba(255,255,255,0.04);
+
+      transition:
+        transform 0.45s cubic-bezier(.22,1,.36,1),
+        box-shadow .45s ease;
+    }
+
+    .card:hover{
+      z-index:999;
+      box-shadow:
+        0 30px 80px rgba(0,0,0,0.7),
+        0 0 40px rgba(255,255,255,0.12);
+    }
+
+    .card img{
+      width:100%;
+      height:100%;
+      object-fit:cover;
+      pointer-events:none;
+      filter:saturate(1.05) contrast(1.05);
+    }
+
+    .overlay{
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(to top, rgba(0,0,0,0.45), transparent 40%),
+        linear-gradient(to bottom right, rgba(255,255,255,0.08), transparent 60%);
+      pointer-events:none;
+    }
+
+    .noise{
+      position:absolute;
+      inset:0;
+      pointer-events:none;
+      opacity:.05;
+      mix-blend-mode:soft-light;
+      background-image:
+        url("https://grainy-gradients.vercel.app/noise.svg");
+    }
+
+    @media(max-width:940px){
+      .gallery-wrap{
+        transform:scale(.82);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="gallery-wrap" id="gallery">
+    <div class="noise"></div>
+  </div>
+
+<script>
+const gallery = document.getElementById("gallery");
+
+const IMAGE_COUNT = 24;
+const WORLD_SIZE = 2400;
+
+const images = [
+  "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1529139574466-a303027c1d8b?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1524504388940-b1c1722653e1?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1483985988355-763728e1935b?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1495385794356-15371f348c31?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1517841905240-472988babdf9?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1509631179647-0177331693ae?q=80&w=1200&auto=format&fit=crop",
+  "https://images.unsplash.com/photo-1521572267360-ee0c2909d518?q=80&w=1200&auto=format&fit=crop"
+];
+
+const cards = [];
+
+function random(min,max){
+  return Math.random() * (max-min) + min;
+}
+
+for(let i=0;i<IMAGE_COUNT;i++){
+
+  const card = document.createElement("div");
+  card.className = "card";
+
+  const w = random(180,280);
+  const h = random(260,420);
+
+  const x = random(-WORLD_SIZE/2, WORLD_SIZE/2);
+  const y = random(-WORLD_SIZE/2, WORLD_SIZE/2);
+
+  const depth = random(.65, 1.45);
+  const rotate = random(-8,8);
+
+  card.style.width = `${w}px`;
+  card.style.height = `${h}px`;
+
+  card.innerHTML = `
+    <img src="${images[i % images.length]}" draggable="false">
+    <div class="overlay"></div>
+  `;
+
+  gallery.appendChild(card);
+
+  cards.push({
+    el: card,
+    x,
+    y,
+    w,
+    h,
+    depth,
+    rotate
+  });
+}
+
+let currentX = 0;
+let currentY = 0;
+
+let targetX = 0;
+let targetY = 0;
+
+let velocityX = 0;
+let velocityY = 0;
+
+let isDragging = false;
+
+let startX = 0;
+let startY = 0;
+
+gallery.addEventListener("mousedown", e => {
+  isDragging = true;
+  startX = e.clientX;
+  startY = e.clientY;
+  gallery.style.cursor = "grabbing";
+});
+
+window.addEventListener("mouseup", () => {
+  isDragging = false;
+  gallery.style.cursor = "grab";
+});
+
+window.addEventListener("mousemove", e => {
+
+  if(!isDragging) return;
+
+  const dx = e.clientX - startX;
+  const dy = e.clientY - startY;
+
+  startX = e.clientX;
+  startY = e.clientY;
+
+  velocityX = dx * 0.9;
+  velocityY = dy * 0.9;
+
+  targetX += dx;
+  targetY += dy;
+});
+
+function wrap(value, limit){
+  while(value < -limit) value += limit * 2;
+  while(value > limit) value -= limit * 2;
+  return value;
+}
+
+function animate(){
+
+  if(!isDragging){
+    velocityX *= 0.95;
+    velocityY *= 0.95;
+
+    targetX += velocityX;
+    targetY += velocityY;
+  }
+
+  currentX += (targetX - currentX) * 0.08;
+  currentY += (targetY - currentY) * 0.08;
+
+  cards.forEach((card, index) => {
+
+    let px = wrap(card.x + currentX * card.depth, WORLD_SIZE/2);
+    let py = wrap(card.y + currentY * card.depth, WORLD_SIZE/2);
+
+    const centerOffsetX = (450 - px) * 0.012;
+    const centerOffsetY = (450 - py) * 0.012;
+
+    const scale = 1 + (card.depth - 1) * 0.12;
+
+    card.el.style.transform = `
+      translate3d(${px}px, ${py}px, 0)
+      rotate(${card.rotate}deg)
+      scale(${scale})
+      translate3d(${centerOffsetX}px, ${centerOffsetY}px, 0)
+    `;
+  });
+
+  requestAnimationFrame(animate);
+}
+
+animate();
+
+cards.forEach(card => {
+
+  card.el.addEventListener("mouseenter", () => {
+
+    card.el.style.transform += `
+      scale(1.06)
+      translateZ(40px)
+    `;
+  });
+
+  card.el.addEventListener("mouseleave", () => {});
+});
+</script>
+
+</body>
+</html>
