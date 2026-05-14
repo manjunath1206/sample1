@@ -115,19 +115,189 @@ img{display:block;max-width:100%}
 .cf-title{font-family:'Roboto',sans-serif;font-size:1.35rem;font-weight:800;color:var(--ink);margin-bottom:20px;text-shadow:var(--h2-3d-subtle);letter-spacing:-.02em}
 
 /* Hero */
-#hero{margin-top:var(--nav-h);min-height:calc(100vh - var(--nav-h));display:grid;grid-template-columns:55% 45%;position:relative;overflow:hidden;background:var(--cream)}
-.hero-left{display:flex;flex-direction:column;justify-content:center;padding:60px 56px 60px 72px;position:relative;z-index:2}
-.hero-left::before{content:'';position:absolute;inset:0;z-index:-1;background-image:radial-gradient(circle,rgba(13,122,107,.08) 1px,transparent 1px);background-size:28px 28px}
-.hero-h1{font-family:'Roboto',sans-serif;font-size:clamp(2.4rem,4.5vw,4.2rem);line-height:1.08;font-weight:800;color:var(--ink);text-shadow:var(--h2-3d);letter-spacing:-.03em}
-.hero-h1 em{font-style:normal;color:var(--teal)}
-.hero-right{position:relative;overflow:hidden;background:#e8eeec}
-.hero-mosaic{position:absolute;inset:0;display:grid;grid-template-columns:1fr 1fr;grid-template-rows:55% 45%;gap:3px}
-.hero-mosaic .m1{grid-column:1/3;grid-row:1}
-.hero-mosaic .m2,.hero-mosaic .m3{grid-row:2}
-.hero-mosaic div{overflow:hidden;position:relative}
-.hero-mosaic img{width:100%;height:100%;object-fit:cover;transition:transform 7s ease}
-.hero-mosaic div:hover img{transform:scale(1.06)}
-.hero-overlay-badge{position:absolute;bottom:24px;left:24px;z-index:4;background:#fff;border-radius:var(--r);padding:14px 18px;box-shadow:var(--shadow-lg);border:1px solid var(--border-soft);animation:float 4.5s ease-in-out infinite;min-width:150px}
+/* HERO SECTION */
+
+#hero{
+  margin-top:var(--nav-h);
+  min-height:calc(100vh - var(--nav-h));
+  display:grid;
+  grid-template-columns:55% 45%;
+  position:relative;
+  overflow:hidden;
+  background:#0f0a0a;
+}
+
+/* LEFT SIDE */
+
+.hero-left{
+  display:flex;
+  flex-direction:column;
+  justify-content:center;
+  padding:60px 56px 60px 72px;
+  position:relative;
+  overflow:hidden;
+  z-index:2;
+
+  /* DARK RED GLASS BACKGROUND */
+
+  background:
+  linear-gradient(
+    135deg,
+    rgba(120,0,0,.78),
+    rgba(35,0,0,.88)
+  );
+
+  backdrop-filter:blur(18px);
+  -webkit-backdrop-filter:blur(18px);
+
+  border-right:1px solid rgba(255,255,255,.08);
+}
+
+/* GLASS SHINE */
+
+.hero-left::before{
+  content:'';
+  position:absolute;
+  inset:0;
+  z-index:-2;
+
+  background:
+  linear-gradient(
+    135deg,
+    rgba(255,255,255,.10),
+    transparent 35%,
+    transparent 65%,
+    rgba(255,255,255,.04)
+  );
+}
+
+/* RED GLOW */
+
+.hero-left::after{
+  content:'';
+  position:absolute;
+
+  width:520px;
+  height:520px;
+
+  border-radius:999px;
+
+  background:
+  radial-gradient(
+    circle,
+    rgba(255,40,40,.24),
+    transparent 70%
+  );
+
+  top:-180px;
+  left:-120px;
+
+  filter:blur(40px);
+
+  z-index:-1;
+}
+
+/* TITLE */
+
+.hero-h1{
+  font-family:'Roboto',sans-serif;
+  font-size:clamp(2.4rem,4.5vw,4.2rem);
+  line-height:1.08;
+  font-weight:800;
+  color:#fff;
+  letter-spacing:-.03em;
+  text-shadow:0 10px 30px rgba(0,0,0,.35);
+}
+
+/* RIGHT SIDE */
+
+.hero-right{
+  position:relative;
+  overflow:hidden;
+  background:#120909;
+}
+
+/* MOSAIC */
+
+.hero-mosaic{
+  position:absolute;
+  inset:0;
+
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  grid-template-rows:55% 45%;
+
+  gap:3px;
+}
+
+.hero-mosaic .m1{
+  grid-column:1/3;
+  grid-row:1;
+}
+
+.hero-mosaic .m2,
+.hero-mosaic .m3{
+  grid-row:2;
+}
+
+.hero-mosaic div{
+  overflow:hidden;
+  position:relative;
+}
+
+.hero-mosaic div::after{
+  content:'';
+  position:absolute;
+  inset:0;
+
+  background:
+  linear-gradient(
+    to top,
+    rgba(0,0,0,.45),
+    transparent
+  );
+}
+
+.hero-mosaic img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+
+  transition:transform 7s ease;
+}
+
+.hero-mosaic div:hover img{
+  transform:scale(1.06);
+}
+
+/* GLASS BADGE */
+
+.hero-overlay-badge{
+  position:absolute;
+  bottom:24px;
+  left:24px;
+  z-index:4;
+
+  background:rgba(255,255,255,.12);
+
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+
+  border-radius:20px;
+
+  padding:14px 18px;
+
+  border:1px solid rgba(255,255,255,.12);
+
+  box-shadow:
+  0 10px 40px rgba(0,0,0,.35);
+
+  animation:float 4.5s ease-in-out infinite;
+
+  min-width:150px;
+
+  color:#fff;
+}
 
 /* Quick strip */
 .qstrip{background:#fff;border-top:1px solid var(--border);border-bottom:1px solid var(--border)}
@@ -139,7 +309,6 @@ img{display:block;max-width:100%}
 .qi:hover::after{transform:scaleX(1)}
 .qi-icon{width:34px;height:34px;background:var(--teal-pale);border-radius:9px;display:flex;align-items:center;justify-content:center;font-size:.95rem;transition:transform .25s;flex-shrink:0}
 .qi:hover .qi-icon{transform:scale(1.12) rotate(-5deg);background:var(--teal)}
-
 
 /* About bento */
 .about-bento{display:grid;grid-template-columns:1fr 1fr;grid-template-rows:240px 160px 160px;gap:8px}
@@ -332,34 +501,6 @@ footer{background:var(--cream);border-top:1px solid var(--border);padding:48px 2
   .ham{display:none!important}
   #mob-nav{display:none!important}
 }
-
-/* AUTO SCROLL */
-.qstrip{
-  overflow:hidden;
-  position:relative;
-}
-
-.qstrip-inner{
-  width:max-content;
-  display:flex;
-
-  animation:qstripLoop 7s linear infinite;
-}
-
-/* Pause on hover */
-.qstrip:hover .qstrip-inner{
-  animation-play-state:paused;
-}
-
-@keyframes qstripLoop{
-  from{
-    transform:translateX(0);
-  }
-
-  to{
-    transform:translateX(-50%);
-  }
-}
 </style>
 </head>
 <body>
@@ -384,7 +525,7 @@ footer{background:var(--cream);border-top:1px solid var(--border);padding:48px 2
     </div>
     <div class="nav-btns-desktop flex gap-2 flex-shrink-0">
       <a href="tel:+917738483202" class="inline-flex items-center gap-1.5 px-[18px] py-2 rounded-full text-[.83rem] font-semibold cursor-pointer transition-all border border-[var(--border)] text-[var(--ink-mid)] hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-[var(--teal-pale)]">📞 Call</a>
-      <a href="https://wa.me/918881312501" class="inline-flex items-center gap-1.5 px-[18px] py-2 rounded-full text-[.83rem] font-semibold cursor-pointer transition-all bg-[var(--green-light)] text-white shadow-[0_4px_14px_rgba(13,122,107,.28)] hover:bg-[var(--green-light)] hover:-translate-y-px hover:shadow-[0_6px_22px_rgba(13,122,107,.38)]">💬 WhatsApp</a>
+      <a href="https://wa.me/918881312501" class="inline-flex items-center gap-1.5 px-[18px] py-2 rounded-full text-[.83rem] font-semibold cursor-pointer transition-all bg-[var(--green-light)] text-white shadow-[0_4px_14px_rgba(13,122,107,.28)] hover:bg-[var(--green-light)] hover:-translate-y-px hover:shadow-[0_6px_22px_rgba(13,122,107,.38)]">💬 WhatsApp</a>  
     </div>
     <button class="ham hidden flex-col gap-[5px] cursor-pointer p-[5px] bg-transparent border-0 ml-auto" id="ham" aria-label="Menu">
       <span class="block w-[22px] h-[2px] rounded-sm transition-all duration-300" style="background:var(--ink)"></span>
@@ -410,191 +551,49 @@ footer{background:var(--cream);border-top:1px solid var(--border);padding:48px 2
 
 <!-- ══ HERO ══ -->
 <section id="hero">
-  <div class="hero-left relative overflow-hidden">
-
-  <!-- BACKGROUND IMAGE -->
-
-  <div class="absolute inset-0 z-0">
-
-    <img
-      src="images/background2.jfif"
-      alt="Land Survey Background"
-      class="w-full h-full object-cover"
-    />
-
-    <!-- DARK OVERLAY -->
-
-    <div class="absolute inset-0 bg-black/65"></div>
-
-    <!-- GREEN GRADIENT -->
-
-    <div class="absolute inset-0 bg-gradient-to-br from-[rgba(190,24,93,.25)] via-transparent to-[rgba(127,29,29,.22)]"></div>
-
-  </div>
-
-  <!-- CONTENT -->
-
-  <div class="relative z-10 p-[clamp(1.5rem,3vw,3rem)]">
-
-    <!-- TAG -->
-
-    <div class="fade-up-1 inline-flex items-center gap-2.5 bg-white/10 backdrop-blur-xl border border-white/20 px-[18px] py-2 rounded-full mb-5 w-fit shadow-[0_2px_20px_rgba(0,0,0,.2)]">
-
+  
+  <div class="hero-left">
+    <div class="fade-up-1 inline-flex items-center gap-2.5 bg-white border border-[var(--teal-soft)] px-[18px] py-2 rounded-full mb-5 w-fit shadow-[0_2px_12px_rgba(13,122,107,.1)]">
       <div class="hero-dot"></div>
-
-      <span class="text-[.74rem] font-bold tracking-[.12em] uppercase text-white">
-
-        Premium
-        <span class="text-[var(--green-light)]">Land Survey</span>
-        & Mapping Solutions
-
-      </span>
-
+      <span class="text-[.74rem] font-bold tracking-[.12em] uppercase">
+  Premium 
+  <span class="text-[.74rem] font-bold tracking-[.12em] uppercase">
+  Premium 
+  <span class="text-[var(--green-light)]">Land Survey</span>
+&amp; Mapping Solutions
     </div>
-
-    <!-- TITLE -->
-
-    <h1 class="hero-h1 fade-up-2 mb-4 text-white">
-
-      Professional<br/>
-
-      <span class="text-[var(--green-light)]">
-        Land Survey
-      </span>
-
-      <br/>
-
-      Services Across India
-
-    </h1>
-
-    <!-- DESC -->
-
-    <p class="fade-up-3 text-[1rem] leading-[1.75] max-w-[460px] mb-5 text-white/75">
-
-      We bring precision, trust, and legal clarity to every plot — backed by GPS, drone, and GIS technology with certified surveyors who have decades of field experience.
-
-    </p>
-
-    <!-- TAGS -->
-
+    <h1 class="hero-h1 fade-up-2 mb-4">Professional<br/><span class="text-[var(--green-light)]">Land Survey</span><br/>Services Across India</h1>
+    <p class="fade-up-3 text-[1rem] leading-[1.75] max-w-[460px] mb-5" style="color:var(--shadow)">We bring precision, trust, and legal clarity to every plot — backed by GPS, drone, and GIS technology with certified surveyors who have decades of field experience.</p>
     <div class="fade-up-4 flex flex-wrap gap-2 mb-6">
-
-      <span class="px-3.5 py-1 bg-white/10 backdrop-blur-md border border-white/15 rounded-full text-[.81rem] font-semibold text-white transition-all hover:bg-[var(--green-light)] hover:text-white">
-        Residential
-      </span>
-
-      <span class="px-3.5 py-1 bg-white/10 backdrop-blur-md border border-white/15 rounded-full text-[.81rem] font-semibold text-white transition-all hover:bg-[var(--green-light)] hover:text-white">
-        Commercial
-      </span>
-
-      <span class="px-3.5 py-1 bg-white/10 backdrop-blur-md border border-white/15 rounded-full text-[.81rem] font-semibold text-white transition-all hover:bg-[var(--green-light)] hover:text-white">
-        Agricultural
-      </span>
-
-      <span class="px-3.5 py-1 bg-white/10 backdrop-blur-md border border-white/15 rounded-full text-[.81rem] font-semibold text-white transition-all hover:bg-[var(--green-light)] hover:text-white">
-        Legal Docs
-      </span>
-
-      <span class="px-3.5 py-1 bg-white/10 backdrop-blur-md border border-white/15 rounded-full text-[.81rem] font-semibold text-white transition-all hover:bg-[var(--green-light)] hover:text-white">
-        Drone Mapping
-      </span>
-
+      <span class="px-3.5 py-1 bg-white border border-[var(--border)] rounded-full text-[.81rem] font-semibold transition-all cursor-default hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-[var(--teal-pale)]" style="color:var(--ink-mid)">Residential</span>
+      <span class="px-3.5 py-1 bg-white border border-[var(--border)] rounded-full text-[.81rem] font-semibold transition-all cursor-default hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-[var(--teal-pale)]" style="color:var(--ink-mid)">Commercial</span>
+      <span class="px-3.5 py-1 bg-white border border-[var(--border)] rounded-full text-[.81rem] font-semibold transition-all cursor-default hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-[var(--teal-pale)]" style="color:var(--ink-mid)">Agricultural</span>
+      <span class="px-3.5 py-1 bg-white border border-[var(--border)] rounded-full text-[.81rem] font-semibold transition-all cursor-default hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-[var(--teal-pale)]" style="color:var(--ink-mid)">Legal Docs</span>
+      <span class="px-3.5 py-1 bg-white border border-[var(--border)] rounded-full text-[.81rem] font-semibold transition-all cursor-default hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-[var(--teal-pale)]" style="color:var(--ink-mid)">Drone Mapping</span>
     </div>
-
-    <!-- BUTTONS -->
-
     <div class="fade-up-5 flex flex-wrap gap-3 mb-8">
-
-      <a href="https://wa.me/918881312501"
-        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[.92rem] font-bold border-0 transition-all relative overflow-hidden bg-[var(--green-light)] text-white shadow-[0_10px_30px_rgba(0,184,148,.35)] hover:bg-[var(--teal-light)] hover:-translate-y-0.5">
-
-        💬 Book Free Inspection
-
-      </a>
-
-      <a href="#services"
-        class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[.92rem] font-bold border border-white/15 transition-all bg-white/10 backdrop-blur-md text-white hover:bg-white hover:text-black">
-
-        View Services →
-
-      </a>
-
+      <a href="https://wa.me/918881312501" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[.92rem] font-bold cursor-pointer font-['Roboto'] border-0 transition-all relative overflow-hidden bg-[var(--green-light)] text-white shadow-[0_6px_20px_rgba(13,122,107,.3)] hover:bg-[var(--teal-light)] hover:-translate-y-0.5 hover:shadow-[0_10px_28px_rgba(13,122,107,.4)]">💬 Book Free Inspection</a>
+      <a href="#services" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl text-[.92rem] font-bold cursor-pointer font-['Roboto'] border border-[var(--border)] transition-all relative overflow-hidden bg-white hover:border-[var(--teal)] hover:text-[var(--teal)] hover:bg-[var(--teal-pale)]" style="color:var(--ink)">View Services →</a>
     </div>
-
-    <!-- STATS -->
-
     <div class="fade-up-6 grid grid-cols-2 gap-3 sm:grid-cols-4">
-
-      <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[var(--r)] p-3.5 px-3 text-center transition-all hover:bg-white/15">
-
-        <div class="font-['Roboto'] text-[1.75rem] font-extrabold leading-none text-[var(--green-light)]">
-
-          18<sup class="text-[1rem] text-yellow-300">+</sup>
-
-        </div>
-
-        <div class="text-[.7rem] mt-0.5 font-medium tracking-[.03em] text-white/70">
-
-          Years Experience
-
-        </div>
-
+      <div class="bg-white border border-[var(--border-soft)] rounded-[var(--r)] p-3.5 px-3 shadow-[var(--shadow-sm)] text-center transition-all hover:border-[var(--teal-soft)] hover:shadow-[0_6px_20px_rgba(13,122,107,.1)] hover:-translate-y-0.5">
+        <div class="font-['Roboto'] text-[1.75rem] font-extrabold leading-none text-[var(--green-light)]">18<sup class="text-[1rem]" style="color:var(--amber)">+</sup></div>
+        <div class="text-[.7rem] mt-0.5 font-medium tracking-[.03em]" style="color:var(--ink-soft)">Years Experience</div>
       </div>
-
-      <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[var(--r)] p-3.5 px-3 text-center transition-all hover:bg-white/15">
-
-        <div class="font-['Roboto'] text-[1.75rem] font-extrabold leading-none text-[var(--green-light)]">
-
-          2,400<sup class="text-[.9rem] text-yellow-300">+</sup>
-
-        </div>
-
-        <div class="text-[.7rem] mt-0.5 font-medium tracking-[.03em] text-white/70">
-
-          Surveys Done
-
-        </div>
-
+      <div class="bg-white border border-[var(--border-soft)] rounded-[var(--r)] p-3.5 px-3 shadow-[var(--shadow-sm)] text-center transition-all hover:border-[var(--teal-soft)] hover:shadow-[0_6px_20px_rgba(13,122,107,.1)] hover:-translate-y-0.5">
+        <div class="font-['Roboto'] text-[1.75rem] font-extrabold leading-none text-[var(--green-light)]">2,400<sup class="text-[.9rem]" style="color:var(--amber)">+</sup></div>
+        <div class="text-[.7rem] mt-0.5 font-medium tracking-[.03em]" style="color:var(--ink-soft)">Surveys Done</div>
       </div>
-
-      <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[var(--r)] p-3.5 px-3 text-center transition-all hover:bg-white/15">
-
-        <div class="font-['Roboto'] text-[1.75rem] font-extrabold leading-none text-[var(--green-light)]">
-
-          24<sup class="text-[.9rem] text-yellow-300">/7</sup>
-
-        </div>
-
-        <div class="text-[.7rem] mt-0.5 font-medium tracking-[.03em] text-white/70">
-
-          Support
-
-        </div>
-
+      <div class="bg-white border border-[var(--border-soft)] rounded-[var(--r)] p-3.5 px-3 shadow-[var(--shadow-sm)] text-center transition-all hover:border-[var(--teal-soft)] hover:shadow-[0_6px_20px_rgba(13,122,107,.1)] hover:-translate-y-0.5">
+        <div class="font-['Roboto'] text-[1.75rem] font-extrabold leading-none text-[var(--green-light)]">24<sup class="text-[.9rem]" style="color:var(--amber)">/7</sup></div>
+        <div class="text-[.7rem] mt-0.5 font-medium tracking-[.03em]" style="color:var(--ink-soft)">Support</div>
       </div>
-
-      <div class="bg-white/10 backdrop-blur-xl border border-white/10 rounded-[var(--r)] p-3.5 px-3 text-center transition-all hover:bg-white/15">
-
-        <div class="font-['Roboto'] text-[1.75rem] font-extrabold leading-none text-[var(--green-light)]">
-
-          99<sup class="text-[.9rem] text-yellow-300">%</sup>
-
-        </div>
-
-        <div class="text-[.7rem] mt-0.5 font-medium tracking-[.03em] text-white/70">
-
-          Satisfaction
-
-        </div>
-
+      <div class="bg-white border border-[var(--border-soft)] rounded-[var(--r)] p-3.5 px-3 shadow-[var(--shadow-sm)] text-center transition-all hover:border-[var(--teal-soft)] hover:shadow-[0_6px_20px_rgba(13,122,107,.1)] hover:-translate-y-0.5">
+        <div class="font-['Roboto'] text-[1.75rem] font-extrabold leading-none text-[var(--green-light)]">99<sup class="text-[.9rem]" style="color:var(--amber)">%</sup></div>
+        <div class="text-[.7rem] mt-0.5 font-medium tracking-[.03em]" style="color:var(--ink-soft)">Satisfaction</div>
       </div>
-
     </div>
-
   </div>
-
-</div>
   <div class="hero-right">
     <div class="hero-mosaic">
       <div class="m1"><img src="https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=1200&q=85" alt="Land surveyors in field"/></div>
@@ -1166,7 +1165,6 @@ footer{background:var(--cream);border-top:1px solid var(--border);padding:48px 2
 </a>
 
 <script>
-
 // Progress bar
 const prog = document.getElementById('prog');
 window.addEventListener('scroll',()=>{prog.style.width=(window.scrollY/(document.documentElement.scrollHeight-innerHeight)*100)+'%';},{passive:true});
